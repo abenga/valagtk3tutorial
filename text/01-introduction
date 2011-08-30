@@ -1,0 +1,101 @@
+
+About GTK
+
+GTK+ (GIMP Toolkit) is a library for creating graphical user interfaces. 
+It works on many UNIX-like platforms, Windows, and OS X.
+
+It's called the GIMP toolkit because it was originally written for 
+developing the GNU Image Manipulation Program (GIMP), but GTK has now 
+been used in a large number of software projects, including the GNU 
+Network Object Model Environment (GNOME) project.
+
+GTK+ is released under the GNU Library General Public License (GNU LGPL), 
+which allows for flexible licensing of client applications. You can 
+develop open software, free software, or even commercial non-free 
+software using GTK without having to spend anything for licenses or 
+royalties. GTK+ has a C-based object-oriented architecture that allows 
+for maximum flexibility.
+
+Bindings for many other languages have been written, including C++, 
+Objective-C, Guile / Scheme, Perl, Python, TOM, Ada95, Free Pascal, 
+Eiffel and Vala. This tutorial describes the Vala  interface to GTK.
+
+GTK+ depends on the following libraries:
+
+GLib
+A general-purpose utility library, not specific to graphical user 
+interfaces. GLib provides many useful data types, macros, type 
+conversions, string utilities, file utilities, a main loop abstraction, 
+and so on.
+
+GObject
+A library that provides a type system, a collection of fundamental types 
+including an object type, a signal system.GObject, and its lower-level 
+type system, GType, are used by GTK+ and most GNOME libraries to 
+provide Object-oriented C-based APIs and automatic transparent API 
+bindings to other compiled or interpreted languages.
+
+GIO
+A modern, easy-to-use Virtual File System API including abstractions for 
+files, drives, volumes, stream IO, as well as network programming and 
+DBus communication.
+
+A virtual file system (VFS) or virtual filesystem switch is an 
+abstraction layer on top of a more concrete file system. The purpose of 
+a VFS is to allow client applications to access different types of 
+concrete file systems (Ext3, FAT, NTFS, etc) in a uniform way.
+
+Cairo
+Cairo is a 2D graphics library with support for multiple output devices.
+
+Pango
+Pango is a library for internationalized text handling. It centers 
+around the PangoLayout object, representing a paragraph of text. 
+Pango provides the engine for Gtk.TextView, Gtk.Label, Gtk.Entry, and 
+other widgets that display text.
+
+ATK
+ATK is the Accessibility Toolkit. It provides a set of generic 
+interfaces allowing accessibility technologies (technologies that allow 
+people with physical disabilities, e.g. blindness to use computers) 
+to interact with a graphical user interface. For example, a screen 
+reader uses ATK to discover the text in an interface and read it to 
+blind users. GTK+ widgets have built-in support for accessibility using 
+the ATK framework.
+
+GdkPixbuf
+This is a small library which allows you to create GdkPixbuf ("pixel 
+buffer") objects from image data or image files. Use a GdkPixbuf in 
+combination with Gtk.Image to display images.</para>
+
+GDK
+GDK is the abstraction layer that allows GTK+ to support multiple 
+windowing systems. GDK provides window system facilities on X11, 
+Windows, and OS X.
+
+
+GTK is essentially an object oriented application programming interface 
+(API). Although written completely in C, it is implemented using the 
+idea of classes and callback functions.
+
+
+About Vala
+
+Vala is a programming language that allows modern programming 
+techniques to be used to write applications that run on the GNOME 
+runtime libraries, particularly GLib and GObject. Before Vala, the only 
+ways to program for the GNOME platform were with the machine native C 
+API, which exposes a lot of often unwanted detail, with a high 
+level language that has an attendant virtual machine, such as Python or 
+the Mono C\# language, or alternatively, with C++ through a wrapper 
+library.
+
+Vala is different from all these other techniques, as it outputs C code 
+which can be compiled to run with no extra library support beyond the 
+GNOME platform. Programs written in Vala should have broadly similar 
+performance to those written directly in C, whilst being easier and 
+faster to write and maintain. Whilst Vala introduces a lot of language 
+features that are not available in C, these are all mapped to C 
+constructs, although they are often ones that are difficult or too 
+time consuming to write directly.
+
