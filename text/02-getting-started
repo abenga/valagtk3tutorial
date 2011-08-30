@@ -35,7 +35,7 @@ and extracting it
 
 One then runs ./configure make and make install in the source folder.
 
-Alternatively (this is probably the recommended way for newbies), one may 
+Alternatively (this is probably the recommended way for newcomers), one may 
 install vala from your distro's repositories.
 
 For example, on Debian or Ubuntu, one would run:
