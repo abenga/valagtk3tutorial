@@ -4,57 +4,63 @@ Installation
 
 Installing GTK+.
 
-Before you can begin programming, the first thing will be to install 
-Gtk+, pkg-config and all their dependencies. 
+Before you can begin programming, you have to install Gtk+, pkg-config 
+and all their dependencies. 
 
-One may install them from source by downloading various tar files from
-various websites and untarring ./configure && ./make && ./make install 
-on your computer. I will assume that if you are able to do this, you         ***FIX THIS.
-already skipped over this section ...
+One may install them from source by downloading several archives from
+various websites, untarring them and running [CMD]./configure[CMD],
+[CMD]./make[/CMD] and [CMD]./make[/CMD] to install them.
 
 If you are using a Linux distribution with a package manager, it is easier
 to install the precompiled packages from the distribution's repositories.
 
-You need to install the -dev packages that contain the header files and 
-static libraries that are needed for developing GTK+ applications. 
-Installing these files for GTK+ also installs the dependecies (the 
+You will need to install the -dev packages that contain the header files and 
+static libraries that are needed to compile GTK+ applications. Installing 
+these the GTK+ development packages will also install all its dependecies (the 
 header files for GLib, gdk-pixbuf, etc).
 
 On Ubuntu/Debian, this would be:
-  # aptitude install libgtk-3-dev
 
-On Fedora, one woulduse:
+[CMD]
+  # aptitude install libgtk-3-dev
+[/CMD]
+
+On Fedora, one would use:
+[CMD]
   # yum install libgtk-3-dev
+[/CMD]
 
 
 Installing Vala
 
-One may install Vala by building from source. First, one obtains the vala source
-code by downloading a tarball from the vala releases page [live.gnome.org/Vala/Release] 
-and extracting it
+You may install Vala by building from source. First, one obtains the 
+vala source code by downloading a tarball from the vala releases page 
+(http://live.gnome.org/Vala/Release).
 
-One then runs ./configure make and make install in the source folder.
+You will then extract it and run [CMD]./configure[/CMD], [CMD]make[/CMD] and 
+[CMD]make install[/CMD] in the source folder.
 
-Alternatively (this is probably the recommended way for newcomers), one may 
+Alternatively (this is probably the recommended way for newcomers), you may 
 install vala from your distro's repositories.
 
 For example, on Debian or Ubuntu, one would run:
-
-    # aptitude install valac
+[CMD]
+  # aptitude install valac
+[/CMD]
 
 And for Fedora, one would run:
+[CMD]
+  # yum install valac
+[/CMD]
 
-    # yum install valac                                                            ****IS THIS TRUE?
-
-etc. One may also use the distro's graphical software management tools like the
+You may also use your distribution's graphical software management tools like the
 Ubuntu Software Centre or Synaptic.
 
 
 A First Program
 
-Our first program will create a 200px by 200px program that cannot be 
+Our first program will create a 200px by 200px window. This program cannot be 
 stopped, except by killing it at the shell.
-
 
 [CODE lang='vala' file='chapter-02/01SimpleWindow.vala']
 using Gtk;
@@ -73,21 +79,24 @@ int main(string[] args) {
 
 
 You can compile the program above by using
+[CMD]
+  valac --pkg gtk+-3.0 -o simplewindow 01-simple-window.vala
+[/CMD]
 
-     valac --pkg gtk+-3.0 -o simplewindow 01-simple-window.vala
-
-{valac} is the name of the vala compiler. {--pkg gtk+3.0} tells the vala
-compiler to include the Gtk+ header files in the compilation. The {-0} 
-flag tells the compiler what to call the compiled executable, in this 
-case {simplewindow}. If this is omitted, the binary will have the same 
-name as the compiled file (in this case it would be 
+[CMD]valac[/CMD] is the name of the vala compiler. [CMD]--pkg gtk+3.0[/CMD] 
+tells the vala compiler to include the Gtk+ header files in the compilation. 
+The [CMD]-o[/CMD] flag tells the compiler what to call the compiled executable, 
+in this  case [CMD]simplewindow[/CMD]. If this is omitted, the binary will 
+have the same  name as the compiled file (in this case it would be 
 [CMD]simple-window[/CMD]) The final argument is the name of the vala 
 file we are compiling.
 
 If compilation succeeds, one may execute the program by typing
 
-    ./simplewindow
-  
+[CMD]
+  ./simplewindow
+[/CMD]
+
 into the console. Just closing the window does not kill the program,
 however. (the window closes, but the program keeps running) To stop 
 execution of the program, you have to press CTR+c (or 
@@ -95,7 +104,9 @@ CMD+c) on the command line.
 
 The line 
 
+[CODE]
   using Gtk;
+[/CODE]
 
 informs the compiler to include the Gtk+ header file which declares the 
 variables, functions, structures, etc. that will be used in your GTK 
@@ -103,22 +114,22 @@ application.
 
 Execution of this application begins by calling the main function which 
 takes the command line arguments passed to the program as argument 
-(passed as an array of strings) and returns an integer (traditionally 
-0 on success and 1 on failure).
+(passed as an array of strings) and returns an integer (traditionally 0 on 
+success and 1 on failure).
 
 The line 
 
 [CODE]  
-  Gtk.init()
+  Gtk.init(ref args)
 [/CODE]
 
 is the initialization function for GTK+; this function will set up GTK+, 
 the type system, the connection to the windowing environment, etc.
-[CODE]Gtk.init()[/CODE] takes as arguments a reference to the command line arguments 
-that were passed to the program; this allows GTK+ to parse specific 
-command line arguments that control the behavior of GTK+ itself. The 
-parsed arguments will be removed from the array, leaving the 
-unrecognized ones for your application to parse.
+[CODE]Gtk.init()[/CODE] takes as arguments a reference to the command line 
+arguments  that were passed to the program; this allows GTK+ to parse 
+specific command line arguments that control the behavior of GTK+ itself. The 
+parsed arguments will be removed from the array, leaving the unrecognized 
+ones for your application to parse.
 
 The next two lines:
 
@@ -251,11 +262,15 @@ to the Vala compiler valac, along with compiler flags.
 
 To compile HelloWorld above, you would use:
 
+[CMD]
   $ valac --pkg gtk+-3.0 -o helloworld 02HelloWorld.vala
+[/CMD]
 
 If you do this instead:
 
+[CMD]
   $ valac --pkg gtk+-3.0 -o helloworld 02HelloWorld.vala
+[/CMD]
 
 i.e. if you give valac the [CMD]-C[/CMD] switch, it won't compile your program 
 into a binary file. Instead it will output the intermediate C code for each of 
@@ -265,8 +280,6 @@ programming a class in Vala is equivalent to the same task in C, but a whole
 lot more succinct.
 
 
-
-Theory of Signals and Callbacks
 
 Theory of Signals and Callbacks
 
@@ -287,15 +300,19 @@ signals and call the appropriate function. This is done by using a Gtk.Widget
 (from the Glib.Object class) method such as:
 
 [CODE]
-  handlerID = object.connect(function)
+  handlerID = object.signal.connect(func)
 [/CODE]
+
+for example [CODE]button.clicked.connect(func);[/CODE]
+
+
 
 where object is the Gtk.Widget instance which will be emitting the signal, and 
 the argument [CODE]func[/CODE] is the "callback function" you wish to be called 
-when it is caught. The method returns a handler_id that can be used to 
+when it is caught. The method returns a handler id that can be used to 
 disconnect or block the handler.
 
-[CODE]fund[/CODE] is called a "callback function" and is ordinarily a member 
+[CODE]func[/CODE] is called a "callback function" and is ordinarily a member 
 function of a class that subclasses Gtk.Widget.
 
 
@@ -306,6 +323,7 @@ In addition to the signal mechanism described above, there is a set of events
 that reflect the X event mechanism. Callbacks may also be attached to these 
 events.
 
+[CODE]
   event
   button_press_event
   button_release_event
@@ -333,6 +351,12 @@ events.
   client_event
   no_expose_event
   window_state_event
+[/CODE]
+
+In order to connect a callback function to one of these events you use the 
+method [CODE]connect()[/CODE], as described above, using one of the above 
+event names as the name parameter. The callback function (or method) for 
+events has a slightly different form than that for signals:
 
 Gdk.Event is a class whose type will depend upon which of the
 above events has occurred. In order for us to tell which event has been 
