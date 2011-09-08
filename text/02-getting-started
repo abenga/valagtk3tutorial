@@ -476,7 +476,8 @@ Now let's examine the callback methods.
 Lines 11-13 define the [CODE]hello()[/CODE] callback method that will be called 
 when the button is "clicked". When called the method, prints "Hello World" to the 
 console. In this case the data parameter is left out since the [CODE]hello()[/CODE] 
-method will never called with user data. The next example will use the data argument to tell us which button was pressed.
+method will never called with user data. The next example will use the data 
+argument to tell us which button was pressed.
 
 [CODE]
   public void hello () {
@@ -606,8 +607,6 @@ a simple example, you'd never notice.
 
 Lines 73-82 define the [CODE]main()[/CODE] method. This is the point at which
 execution of our program begins.
-
-
 
 Line 76 creates an instance of the HelloWorld class and saves a reference to 
 it in the [CODE]hello[/CODE] variable. 
