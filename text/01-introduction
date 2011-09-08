@@ -87,7 +87,7 @@ runtime libraries, particularly GLib and GObject. Before Vala, the only
 ways to program for the GNOME platform were with the machine native C 
 API, which exposes a lot of often unwanted detail, with a high 
 level language that has an attendant virtual machine, such as Python or 
-the Mono C\# language, or alternatively, with C++ through a wrapper 
+the Mono C# language, or alternatively, with C++ through a wrapper 
 library.
 
 Vala is different from all these other techniques, as it outputs C code 
