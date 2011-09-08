@@ -303,10 +303,6 @@ signals and call the appropriate function. This is done by using a Gtk.Widget
   handlerID = object.signal.connect(func)
 [/CODE]
 
-for example [CODE]button.clicked.connect(func);[/CODE]
-
-
-
 where object is the Gtk.Widget instance which will be emitting the signal, and 
 the argument [CODE]func[/CODE] is the "callback function" you wish to be called 
 when it is caught. The method returns a handler id that can be used to 
@@ -354,13 +350,13 @@ events.
 [/CODE]
 
 In order to connect a callback function to one of these events you use the 
-method [CODE]connect()[/CODE], as described above, using one of the above 
-event names as the name parameter. The callback function (or method) for 
+method [CODE]object.connect()[/CODE], as described above, using one of the 
+above event names as the name parameter. The callback function (or method) for 
 events has a slightly different form than that for signals:
 
 Gdk.Event is a class whose type will depend upon which of the
 above events has occurred. In order for us to tell which event has been 
-issued each of the possible alternatives has a type member that reflects 
+issued each of the possible alternatives has an EventType member that reflects 
 the event being issued. The other components of the event structure will 
 depend upon the type of the event. Possible values for the EventType are:
 
@@ -455,3 +451,187 @@ function object.signal.connect, for example
 [CODE]
   window.destroy.connect(func)
 [/CODE]
+
+
+
+
+Stepping Through Hello World
+
+Now that we know the theory behind this, let's clarify by walking through the 
+example [CMD]02HelloWorld.vala[/CMD] program.
+
+Lines 4-85 define the HelloWorld class that contains all the callbacks as 
+object methods and the object instance initialization method. 
+
+Lines 6 and 7 define the members of [CODE]HelloWorld[/CODE]. These are the 
+widgets that we will be manipulating in the program.
+
+[CODE]
+  private Gtk.Window window;
+  private Gtk.Button button;
+[/CODE]
+
+Now let's examine the callback methods.
+
+Lines 11-13 define the [CODE]hello()[/CODE] callback method that will be called 
+when the button is "clicked". When called the method, prints "Hello World" to the 
+console. In this case the data parameter is left out since the [CODE]hello()[/CODE] 
+method will never called with user data. The next example will use the data argument to tell us which button was pressed.
+
+[CODE]
+  public void hello () {
+    stdout.printf("Hello World\n");
+  }
+[/CODE]
+
+The next callback (lines 15-25) is a bit special. The "delete_event" occurs 
+when the window manager sends this event to the application. This happens, for 
+example, when the user clicks the close button on the window. We have a choice 
+here as to what to do about these events. We can ignore them, make some sort of 
+response, or simply quit the application.
+
+The value you return in this callback lets GTK+ know what action to take. By 
+returning [CODE]true[/CODE], we let it know that we don't want to have the 
+"destroy" signal emitted, keeping our application running. By returning 
+[code]false[/code], we ask that "destroy" be emitted, which in turn will call 
+our "destroy" signal handler. Note the comments have been removed for clarity.
+
+[CODE]
+  public bool delete_event () {
+    stdout.printf("delete event occurred\n");
+    return false;
+  }
+[/CODE]
+
+The destroy() callback method (lines 28-30) causes the program to quit by 
+calling Gtk.main_quit() . This function tells GTK+ that it is to exit from 
+Gtk.main() when control is returned to it.
+
+[CODE]
+  public void destroy() {
+   Gtk.main_quit();
+  }
+[/CODE]
+
+Lines 32-71 define the [CODE]HelloWorld[/CODE] constructor 
+[CODE]HelloWorld()[/CODE] that creates the window and widgets used by the 
+program.
+
+Line 34 creates a new window, but it is not displayed until we direct GTK+ to 
+show the window near the end of our program. The window reference is saved in 
+the HelloWorld attribute ([code]window[/code]) for later access.
+
+[CODE]
+  Gtk.Window window = new Gtk.Window();
+[/CODE]
+
+Lines 41 and 48 illustrate two examples of connecting a signal handler to an 
+object, in this case, the window. Here, the "delete_event" and "destroy" signals 
+are caught. The first is emitted when we use the window manager to close the 
+window, or when we use the GtkWidget [CODE]destroy()[/CODE] method call. The 
+second is emitted when, in the "delete_event" handler, we return [CODE]false[/CODE].
+
+[CODE]
+  window.delete_event.connect(this.delete_event);
+  window.destroy.connect(this.destroy);
+[/CODE]
+
+Line 48 sets an attribute of a container object (in this case the window) to 
+have a blank area along the inside of it 10 pixels wide where no widgets will be 
+placed. There are other similar methods that we will look at in [LINK]Chapter 18, 
+Setting Widget Attributes[/LINK].
+
+[CODE]
+  window.set_border_width(10);
+[/CODE]
+
+Line 51 creates a new button and saves a reference to it in self.button. The 
+button will have the label "Hello World" when displayed.
+
+[CODE]
+  Gtk.Button button = new Gtk.Button.with_label("Hello World");
+[/CODE]
+
+In line 56 we attach a signal handler to the button so when it emits the 
+"clicked" signal, our [CODE]hello()[/CODE] callback method is called. We are 
+not passing any data to [CODE]hello()[/CODE] so we don't pass any arguments. 
+The "clicked" signal is emitted when we click the button with our mouse pointer.
+
+[CODE]
+  button.clicked.connect(this.hello);
+[/CODE]
+
+We are also going to use this button to exit our program. Line 61 illustrates 
+how the "destroy" signal may come from either the window manager, or from our 
+program. When the button is "clicked", same as above, it calls the 
+[CODE]hello()[/CODE] callback first, and then the following one in the order 
+they are set up. You may have as many callbacks as you need, and all will be 
+executed in the order you connected them.
+
+Since we want to use the GtkWidget [CODE]destroy()[/CODE] method that accepts 
+one argument (the widget to be destroyed - in this case the window), we use the 
+[CODE]GLib.Signal.connect_swapped()[/CODE] method and pass it the object to             /* Really? */
+which we are connecting it to, the signal to watch out for, the callback to 
+be run and a reference to the the window to be destroyed. 
+
+When the [CODE]Gtk.Widget destroy()[/CODE] method is called it will cause the 
+"destroy" signal to be emitted from the window which will in turn cause the 
+HelloWorld [CODE]destroy()[/CODE] method to be called to end the program.
+
+[CODE]
+  GLib.Signal.connect_swapped(button,"clicked",(GLib.Callback)destroy, window);
+[/CODE]
+
+Line 59 is a packing call, which will be explained in depth later on in Chapter 
+4, Packing Widgets . But it is fairly easy to understand. It simply tells GTK+ 
+that the button is to be placed in the window where it will be displayed. Note 
+that a GTK+ container can only contain one widget. There are other widgets, 
+described later, that are designed to layout multiple widgets in various ways.
+
+[CODE]
+  window.add(button);
+[/CODE]
+
+Now we have everything set up the way we want it to be. With all the signal 
+handlers in place, and the button placed in the window where it should be, we 
+ask GTK+ (lines 67 and 70) to "show" the widgets on the screen. The window 
+widget is shown last so the whole window will pop up at once rather than seeing 
+the window pop up, and then the button forming inside of it. Although with such 
+a simple example, you'd never notice.
+
+[CODE]
+  this.button.show();
+  this.window.show();
+[/CODE]
+
+Lines 73-82 define the [CODE]main()[/CODE] method. This is the point at which
+execution of our program begins.
+
+
+
+Line 76 creates an instance of the HelloWorld class and saves a reference to 
+it in the [CODE]hello[/CODE] variable. 
+
+In line 80, we call the [CODE]Gtk.main()[/CODE] function which sleeps and waits 
+for the user to interact with the program interface.
+
+[CODE]
+  Gtk.main()
+[/CODE]
+
+Now, when we click the mouse button on a GTK+ button, the widget emits a 
+"clicked" signal. In order for us to use this information, our program sets up 
+a signal handler to catch that signal, which dispatches the function of our 
+choice. In our example, when the button we created is "clicked", the 
+[CODE]hello()[/CODE] method is called with no arguments, and then the next 
+handler for this signal is called. The next handler calls the widget 
+[CODE]destroy()[/CODE] function with the window as its argument thereby causing 
+the window to emit the "destroy" signal, which is caught, and calls our 
+HelloWorld [CODE]destroy()[/CODE] method
+
+Another course of events is to use the window manager to kill the window, 
+which will cause the "delete_event" to be emitted. This will call our 
+"delete_event" handler. If we return [CODE]true[/CODE] here, the window will be 
+left as is and nothing will happen. Returning [CODE]false[/CODE] will cause 
+GTK+ to emit the "destroy" signal that causes the HelloWorld "destroy" callback 
+to be called, exiting GTK.
