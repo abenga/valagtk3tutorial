@@ -1,4 +1,39 @@
-/** codeexamples/chapter-02/01HelloWorld2.vala */
+Moving On
+
+
+
+More on Signal Handlers
+
+Lets take another look at the [CODE]connect()[/CODE] call.
+
+[CODE]
+  object.signal.connect(func, func_data);
+[/CODE]
+
+The return value from a [CODE]connect()[/CODE] call is an integer tag that 
+identifies your callback. As stated above, you may have as many callbacks per 
+signal and per object as you need, and each will be executed in turn, in the 
+order they were attached.
+
+This tag allows you to remove this callback from the list by using:
+
+[CODE]
+  signal_handler.disconnect(id)                                                                 /* Really? */
+[/CODE]
+
+So, by passing in the tag returned by one of the signal connect methods, you 
+can disconnect a signal handler.
+
+You can also temporarily disable signal handlers with the 
+[CODE]signal_handler.block()[/CODE] and [CODE]signal_handler.unblock()[/CODE] 
+pair of methods.
+
+
+
+
+An Upgraded Hello World
+
+[CODE]
 using Gtk;
 
 class HelloWorld2 {
@@ -21,6 +56,7 @@ class HelloWorld2 {
   }
   
   public HelloWorld2 () {
+    
 
     /* Create a new window */
     this.window = new Gtk.Window();
@@ -92,3 +128,40 @@ class HelloWorld2 {
   }
   
 }
+[/CODE]
+
+Running 01HelloWorld2.vala produces the window illustrated in Figure 3.1, 
+“Upgraded Hello World Example”.
+
+[IMG title="Upgraded Hello World Example"][/IMG]
+
+You'll notice this time there is no easy way to exit the program, you have to 
+use your window manager or command line to kill it. A good exercise for the 
+reader would be to insert a third "Quit" button that will exit the program. You 
+may also wish to play with the options to pack_start() while reading the next 
+section. Try resizing the window, and observe the behavior.
+
+A short commentary on the code differences from the first helloworld program is 
+in order.
+
+As noted above there is no "destroy" event handler in the upgraded helloworld.
+
+Lines 13-15 define a callback method which is similar to the hello() callback in 
+the first helloworld. The difference is that the callback prints a message 
+including data passed in.
+
+Line 30 sets a title string to be used on the titlebar of the window (see 
+Figure 3.1, “Upgraded Hello World Example”).
+
+Line 42 creates a horizontal box ([CODE]Gtk.HBox[/CODE]) to hold the two buttons 
+that are created in lines 48 and 63. Line 45 adds the horizontal box to the 
+window container.
+
+Lines 52 and 67 connect the callback() method to the "clicked" signal of the 
+buttons. Each button sets up a different string to be passed to the 
+[CODE]callback()[/CODE] method when invoked.
+
+Lines 56 and 69 pack the buttons into the horizontal box. Lines 60 and 73 ask 
+GTK to display the buttons.
+
+Lines 75 and 77 ask GTK to display the box and the window respectively.
