@@ -138,20 +138,20 @@ Running 01HelloWorld2.vala produces the window illustrated in Figure 3.1,
 You'll notice this time there is no easy way to exit the program, you have to 
 use your window manager or command line to kill it. A good exercise for the 
 reader would be to insert a third "Quit" button that will exit the program. You 
-may also wish to play with the options to pack_start() while reading the next 
-section. Try resizing the window, and observe the behavior.
+may also wish to play with the options to [CODE]pack_start()[/CODE] while 
+reading the next section. Try resizing the window, and observe the behavior.
 
 A short commentary on the code differences from the first helloworld program is 
 in order.
 
 As noted above there is no "destroy" event handler in the upgraded helloworld.
 
-Lines 13-15 define a callback method which is similar to the hello() callback in 
-the first helloworld. The difference is that the callback prints a message 
-including data passed in.
+Lines 13-15 define a callback method which is similar to the [CODE]hello()[/CODE] 
+callback in the first helloworld. The difference is that the callback prints a 
+message including data passed in.
 
 Line 30 sets a title string to be used on the titlebar of the window (see 
-Figure 3.1, “Upgraded Hello World Example”).
+Figure 3.1, "Upgraded Hello World Example").
 
 Line 42 creates a horizontal box ([CODE]Gtk.HBox[/CODE]) to hold the two buttons 
 that are created in lines 48 and 63. Line 45 adds the horizontal box to the 
