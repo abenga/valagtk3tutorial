@@ -133,9 +133,9 @@ class HelloWorld2 {
 Running 01HelloWorld2.vala produces the window illustrated in Figure 3.1, 
 “Upgraded Hello World Example”.
 
-[IMG title="Upgraded Hello World Example"][/IMG]
+[IMG file="chapter-03/01HelloWorld2.png" title="Upgraded Hello World Example"][/IMG]
 
-You'll notice this time there is no easy way to exit the program, you have to 
+You'll notice this time there is no easy way to exit the program, you have to                    /* Compiled example exits. */
 use your window manager or command line to kill it. A good exercise for the 
 reader would be to insert a third "Quit" button that will exit the program. You 
 may also wish to play with the options to [CODE]pack_start()[/CODE] while 

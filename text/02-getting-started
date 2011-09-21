@@ -62,7 +62,7 @@ A First Program
 Our first program will create a 200px by 200px window. This program cannot be 
 stopped, except by killing it at the shell.
 
-[CODE lang='vala' file='chapter-02/01SimpleWindow.vala']
+[CODE]
 using Gtk;
 
 int main(string[] args) {
@@ -77,10 +77,13 @@ int main(string[] args) {
 }
 [/CODE]
 
+This code can be found in the example code, in the file 
+chapter-02/01SimpleWindow.vala.
+
 
 You can compile the program above by using
 [CMD]
-  valac --pkg gtk+-3.0 -o simplewindow 01-simple-window.vala
+  valac --pkg gtk+-3.0 01SimpleWindow.vala
 [/CMD]
 
 [CMD]valac[/CMD] is the name of the vala compiler. [CMD]--pkg gtk+3.0[/CMD] 
@@ -97,10 +100,15 @@ If compilation succeeds, one may execute the program by typing
   ./simplewindow
 [/CMD]
 
-into the console. Just closing the window does not kill the program,
-however. (the window closes, but the program keeps running) To stop 
-execution of the program, you have to press CTR+c (or 
-CMD+c) on the command line.
+into the console.
+
+A window similar to Figure 2.1, "Simple GTK+ Window" should pop up on your display.
+
+[IMG file="chapter-02/01SimpleWindow.png" title="Simple GTK+ Window"][/IMG]
+
+Just closing the window does not kill the program, however. (the window closes, 
+but the program keeps running) To stop execution of the program, you have to 
+input CTR+c in the console.
 
 The line 
 
@@ -158,6 +166,8 @@ every GTK application. When control reaches this point, GTK will sleep
 waiting for X events (such as button or key presses), timeouts, or file 
 IO notifications to occur. In our simple example, however, events are 
 ignored.
+
+
 
 
 Hello World
@@ -240,8 +250,6 @@ class HelloWorld {
 }
 [/CODE]
 
-
-
 Compiling Hello World
 
 Vala code is written in files with .vala extensions. Vala does not enforce as 
@@ -278,6 +286,14 @@ your Vala source files into a corresponding C source file, in this case
 02HelloWorld.c. If you look at the content of these files you can see that 
 programming a class in Vala is equivalent to the same task in C, but a whole 
 lot more succinct.
+
+
+Figure 2.2, “Hello World Example Program” shows the window shown when you run
+02HelloWorld, the result of compiling 02HelloWorld.vala.
+
+[IMG file="" title="Hello World Example Program" /]
+
+
 
 
 
