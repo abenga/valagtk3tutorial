@@ -3,12 +3,12 @@ This is (will be) a tutorial on programming for the GNOME platform
 using GTK+3 [www.gtk.org] in Vala [live.gnome.org/Vala]. It will be 
 modelled closely after the popular GTK+2.0 tutorial that can be found 
 at http://developer.gnome.org/gtk-tutorial/2.90/, whose content I will
-try to stay as close to as possible, but will mostly err on the side of 
-explaining too much. I will also try to cover newer features of GTK+ 3.0 
-that werent in GTK+2.
+try to stay as close to as possible, but try to err on the side of 
+explaining too much. It will also try to cover newer features of GTK+ 
+3.0 that were not in GTK+2.
 
 It will not assume any deep knowledge of the Vala programming language
 or GTK+ programming.
 
 This repository will (ultimately) have a HTML archive of the tutorial,
-latex files, and working code examples.
+working code examples and dvi, pdf and ps files.
