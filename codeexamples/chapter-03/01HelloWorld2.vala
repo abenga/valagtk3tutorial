@@ -83,7 +83,7 @@ class HelloWorld2 {
      * from the command line and are returned to the application. */
     Gtk.init (ref args);
     
-    var hello = new HelloWorld2();
+    new HelloWorld2();
     
     /* Rest in gtk_main and wait for the fun to begin! */
     Gtk.main();
