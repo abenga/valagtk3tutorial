@@ -9,6 +9,7 @@ in.
 
 
 
+
 Theory of Packing Boxes
 
 Most packing is done by creating boxes. These are invisible widget containers 
@@ -35,6 +36,7 @@ By using these calls, GTK knows where you want to place your widgets so it can
 do automatic resizing and other nifty things. There are also a number of options 
 as to how your widgets should be packed. As you can imagine, this method gives 
 us a quite a bit of flexibility when placing and creating widgets.
+
 
 
 
@@ -557,24 +559,111 @@ Here's the source code:
 
 [CODE]
 
+using Gtk;
+
+class Table {
+  
+  private Gtk.Window window;
+  
+  /* Our callback.
+   * The data passed to this method is printed to stdout */
+  void callback(string data) {
+    stdout.printf("Hello again - %s was pressed\n", data);
+  }
+
+  /* This callback quits the program. */
+  public bool delete_event() {
+    Gtk.main_quit();
+    return false;
+  }
+
+  public Table () {
+    /* Create a new window. */
+    this.window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+
+    /* Set the window title. */
+    this.window.set_title("Table");
+
+    /* Set a handler for delete_event that immediately
+     *exits Gtk. */
+    this.window.delete_event.connect(this.delete_event);
+
+    /* Sets the border width of the window. */
+    this.window.set_border_width(20);
+
+    /* Create a 2x2 table. */
+    var table = new Gtk.Table(2, 2, true);
+
+    /* Put the table in the main window. */
+    this.window.add(table);
+
+    /* Create first button. */
+    var button = new Gtk.Button.with_label("button 1");
+  
+    /* When the button is clicked, we call the "callback" method
+     * with a pointer to "button 1" as its argument. */
+    button.clicked.connect( ()=>{ this.callback("button 1"); });
+    /* Insert button 1 into the upper left quadrant of the table. */
+    table.attach_defaults(button, 0, 1, 0, 1);
+    button.show();
+
+    /* Create second button. */
+    button = new Gtk.Button.with_label("button 2");
+    /* When the button is clicked, we call the "callback" method
+     * with a pointer to "button 2" as its argument */
+    button.clicked.connect( () => { this.callback("button 2"); } );
+    /* Insert button 2 into the upper right quadrant of the table. */
+    table.attach_defaults(button, 1, 2, 0, 1);
+
+    button.show();
+
+    /* Create "Quit" button */
+    button = new Gtk.Button.with_label("Quit");
+
+    /* When the button is clicked, we call the main_quit function
+     * and the program exits. */
+    button.clicked.connect( ()=> { Gtk.main_quit(); });
+
+    /* Insert the quit button into the both lower quadrants of the table */
+    table.attach_defaults(button, 0, 2, 1, 2);
+
+    button.show();
+
+    table.show();
+    this.window.show();
+  }
+  
+  public static int main(string[] args) {
+    
+    Gtk.init(ref args);
+    
+    new Table();
+    
+    Gtk.main();
+    
+    return 0;
+  }
+
+}
+
 [/CODE]
 
-The Table class is defined in line 9-78. Lines 12-13 define the 
+The Table class is defined in line 5-88. Lines 11-13 define the 
 [CODE]callback()[/CODE] method which is called when two of the buttons are 
 "clicked". The callback just prints a message to the console indicating which 
 button was pressed using the passed in string data.
 
-Lines 16-18 define the [CODE]delete_event()[/CODE] method which is called when 
+Lines 16-19 define the [CODE]delete_event()[/CODE] method which is called when 
 the window is slated for deletion by the window manager.
 
-Lines 20-78 define the Table conmstructor [CODE]Table()[/CODE]. It creates a 
-window (line 22), sets the window title (line 25), connects the 
-[CODE]delete_event()[/CODE] callback to the "delete_event" signal (line 29), and 
-sets the border width (line 32). A [CODE]Gtk.Table[/CODE] is created in line 35 
-and added to the window in line 38.
+Lines 21-75 define the Table constructor [CODE]Table()[/CODE]. It creates a 
+window (line 23), sets the window title (line 26), connects the 
+[CODE]delete_event()[/CODE] callback to the "delete_event" signal (line 30), and 
+sets the border width (line 33). A [CODE]Gtk.Table[/CODE] is created in line 36 
+and added to the window in line 39.
 
-The two upper buttons are created (lines 41 and 55), their "clicked" signals are 
-connected to the [CODE]callback()[/CODE] method (lines 45 and 59), and attached 
-to the table in the first row (lines 49 and 61). Lines 66-72 create the "Quit" 
+The two upper buttons are created (lines 43 and 52), their "clicked" signals are 
+connected to the [CODE]callback()[/CODE] method (lines 46 and 55), and attached 
+to the table in the first row (lines 48 and 57). Lines 62-66 create the "Quit" 
 button, connect its "clicked" signal to the [CODE]Gtk.main_quit()[CODE] function 
 and attach it to the table spanning the whole second row.
