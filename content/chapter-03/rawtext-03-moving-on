@@ -1,0 +1,167 @@
+Moving On
+
+
+
+More on Signal Handlers
+
+Lets take another look at the [CODE]connect()[/CODE] call.
+
+[CODE]
+  object.signal.connect(func, func_data);
+[/CODE]
+
+The return value from a [CODE]connect()[/CODE] call is an integer tag that 
+identifies your callback. As stated above, you may have as many callbacks per 
+signal and per object as you need, and each will be executed in turn, in the 
+order they were attached.
+
+This tag allows you to remove this callback from the list by using:
+
+[CODE]
+  signal_handler.disconnect(id)                                                                 /* Really? */
+[/CODE]
+
+So, by passing in the tag returned by one of the signal connect methods, you 
+can disconnect a signal handler.
+
+You can also temporarily disable signal handlers with the 
+[CODE]signal_handler.block()[/CODE] and [CODE]signal_handler.unblock()[/CODE] 
+pair of methods.
+
+
+
+
+An Upgraded Hello World
+
+[CODE]
+using Gtk;
+
+class HelloWorld2 {
+  
+  private Gtk.Window window;
+  private Gtk.Button button1;
+  private Gtk.Button button2;
+  private Gtk.HBox box1;
+  
+  /* Our new improved callback.  The data passed to this function
+   * is printed to stdout. */
+  void callback(string data) {
+    stdout.printf("Hello again - %s was pressed\n", data);
+  }
+
+  /* another callback */
+  static bool delete_event() {
+    Gtk.main_quit();
+    return false;
+  }
+  
+  public HelloWorld2 () {
+    
+
+    /* Create a new window */
+    this.window = new Gtk.Window();
+
+    /* This is a new call, which just sets the title of our
+     * new window to "Hello Buttons!" */
+    this.window.set_title("Hello Buttons!");
+
+    /* Here we just set a handler for delete_event that immediately
+     * exits GTK. */
+    this.window.delete_event.connect(this.delete_event);
+
+    /* Sets the border width of the window. */
+    this.window.set_border_width(10);
+
+    /* We create a box to pack widgets into.  This is described in detail
+     * in the "packing" section. The box is not really visible, it
+     * is just used as a tool to arrange widgets. */
+    box1 = new Gtk.HBox(false, 0);
+
+    /* Put the box into the main window. */
+    this.window.add(box1);
+
+    /* Creates a new button with the label "Button 1". */
+    this.button1 = new Gtk.Button.with_label("Button 1");
+    
+    /* Now when the button is clicked, we call the "callback" function
+     * with a pointer to "button 1" as its argument */
+    this.button1.clicked.connect (() => { this.callback("Button 1"); });  /* Probably should be done differently? */
+
+    /* Instead of gtk_container_add, we pack this button into the invisible
+     * box, which has been packed into the window. */
+    box1.pack_start(button1, true, true, 0);
+
+    /* Always remember this step, this tells GTK that our preparation for
+     * this button is complete, and it can now be displayed. */
+    button1.show();
+
+    /* Do these same steps again to create a second button */
+    button2 = new Gtk.Button.with_label("Button 2");
+
+    /* Call the same callback function with a different argument,
+       passing a pointer to "button 2" instead. */
+    this.button2.clicked.connect (() => { this.callback("Button 2"); });  /* Probably should be done differently? */
+
+    box1.pack_start(button2, true, true, 0);
+
+    /* The order in which we show the buttons is not really important, but I
+     * recommend showing the window last, so it all pops up at once. */
+    button2.show();
+
+    box1.show();
+
+    window.show();
+    
+  }
+  
+  public static int main (string[] args) {
+    /* This is called in all GTK applications. Arguments are parsed
+     * from the command line and are returned to the application. */
+    Gtk.init (ref args);
+    
+    var hello = new HelloWorld2();
+    
+    /* Rest in gtk_main and wait for the fun to begin! */
+    Gtk.main();
+    
+    return 0;
+  }
+  
+}
+[/CODE]
+
+Running 01HelloWorld2.vala produces the window illustrated in Figure 3.1, 
+“Upgraded Hello World Example”.
+
+[IMG file="chapter-03/01HelloWorld2.png" title="Upgraded Hello World Example"][/IMG]
+
+You'll notice this time there is no easy way to exit the program, you have to                    /* Compiled example exits. */
+use your window manager or command line to kill it. A good exercise for the 
+reader would be to insert a third "Quit" button that will exit the program. You 
+may also wish to play with the options to [CODE]pack_start()[/CODE] while 
+reading the next section. Try resizing the window, and observe the behavior.
+
+A short commentary on the code differences from the first helloworld program is 
+in order.
+
+As noted above there is no "destroy" event handler in the upgraded helloworld.
+
+Lines 13-15 define a callback method which is similar to the [CODE]hello()[/CODE] 
+callback in the first helloworld. The difference is that the callback prints a 
+message including data passed in.
+
+Line 30 sets a title string to be used on the titlebar of the window (see 
+Figure 3.1, "Upgraded Hello World Example").
+
+Line 42 creates a horizontal box ([CODE]Gtk.HBox[/CODE]) to hold the two buttons 
+that are created in lines 48 and 63. Line 45 adds the horizontal box to the 
+window container.
+
+Lines 52 and 67 connect the callback() method to the "clicked" signal of the 
+buttons. Each button sets up a different string to be passed to the 
+[CODE]callback()[/CODE] method when invoked.
+
+Lines 56 and 69 pack the buttons into the horizontal box. Lines 60 and 73 ask 
+GTK to display the buttons.
+
+Lines 75 and 77 ask GTK to display the box and the window respectively.
