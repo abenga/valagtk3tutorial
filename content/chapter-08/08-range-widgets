@@ -139,7 +139,7 @@ The Range widget class is fairly complicated internally, but, like all the
 hack on it. Also, almost all of the functions and signals it defines are only 
 really used in writing derived widgets.
 
-/** --DON'T THINK THIS IS IN GTK+3
+/** --DON'T THINK THIS IS IN GTK+3 
 
 
 Setting the Update Policy
