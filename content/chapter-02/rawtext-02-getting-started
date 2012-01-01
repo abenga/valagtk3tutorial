@@ -1,6 +1,10 @@
-GETTING STARTED
+Getting Started
+
+
+
 
 Installation
+
 
 Installing GTK+.
 
@@ -57,6 +61,8 @@ You may also use your distribution's graphical software management tools like th
 Ubuntu Software Centre or Synaptic.
 
 
+
+
 A First Program
 
 Our first program will create a 200px by 200px window. This program cannot be 
@@ -79,7 +85,6 @@ int main(string[] args) {
 
 This code can be found in the example code, in the file 
 chapter-02/01SimpleWindow.vala.
-
 
 You can compile the program above by using
 [CMD]
@@ -175,7 +180,6 @@ Hello World
 Here we will create a program with a button that prints out "Hello World"
 to the console each time it is pressed.
 
-
 [CODE lang='vala' file="chapter-02/02HelloWorld.vala"]
 using Gtk;
 
@@ -250,6 +254,10 @@ class HelloWorld {
 }
 [/CODE]
 
+
+
+
+
 Compiling Hello World
 
 Vala code is written in files with .vala extensions. Vala does not enforce as 
@@ -296,7 +304,6 @@ Figure 2.2, “Hello World Example Program” shows the window shown when you ru
 
 
 
-
 Theory of Signals and Callbacks
 
 Before we look in detail at HelloWorld, we'll discuss signals and callbacks. 
@@ -326,6 +333,7 @@ disconnect or block the handler.
 
 [CODE]func[/CODE] is called a "callback function" and is ordinarily a member 
 function of a class that subclasses Gtk.Widget.
+
 
 
 
