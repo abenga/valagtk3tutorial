@@ -1,18 +1,18 @@
-Chapter 5. Widget Overview
+Widget Overview
 
-The general steps to using a widget in PyGTK are:
+The general steps to using a widget in GTK are:
 
 [UL]
-Use the constructor Gtk.* to create a new widget. by calling [CODE]var * = new Gtk.*[/CODE].
+[ITEM]Use the constructor Gtk.* to create a new widget. by calling the [CODE]Gtk.*()[/CODE] constructor.[/ITEM]
 
-Connect all signals and events we wish to use to the appropriate handlers.
+[ITEM]Connect all signals and events we wish to use to the appropriate handlers.[/ITEM]
 
-Set the attributes of the widget.
+[ITEM]Set the attributes of the widget.[/ITEM]
 
-Pack the widget into a container using the appropriate call such as 
-[CODE]Gtk.Container.add()[/CODE] or [CODE]Gtk.Box.pack_start()[/CODE].
+[ITEM]Pack the widget into a container using the appropriate call such as 
+[CODE]Gtk.Container.add()[/CODE] or [CODE]Gtk.Box.pack_start()[/CODE].[/ITEM]
 
-[CODE]Gtk.Widget.show()[/CODE] the widget.
+[ITEM][CODE]Gtk.Widget.show()[/CODE] the widget.[/ITEM]
 [/UL]
 
 [CODE]show()[/CODE] lets GTK know that we are done setting the attributes of the 

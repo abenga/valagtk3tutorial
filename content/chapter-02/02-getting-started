@@ -6,6 +6,7 @@ Getting Started
 Installation
 
 
+
 Installing GTK+.
 
 Before you can begin programming, you have to install Gtk+, pkg-config 
@@ -33,6 +34,7 @@ On Fedora, one would use:
 [CMD]
   # yum install libgtk-3-dev
 [/CMD]
+
 
 
 Installing Vala
@@ -253,7 +255,6 @@ class HelloWorld {
 
 }
 [/CODE]
-
 
 
 
