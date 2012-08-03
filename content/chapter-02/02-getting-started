@@ -95,8 +95,7 @@ You can compile the program above by using
 
 [CMD]valac[/CMD] is the name of the vala compiler. [CMD]--pkg gtk+3.0[/CMD] 
 tells the vala compiler to include the Gtk+ header files in the compilation. 
-The [CMD]-o[/CMD] flag tells the compiler what to call the compiled executable, 
-in this  case [CMD]simplewindow[/CMD]. If this is omitted, the binary will 
+The [CMD]-o[/CMD] flag tells the compiler what to call the compiled executable, in this  case [CMD]simplewindow[/CMD]. If this is omitted, the binary will 
 have the same  name as the compiled file (in this case it would be 
 [CMD]simple-window[/CMD]) The final argument is the name of the vala 
 file we are compiling.
