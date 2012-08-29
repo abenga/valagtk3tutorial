@@ -7,4 +7,11 @@ can be found at http://developer.gnome.org/gtk-tutorial/2.90/.
 It will not assume any deep knowledge of the Vala programming language
 or GTK+ programming.
 
+To view docbook chapters in yelp, just run 
+
+	yelp docbook/00-vala-gtk-tutorial.xml
+
+Comments on writing style, correctness of the material, whether 
+the code examples are in idiomatic vala, etc are very welcome.
+
 
