@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
     "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 ]>
-<article>
+<chapter>
   <title>Introduction</title>
   
   <sect1>    
@@ -51,7 +51,6 @@
         <para>A modern, easy-to-use Virtual File System API including abstractions for 
         files, drives, volumes, stream IO, as well as network programming and 
         DBus communication.</para>
-        
         <para>A virtual file system (VFS) or virtual filesystem switch is an 
         abstraction layer on top of a more concrete file system. The purpose of 
         a VFS is to allow client applications to access different types of 
@@ -131,4 +130,4 @@
 
   </sect1>
 
-</article>
+</chapter>

@@ -1,4 +1,4 @@
-/** codeexamples/chapter-02/01HelloWorld2.vala */
+
 using Gtk;
 
 class HelloWorld2 {
@@ -6,12 +6,12 @@ class HelloWorld2 {
   private Gtk.Window window;
   private Gtk.Button button1;
   private Gtk.Button button2;
-  private Gtk.HBox box1;
+  private Gtk.Box box;
   
   /* Our new improved callback.  The data passed to this function
    * is printed to stdout. */
   void callback(string data) {
-    stdout.printf("Hello again - %s was pressed\n", data);
+    stdout.printf("Hello! - %s was pressed\n", data);
   }
 
   /* another callback */
@@ -21,6 +21,7 @@ class HelloWorld2 {
   }
   
   public HelloWorld2 () {
+    
 
     /* Create a new window */
     this.window = new Gtk.Window();
@@ -39,21 +40,21 @@ class HelloWorld2 {
     /* We create a box to pack widgets into.  This is described in detail
      * in the "packing" section. The box is not really visible, it
      * is just used as a tool to arrange widgets. */
-    box1 = new Gtk.HBox(false, 0);
+    box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
     /* Put the box into the main window. */
-    this.window.add(box1);
+    this.window.add(box);
 
     /* Creates a new button with the label "Button 1". */
     this.button1 = new Gtk.Button.with_label("Button 1");
     
     /* Now when the button is clicked, we call the "callback" function
      * with a pointer to "button 1" as its argument */
-    this.button1.clicked.connect (() => { this.callback("Button 1"); });  /* Probably should be done differently? */
+    this.button1.clicked.connect (() => { this.callback("Button 1"); });  
 
     /* Instead of gtk_container_add, we pack this button into the invisible
      * box, which has been packed into the window. */
-    box1.pack_start(button1, true, true, 0);
+    box.pack_start(button1, true, true, 0);
 
     /* Always remember this step, this tells GTK that our preparation for
      * this button is complete, and it can now be displayed. */
@@ -64,15 +65,15 @@ class HelloWorld2 {
 
     /* Call the same callback function with a different argument,
        passing a pointer to "button 2" instead. */
-    this.button2.clicked.connect (() => { this.callback("Button 2"); });  /* Probably should be done differently? */
+    this.button2.clicked.connect (() => { this.callback("Button 2"); }); 
 
-    box1.pack_start(button2, true, true, 0);
+    box.pack_start(button2, true, true, 0);
 
     /* The order in which we show the buttons is not really important, but I
      * recommend showing the window last, so it all pops up at once. */
     button2.show();
 
-    box1.show();
+    box.show();
 
     window.show();
     
@@ -83,12 +84,11 @@ class HelloWorld2 {
      * from the command line and are returned to the application. */
     Gtk.init (ref args);
     
-    new HelloWorld2();
+    var hello = new HelloWorld2();
     
     /* Rest in gtk_main and wait for the fun to begin! */
     Gtk.main();
     
     return 0;
-  }
-  
+  }  
 }

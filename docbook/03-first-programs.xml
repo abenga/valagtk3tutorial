@@ -1,0 +1,877 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+]>
+<chapter>
+
+  <title>First Programs</title>
+  
+  <sect1>
+    <title>A First Program</title>
+
+    <para>We will start with the simplest program possible: a program 
+      that will create a 200px by 200px window and has no way of exiting
+      except to be killed using the shell.</para>
+
+<programlisting linenumbering="numbered">
+
+using Gtk;
+
+int main(string[] args) {
+  Gtk.init (ref args);
+
+  Gtk.Window window = new Window();
+  window.show_all();
+
+  Gtk.main();
+
+  return 0;
+}
+
+</programlisting>
+
+    <para>This code can be found in the example code, in the file 
+      <filename>examples/chapter_02/01_simplewindow.vala</filename>.</para>
+    <para>You can compile the program above by using</para>
+
+<screen>
+  <prompt>$</prompt><userinput> valac -o simplewindow --pkg gtk+-3.0 01_simplewindow.vala</userinput>    
+</screen>
+
+    <para><command>valac</command> is the name of the vala compiler. 
+      <command>--pkg gtk+3.0</command> tells the vala compiler to include the 
+      Gtk+ header files in the compilation. The <command>-o</command> flag 
+      tells the compiler what to call the compiled executable, in this case 
+      <filename>simplewindow</filename>. If this is omitted, the binary will 
+      have the same base name as the vala source file (here its filename 
+      would have been <filename>01_simple-window</filename>) The final 
+      argument is the name of the vala source file we are compiling.</para>
+    <para>If compilation succeeds, one may execute the program by typing</para>
+
+<screen>
+  <prompt>$</prompt><userinput> ./simplewindow</userinput>    
+</screen>
+
+    <para>into the console.</para>
+    <para>A window similar the figure below should pop up on your 
+      display:</para>
+
+<figure id="simple-gtk-window">
+  <title>Simple GTK+ Window</title>
+  <screenshot>
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="images/screenshots/chapter_02/01_simplewindow.png" 
+                   format="PNG"/>
+      </imageobject>
+      <textobject>
+        <phrase>Simple GTK+ Window</phrase>
+      </textobject>
+    </mediaobject>
+  </screenshot>
+</figure>
+
+    <para>Just closing this window does not kill the program, however (the 
+      window will be closed, but the program will keep on running). To stop 
+      execution of the program, you have to press <command>CTR+C</command> 
+      in the console from which you launched the program.</para>
+
+    <para>The line</para>
+
+<programlisting  linenumbering="numbered" startinglinenumber="2">
+  using Gtk;
+</programlisting>
+
+    <para>informs the compiler to include the Gtk+ header file which declares 
+      the variables, functions, structures, etc. that will be used in your GTK+ 
+      application.</para>
+
+    <para>The next line:</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="5">
+  Gtk.init(ref args)
+</programlisting>
+
+    <para>calls <function>Gtk.init()</function>, the initialization function 
+      for GTK+; this function will set up GTK+, the type system, the connection 
+      to the windowing environment, etc. <function>Gtk.init()</function> takes 
+      as arguments a reference to the command line arguments  that were passed 
+      to the program. They are passed as a reference so that 
+      <function>Gtk.init()</function> is able to modify them.</para>
+
+    <para><function>Gtk.init()</function> sets up things such as the default 
+      visual and color map and calls <function>Gdk.init()</function>.It 
+      initializes the library for use, sets up default signal handlers, and 
+      checks the arguments passed to the application, looking for specific 
+      command line arguments that control the behavious of GTK+ itself, 
+      i.e.:</para>
+
+    <itemizedlist>
+      <listitem><para><parameter>--gtk-module</parameter></para></listitem>
+      <listitem><para><parameter>--g-fatal-warnings</parameter></para></listitem>
+      <listitem><para><parameter>--gtk-debug</parameter></para></listitem>
+      <listitem><para><parameter>--gtk-no-debug</parameter></para></listitem>
+      <listitem><para><parameter>--gdk-debug</parameter></para></listitem>
+      <listitem><para><parameter>--gdk-no-debug</parameter></para></listitem>
+      <listitem><para><parameter>--display</parameter></para></listitem>
+      <listitem><para><parameter>--sync</parameter></para></listitem>
+      <listitem><para><parameter>--name</parameter></para></listitem>
+      <listitem><para><parameter>--class</parameter></para></listitem>
+    </itemizedlist>
+
+    <para>It removes these from the argument list, leaving anything it 
+      does not recognizefor your application to parse or ignore.</para>
+    <para>The next two lines:</para>
+
+<programlisting  linenumbering="numbered" startinglinenumber="7">
+Gtk.Window window = new Window();
+window.show_all();
+</programlisting>
+
+    <para>create and display a window. The window constructor 
+      <function>Window()</function> takes a window type (one of 
+      <constant>Gtk.WindowType.TOPLEVEL</constant> and 
+      <constant>Gtk.WindowType.POPUP</constant>) as an argument that defines 
+      how the window will be drawn. The default value is 
+      <constant>Gtk.WindowType.TOPLEVEL</constant> which specifies that we 
+      want the window to undergo window manager decoration and placement. 
+      Rather than create a window of 0x0 size, a window without children 
+      is set to 200x200 by default so you can still manipulate it.</para>
+    <para>The last line</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="10">
+  Gtk.main();
+</programlisting>
+
+    <para>enters the GTK main processing loop. This is a  call you will see in 
+      every GTK application. When control reaches this point, GTK will sleep 
+      waiting for X events (such as button or key presses), timeouts, or file 
+      IO notifications to occur. In our simple example, however, events are 
+      ignored.</para>
+
+</sect1>
+
+<sect1>
+  <title>Hello World</title>
+
+    <para>Here we will create a program with a widget (a button). It will 
+      print out "Hello World" when the button is pressed and exit the 
+      program.</para>
+
+<figure id="hello-world-screenshot-1">
+<title>Hello World a la GTK+</title>
+<screenshot>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="images/screenshots/chapter_02/02_helloworld.png" 
+               format="PNG"/>
+    </imageobject>
+  <textobject>
+      <phrase>Hello World a la GTK+</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</figure>
+
+
+<programlisting linenumbering="numbered">
+
+using Gtk;
+
+class HelloWorld {
+  
+  private Gtk.Window window;
+  private Gtk.Button button;
+
+  /* This is a callback function. It takes no arguments in 
+   * this example. We will learn more about callbacks later. */
+  public void hello () {
+    stdout.printf("Hello World\n");
+  }
+  
+  /* If you return FALSE in the "delete_event" signal handler, GTK will 
+   * emit the "destroy" signal. Returning TRUE means you don’t want the 
+   * window to be destroyed. This is useful for popping up ’are you sure 
+   * you want to quit?’ type dialogs. 
+   * 
+   * If you change "return true;" to "return false" the main window will 
+   * be destroyed with a "delete_event".*/
+  public bool delete_event () {
+    stdout.printf("delete event occurred\n");
+    return true;
+  }
+  
+  /* Another callback. */
+  public void destroy() {
+    Gtk.main_quit();
+  }  
+  
+  public HelloWorld () {
+    
+    /* Create a new window */    
+    this.window = new Gtk.Window(); 
+    
+    /* When the window is given the "delete_event" signal (this is given 
+     * by the window manager, usually by the "close" option, or on the 
+     * titlebar), we ask it to call the delete_event () function as 
+     * defined above. The data passed to the callback function is NULL 
+     * and is ignored in the callback function. */    
+    this.window.delete_event.connect(this.delete_event);
+
+    /* Here we connect the "destroy" event to a signal handler.
+     * This event occurs when we call gtk_widget_destroy() on the window,
+     * or if we return false in the "delete_event" callback. */    
+    this.window.destroy.connect(this.destroy);
+    
+    /* Sets the border width of the window. */    
+    this.window.set_border_width(10);
+    
+    /* Creates a new button with the label "Hello World". */    
+    this.button = new Gtk.Button.with_label("Hello World");
+    
+    /* When the button receives the "clicked" signal, it will call the
+     * function hello() passing it None as its argument.  The hello()
+     * function is defined above. */    
+    this.button.clicked.connect(this.hello);
+    
+    /* This will cause the window to be destroyed by calling
+     * Gtk.Widget.destroy(window) when "clicked".  Again, the destroy
+     * signal could come from here, or the window manager. */    
+    GLib.Signal.connect_swapped(this.button, "clicked", 
+                                (GLib.Callback) destroy, this.window);
+    
+    /* This packs the button into the window (a GTK container). */    
+    this.window.add(this.button);
+    
+    /* The final step is to display this newly created widget. */    
+    this.button.show();
+    
+    /* and the window */    
+    this.window.show();
+  }
+  
+  public static int main(string[] args){
+    Gtk.init(ref args);
+    
+    var hello = new HelloWorld();
+    
+    /* All Vala GTK applications must have a Gtk.main(). Control 
+     * ends here and waits for an event to occur (like a key press 
+     * or mouse event). */
+    Gtk.main();
+    
+    return 0;
+  }
+  
+}
+
+</programlisting>
+
+    <sect2>
+
+      <title>Compiling Hello World</title>
+
+      <para>Vala code is written in files with <filename>.vala</filename> 
+        extensions. The source files for the program are supplied as command 
+        line parameters to the Vala compiler <command>valac</command>, along 
+        with compiler flags.</para>
+
+      <para>To compile <emphasis>Hello World</emphasis> above, you would 
+      use:</para>
+
+<screen>
+  <prompt>$</prompt><userinput> valac --pkg gtk+-3.0 -o helloworld 02_helloworld.vala</userinput>
+</screen>
+
+      <para>If you did this instead:</para>
+
+<screen>
+  <prompt>$</prompt><userinput>valac --pkg gtk+-3.0 -C 02_helloworld.vala</userinput>
+</screen>
+
+      <para>i.e. if you give valac the <command>-C</command> switch, it won't 
+        compile your program into a binary file. Instead it will output the 
+        intermediate C code for each of your Vala source files into a 
+        corresponding C source file, in this case <filename>02_helloworld.c</filename>. 
+        If you look at the content of these files you can see that programming 
+        a class in Vala is equivalent to the same task in C, but a whole lot 
+        more succinct.</para>
+
+    </sect2>
+
+  </sect1>
+
+  <sect1>
+
+    <title>Theory of Signals and Callbacks</title>
+
+    <para>Before we look in detail at <emphasis>Hello World</emphasis>, we'll 
+      discuss signals and callbacks. GTK+ is an event driven toolkit, which means 
+      it will sleep in <function>Gtk.main()</function> until an event occurs and 
+      control is passed to the appropriate function.</para>
+
+    <para>This passing of control is done using the idea of "signals". Signals 
+      are a system allowing a objects to emit events which can be recieved by 
+      arbitrary listeners. They form a convenient way for objects to inform each 
+      other about events Only instances descended from <classname>GLib.Object</classname> 
+      can emit signals. These signals are not the same as the Unix system signals, 
+      and are not implemented using them, although the terminology is almost 
+      identical. Through these signals, we can connect arbitrary 
+      application-specific events with any number of listeners.</para>
+    <sect2>
+
+      <title>Signals and Callbacks in Vala</title>
+
+      <para>Signals are usually defined in a class and 
+        interested parties register their callback functions to these signals of an 
+        instance. The instance can emit the signal in the style of a method call and 
+        each callback function (referred to as <emphasis>handler</emphasis>) 
+        connected to the signal will get called.</para>
+
+      <para>For example,</para>
+
+<programlisting linenumbering="numbered">
+class Foo : Object {
+  public signal void some_event ();   // definition of the signal
+
+  public void method () {
+    some_event ();                  // emitting the signal (callbacks get invoked)
+  }
+}
+
+void callback_a () {
+  stdout.printf ("Callback A\n");
+}
+
+void callback_b () {
+  stdout.printf ("Callback B\n");
+}
+
+void main () {
+  var foo = new Foo ();
+  foo.some_event.connect (callback_a);      // connecting the callback functions
+  foo.some_event.connect (callback_b);
+  foo.method ();
+}
+</programlisting>
+
+      <para>You may disconnect signal callbacks in one of two ways. The first 
+        (and simplest) is by calling 
+        <function>myobject.mysignal.disconnect(callback)</function>. In our example 
+        above, <function>callback_a</function> may be disconnected 
+        by calling</para>
+
+<programlisting>
+foo.some_event.disconnect(callback_a);
+</programlisting>
+    
+      <para>The second way is to store the return value of the 
+        <function>connect()</function> callback (it usually returns a 
+        <type>ulong</type> handler id) and then pass this signal id to 
+        <function>my_object.disconnect()</function>. Note that you have to 
+        invoke <function>disconnect()</function> on the object, not the 
+        signal. This is particularly useful when you connect closures (anonymous 
+        methods, also known as <emphasis>lambda expressions</emphasis>) as 
+        callbacks, for example:</para>
+
+<programlisting>
+ulong handlerId = foo.some_event.connect (() => { /* Closure code here. */ });
+foo.disconnect (handlerId);
+</programlisting>
+    
+  <para>You can also temporarily disable and reenable signal handlers with the 
+    <function>GLib.SignalHandler.block()</function> and 
+    <function>GLib.SignalHandler.unblock()</function> family of functions.</para>
+
+<programlisting>
+void GLib.SignalHandler.block(void* instance, 
+                              ulong handler_id);
+
+void GLib.SignalHandler.block_by_func (void* instance, 
+                                       void* func, 
+                                       void* data);
+
+void GLib.SignalHandler.unblock(void* object,
+                                ulong id );
+
+void GLib.SignalHandler.unblock_by_func(void* object,
+                                        void* func,
+                                        void* data );
+</programlisting>
+
+    </sect2>
+
+    <sect2>
+
+      <title>GTK+ Signals</title>
+
+      <para>In GTK+, every user event (keystroke or mouse move) is received 
+        from the X server and generates a GTK+ event. When an event occurs, such as 
+        the press of a mouse button, the appropriate signal will be emitted by 
+        the widget that was pressed. This is how GTK+ does most of its useful work. 
+        There are signals that all widgets inherit, such as "destroy", and there 
+        are signals that are widget specific, such as "toggled" on a toggle 
+        button.</para>
+
+      <para>To make a button perform an action, we set up a signal handler to catch 
+        these signals and call the functions connected to this signal.</para>
+
+<programlisting>
+  handlerID = object.signal.connect(func)
+</programlisting>
+
+      <para>where <symbol>object</symbol> is the <classname>Gtk.Widget</classname> 
+        instance which will be emitting the signal, and the argument 
+        <function>func</function> is the "callback function" you wish to be called 
+        when it is caught. The method returns a handler id that can be used to 
+        disconnect or block the handler.</para>
+      <para><function>func</function> is called a "callback function" and 
+        is ordinarily a member function of a class that subclasses 
+        <classname>Gtk.Widget</classname>.</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+  
+    <title>Events</title>
+    
+    <para>In addition to the signal mechanism described above, there is a set of 
+      <emphasis>events</emphasis> that reflect the X event mechanism. Callbacks 
+      may also be attached to these events.</para>
+
+    <para>These events are not the same as the signals that GTK+ widgets emit. 
+      Although many of these events result in corresponding signals being 
+      emitted, the events are often transformed or filtered along the 
+      way.</para>
+
+    <itemizedlist>
+      <listitem><para><constant>event</constant></para></listitem>
+      <listitem><para><constant>button_press_event</constant></para></listitem>
+      <listitem><para><constant>button_release_event</constant></para></listitem>
+      <listitem><para><constant>scroll_event</constant></para></listitem>
+      <listitem><para><constant>motion_notify_event</constant></para></listitem>
+      <listitem><para><constant>delete_event</constant></para></listitem>
+      <listitem><para><constant>destroy_event</constant></para></listitem>
+      <listitem><para><constant>expose_event</constant></para></listitem>
+      <listitem><para><constant>key_press_event</constant></para></listitem>
+      <listitem><para><constant>key_release_event</constant></para></listitem>
+      <listitem><para><constant>enter_notify_event</constant></para></listitem>
+      <listitem><para><constant>leave_notify_event</constant></para></listitem>
+      <listitem><para><constant>configure_event</constant></para></listitem>
+      <listitem><para><constant>focus_in_event</constant></para></listitem>
+      <listitem><para><constant>focus_out_event</constant></para></listitem>
+      <listitem><para><constant>map_event</constant></para></listitem>
+      <listitem><para><constant>unmap_event</constant></para></listitem>
+      <listitem><para><constant>property_notify_event</constant></para></listitem>
+      <listitem><para><constant>selection_clear_event</constant></para></listitem>
+      <listitem><para><constant>selection_request_event</constant></para></listitem>
+      <listitem><para><constant>selection_notify_event</constant></para></listitem>
+      <listitem><para><constant>proximity_in_event</constant></para></listitem>
+      <listitem><para><constant>proximity_out_event</constant></para></listitem>
+      <listitem><para><constant>visibility_notify_event</constant></para></listitem>
+      <listitem><para><constant>client_event</constant></para></listitem>
+      <listitem><para><constant>no_expose_event</constant></para></listitem>
+      <listitem><para><constant>window_state_event</constant></para></listitem>
+    </itemizedlist>
+
+    <para>In order to connect a callback function to one of these events 
+      you use the method <function>object.signal.connect()</function>, as 
+      described above, where signal is one of the above events. The callback 
+      function (or method) for events has a slightly different 
+      form than that for signals:</para>
+
+    <para><classname>Gdk.Event</classname> is a struct that contains a union 
+      of all of the event structs. Its type depends upon which of the above 
+      events has occurred. Possible values for the 
+      <classname>Gdk.EventType</classname> are:</para>
+
+    <itemizedlist>
+      <listitem>
+      <para><constant>NOTHING</constant>: 
+      a special code to indicate a null event.</para></listitem>
+
+      <listitem>
+      <para><constant>DELETE</constant>: 
+      the window manager has requested that the toplevel window be 
+      hidden or destroyed, usually when the user clicks on a special 
+      icon in the title bar.</para></listitem>
+
+      <listitem>
+      <para><constant>DESTROY</constant>: 
+      the window has been destroyed.</para></listitem>
+
+      <listitem>
+      <para><constant>EXPOSE</constant>: all or part of the window has 
+      become visible and needs to be redrawn.</para></listitem>
+
+      <listitem>
+      <para><constant>MOTION_NOTIFY</constant>: the pointer (usually a 
+      mouse) has moved.</para></listitem>
+
+      <listitem>
+      <para><constant>BUTTON_PRESS</constant>: a mouse button has been 
+      pressed.</para></listitem>
+
+      <listitem>
+      <para><constant>2BUTTON_PRESS</constant>: a mouse button has been 
+      double-clicked (clicked twice within a short period of time). Note 
+      that each click also generates a <constant>BUTTON_PRESS</constant> 
+      event.</para></listitem>
+
+      <listitem>
+      <para><constant>3BUTTON_PRESS</constant>: a mouse button has been 
+      clicked 3 times in a short period of time. Note that each click also 
+      generates a <constant>BUTTON_PRESS</constant> event.</para></listitem>
+
+      <listitem>
+      <para><constant>BUTTON_RELEASE</constant>: 
+      a mouse button has been released.</para></listitem>
+
+      <listitem>
+      <para><constant>KEY_PRESS</constant>: 
+      a key has been pressed.</para></listitem>
+
+      <listitem>
+      <para><constant>KEY_RELEASE</constant>: 
+      a key has been released.</para></listitem>
+
+      <listitem>
+      <para><constant>ENTER_NOTIFY</constant>: 
+      the pointer has entered the window.</para></listitem>
+
+      <listitem>
+      <para><constant>LEAVE_NOTIFY</constant>: the pointer has left the 
+      window.</para></listitem>
+
+      <listitem>
+      <para><constant>FOCUS_CHANGE</constant>: the keyboard focus has 
+      entered or left the window.</para></listitem>
+
+      <listitem>
+      <para><constant>CONFIGURE</constant>: the size, position or stacking 
+      order of the window has changed. Note that GTK+ discards these 
+      events for WINDOW_CHILD windows.</para></listitem>
+
+      <listitem>
+      <para><constant>MAP</constant>: 
+      the window has been mapped.</para></listitem>
+
+      <listitem>
+      <para><constant>UNMAP</constant>: 
+      the window has been unmapped.</para></listitem>
+
+      <listitem>
+      <para><constant>PROPERTY_NOTIFY</constant>: 
+      a property on the window has been changed or deleted.</para></listitem>
+
+      <listitem>
+      <para><constant>SELECTION_CLEAR</constant>: the application has lost 
+      ownership of a selection.</para></listitem>
+
+      <listitem>
+      <para><constant>SELECTION_REQUEST</constant>: another application 
+      has requested a selection.</para></listitem>
+
+      <listitem>
+      <para><constant>SELECTION_NOTIFY</constant>: 
+      a selection has been received.</para></listitem>
+
+      <listitem>
+      <para><constant>PROXIMITY_IN</constant>: 
+      an input device has moved into contact with a sensing surface (e.g. 
+      a touchscreen or graphics tablet).</para></listitem>
+
+      <listitem>
+      <para><constant>PROXIMITY_OUT</constant>: 
+      an input device has moved out of contact with a sensing 
+      surface.</para></listitem>
+
+      <listitem>
+      <para><constant>DRAG_ENTER</constant>: the mouse has entered the 
+      window while a drag is in progress.</para></listitem>
+
+      <listitem>
+      <para><constant>DRAG_LEAVE</constant>: 
+      the mouse has left the window while a drag is in progress.</para></listitem>
+
+      <listitem>
+      <para><constant>DRAG_MOTION</constant>: 
+      the mouse has moved in the window while a drag is in 
+      progress.</para></listitem>
+
+      <listitem>
+      <para><constant>DRAG_STATUS</constant>: 
+      the status of the drag operation initiated by the window has 
+      changed.</para></listitem>
+
+      <listitem>
+      <para><constant>DROP_START</constant>: 
+      a drop operation onto the window has started.</para></listitem>
+
+      <listitem>
+      <para><constant>DROP_FINISHED</constant>: 
+      the drop operation initiated by the window has completed.</para></listitem>
+
+      <listitem>
+      <para><constant>CLIENT_EVENT</constant>: 
+      a message has been received from another application.</para></listitem>
+
+      <listitem>
+      <para><constant>VISIBILITY_NOTIFY</constant>: 
+      the window visibility status has changed.</para></listitem>
+
+      <listitem>
+      <para><constant>SCROLL</constant>: 
+      the scroll wheel was turned</para></listitem>
+
+      <listitem>
+      <para><constant>WINDOW_STATE</constant>: 
+      the state of a window has changed. See <token>Gdk.WindowState</token> 
+      for the possible window states</para></listitem>
+
+      <listitem>
+      <para><constant>SETTING</constant>: 
+      a setting has been modified.</para></listitem>
+
+      <listitem>
+      <para><constant>OWNER_CHANGE</constant>: 
+      the owner of a selection has changed.</para></listitem>
+
+      <listitem>
+      <para><constant>GRAB_BROKEN</constant>: 
+      a pointer or keyboard grab was broken.</para></listitem>
+
+      <listitem>
+      <para><constant>DAMAGE</constant>: 
+      the content of the window has been changed.</para></listitem>
+
+      <listitem>
+      <para><constant>EVENT_LAST</constant>: 
+      marks the end of the GdkEventType enumeration.</para></listitem>
+
+    </itemizedlist>
+
+    <para>In order to connect a callback function to one of these 
+      events you use the function <function>object.signal.connect</function>, 
+      for example</para>
+
+<programlisting>
+  window.destroy.connect(func)
+</programlisting>
+
+  </sect1>
+
+  <sect1>
+  
+    <title>Stepping Through Hello World</title>
+
+    <para>Now that we know the theory behind this, let's clarify by 
+      walking through the example <filename>02_helloworld.vala</filename> 
+      program.</para>
+
+    <para>Lines 4-89 define the <classname>HelloWorld</classname> class 
+      that contains all the callbacks as object methods and the object 
+      instance initialization method.</para> 
+      <para>Lines 6 and 7 define the members of 
+        <classname>HelloWorld</classname>. These are the widgets 
+        that we will be manipulating in the program.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="6">
+  private Gtk.Window window;
+  private Gtk.Button button;
+</programlisting>
+
+  <para>Now let's examine the callback methods.</para>
+
+  <para>Lines 11-13 define the <function>hello()</function> 
+    callback method that will be called when the button is "clicked". 
+    When called the method, prints "Hello World" to the console. In 
+    this case the data parameter is left out since the 
+    <function>hello()</function> method will never called 
+    with user data. The next example will use the data argument to 
+    tell us which button was pressed.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="11">
+  public void hello () {
+    stdout.printf("Hello World\n");
+  }
+</programlisting>
+
+    <para>The next callback (lines 22-25) is a bit special. The 
+      "delete_event" occurs when the window manager sends this event to 
+      the application. This happens, for example, when the user clicks 
+      the close button on the window. We have a choice here as to what 
+      to do about these events. We can ignore them, make some sort of 
+      response, or simply quit the application.</para>
+
+    <para>The value you return in this callback lets GTK+ know what action 
+      to take. By returning <token>true</token>, we let it know that we 
+      don't want to have the "destroy" signal emitted, keeping our 
+      application running. By returning <token>false</token>, we ask 
+      that "destroy" be emitted, which in turn will call our "destroy" 
+      signal handler. Note the comments have been removed for clarity.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="22">
+public bool delete_event () {
+  stdout.printf("delete event occurred\n");
+  return true;
+}
+</programlisting>
+
+    <para>The <function>destroy()</function> callback method (lines 28-30) 
+      causes the program to quit by calling <function>Gtk.main_quit()</function>. 
+      This function tells GTK+ that it is to exit from 
+      <function>Gtk.main()</function> when control is returned to it.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="28">
+  public void destroy() {
+    Gtk.main_quit();
+  }
+</programlisting>
+
+    <para>Lines 32-74 define the <classname>HelloWorld</classname> constructor 
+      <function>HelloWorld()</function> that creates the window and widgets 
+      used by the program.</para>
+
+    <para>Line 35 creates a new window, but it is not displayed until we 
+      direct GTK+ to show the window near the end of our program. The 
+      window reference is saved in the <classname>HelloWorld</classname> 
+      attribute (<varname>window</varname>) for later access.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="35">
+  this.window = new Gtk.Window();
+</programlisting>
+
+  <para>Lines 42 and 47 illustrate two examples of connecting a signal handler 
+    to an object, in this case, the window. Here, the "delete_event" and 
+    "destroy" signals are caught. The first is emitted when we use the window 
+    manager to close the window, or when we use the 
+    <classname>GtkWidget</classname> <function>destroy()</function> method 
+    call. The second is emitted when, in the "delete_event" handler, we 
+    return <token>false</token>.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="41">
+  this.window.delete_event.connect(this.delete_event);
+</programlisting>
+
+<programlisting linenumbering="numbered" startinglinenumber="47">
+  this.window.destroy.connect(this.destroy);
+</programlisting>
+
+  <para>Line 50 sets an attribute of a container object (in this case the 
+    window) to have a blank area along the inside of it 10 pixels wide where 
+    no widgets will be placed. There are other similar methods that we will 
+    look at later <!--(in Chapter 18, Setting Widget Attributes.)--></para>
+
+<programlisting linenumbering="numbered" startinglinenumber="50">
+  this.window.set_border_width(10);
+</programlisting>
+
+    <para>Line 53 creates a new button and saves a reference to it in 
+      <varname>self.button</varname>. The button will have the label 
+      "Hello World" when displayed.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="53">
+  this.button = new Gtk.Button.with_label("Hello World");
+</programlisting>
+
+    <para>In line 58 we attach a signal handler to the button so when it emits 
+      the "clicked" signal, our <function>hello()</function> callback method 
+      is called. We are not passing any data to <function>hello()</function> so 
+      we don't pass any arguments. The "clicked" signal is emitted when we 
+      click the button with our mouse pointer.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="58">
+  this.button.clicked.connect(this.hello);
+</programlisting>
+
+    <para>We are also going to use this button to exit our program. This will 
+      illustrate how the "destroy" signal may come from either the window 
+      manager, or our program. When the button is "clicked", same as above, it 
+      calls the first <function>hello()</function> callback function, and then 
+      causes "destroy" signal to be emitted. (It does these two in the order 
+      they are set up). You may have as many callback functions as you need, and 
+      all will be executed in the order you connected them.</para>
+
+    <para>Since we want to use the <classname>GtkWidget</classname> 
+      <function>destroy()</function> method that accepts one argument (the 
+      widget to be destroyed - in this case the window), we use the 
+      <function>GLib.Signal.connect_swapped()</function> method and pass 
+      it the object to which we are connecting it to, the signal to watch 
+      out for, the callback to be run and a reference to the the window 
+      to be destroyed.</para>
+
+    <para>When the <function>Gtk.Widget destroy()</function> method is called 
+      it will cause the "destroy" signal to be emitted from the window which 
+      will in turn cause the <classname>HelloWorld</classname> 
+      <function>destroy()</function> method to be called to end the 
+      program.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="63">
+  GLib.Signal.connect_swapped(this.button, "clicked", 
+                              (GLib.Callback) destroy, this.window);
+</programlisting>
+
+  <para>Line 67 is a packing call, which will be explained in depth later 
+    on in Chapter 5, Packing Widgets . But it is fairly easy to understand. 
+    It simply tells GTK+ that the button is to be placed in the window where 
+    it will be displayed. Note that a GTK+ container can only contain one 
+    widget. There are other widgets, described later, that are designed to 
+    layout multiple widgets in various ways.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="67">
+  this.window.add(this.button);
+</programlisting>
+
+  <para>Now we have everything set up the way we want it to be. With all 
+    the signal handlers in place, and the button placed in the window where 
+    it should be, we ask GTK+ (lines 67 and 70) to "show" the widgets on the 
+    screen. The window widget is shown last so the whole window will pop up 
+    at once rather than seeing the window pop up, and then the button forming 
+    inside of it. Although with such a simple example, you'd never notice.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="67">
+  this.button.show();
+</programlisting>
+
+<programlisting linenumbering="numbered" startinglinenumber="70">
+  this.window.show();
+</programlisting>
+
+  <para>Lines 76-87 define the <function>main()</function> method. This is 
+    the point at which execution of our program begins.</para>
+
+  <para>Line 79 creates an instance of the <classname>HelloWorld</classname> 
+    class and saves a reference to it in the <varname>hello</varname> 
+    variable.</para>
+
+  <para>In line 84, we call the <function>Gtk.main()</function> function 
+    which sleeps and waits for the user to interact with the program 
+    interface.</para>
+
+<programlisting linenumbering="numbered" startinglinenumber="84">
+  Gtk.main()
+</programlisting>
+
+    <para>Now, when we click the mouse button on a GTK+ button, the widget 
+      emits a "clicked" signal. In order for us to use this information, our 
+      program sets up a signal handler to catch that signal, which dispatches 
+      the function of our choice. In our example, when the button we created is 
+      clicked, the <function>hello()</function> method is called with no 
+      arguments, and then the next handler for this signal is called. The next 
+      handler calls the widget <function>destroy()</function> function with 
+      the window as its argument thereby causing the window to emit the 
+      "destroy" signal, which is caught, and calls our 
+      <classname>HelloWorld</classname> <function>destroy()</function> 
+      method</para>
+
+    <para>Another course of events is to use the window manager to kill the 
+      window, which will cause the "delete_event" to be emitted. This will call 
+      our "delete_event" handler. If we return <token>true</token> here, the 
+      window will be left as is and nothing will happen. Returning 
+      <token>false</token> will cause GTK+ to emit the "destroy" signal that 
+      causes the HelloWorld "destroy" callback to be called, exiting GTK.</para>
+
+  </sect1>
+
+</chapter>
