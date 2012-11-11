@@ -19,13 +19,12 @@
 
     <para>You may install GTK+ and its various dependencies from source by 
         downloading several archives, untarring them and running 
-        <command>./configure</command>, <command>./make</command> and 
-        <command>./make</command> to install them.</para>
+        <command>./configure</command>, <command>make</command> and 
+        <command>make install</command> to install them.</para>
     <para>However, if you're using a Linux distribution with a package manager, 
-        it is better to install the precompiled packages from the distribution's 
-        repositories as it would be easier and afterward, the packages would 
-        receive security updates and any other upgrades as they are rolled out 
-        by the distribution.</para>
+        it is easier to install the precompiled packages from the distribution's 
+        repositories. The packages would also receive security updates and any 
+        other upgrades as they are rolled out by the distribution.</para>
     <para>You need to install the <filename>-dev</filename> packages that contain 
         the header files and static libraries that are needed to compile GTK+ 
         applications. Installing the GTK+ development package will also install 

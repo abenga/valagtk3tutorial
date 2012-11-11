@@ -44,7 +44,7 @@ int main(string[] args) {
       tells the compiler what to call the compiled executable, in this case 
       <filename>simplewindow</filename>. If this is omitted, the binary will 
       have the same base name as the vala source file (here its filename 
-      would have been <filename>01_simple-window</filename>) The final 
+      would have been <filename>01_simplewindow</filename>) The final 
       argument is the name of the vala source file we are compiling.</para>
     <para>If compilation succeeds, one may execute the program by typing</para>
 

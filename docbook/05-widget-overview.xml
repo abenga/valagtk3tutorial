@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+]>
+<chapter>
+  
+  <title>Widget Overview</title>
+
+  <para>Widgets are the basic building blocks of a GUI application. They are 
+    the elements that you put together to make the user interface of your 
+    application. There are several standard widgets that are shipped with GTK+, 
+    e.g. windows, buttons, labels, status bars, etc. It is also possible to 
+    define your own custom widgets if these do not fill the specialized needs 
+    of your application.</para>
+
+  <para>All widgets in GTK+ are subclasses of the <classname>Gtk.Widget</classname>
+    class. The class contains properties and methods that manage the widget 
+    lifecycle, states and style.</para>
+
+  <para>The general steps to creating a widget in GTK are:</para>
+  
+  <orderedlist>
+    
+    <listitem><para>Call the constructor of the widget, i.e. 
+      <code>var widget  = new Gtk.*()</code>, where <code>*</code> is a placeholder 
+      for the specific widget you wish to create an instance of. For example, if 
+      one wishes to create a <classname>Gtk.Box</classname> (you'll meet this
+      formally in the next chapter), this would be 
+      <function>Gtk.Box()</function>.</para></listitem>
+    
+    <listitem><para>Connect all signals and events we wish to use to the 
+      appropriate handlers.</para></listitem>
+    
+    <listitem><para>Set the attributes of the widget.</para></listitem>
+    
+    <listitem><para>Pack the widget into a container using the appropriate call 
+      such as <function>container.add()</function> or 
+      <function>box.pack_start()</function>.</para></listitem>
+    
+    <listitem><para>Show the widget by calling the <function>widget.show()</function> 
+      method.</para></listitem>
+  
+  </orderedlist>
+  
+  <para><function>widget.show()</function> lets GTK know that we are done 
+    setting the attributes of the widget, and it is ready to be displayed. You 
+    may also use <function>widget.hide()</function> to make it disappear again. 
+    The order in which you show the widgets is not important, but it's best to 
+    show the window last so the whole window pops up at once rather than seeing 
+    the individual widgets come up on the screen as they're formed. The children 
+    of a widget will not be displayed until the widget itself is shown. Since a
+    window is a widget too, widgets contained in a window will not be visible 
+    until the window is shown using the <function>window.show()</function> 
+    function (<varname>window</varname> is a variable that is an instance of the 
+    <classname>Gtk.Window</classname> class).</para>
+
+</chapter>

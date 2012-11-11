@@ -3,12 +3,21 @@
     "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 ]>
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" version="4.1.2">
- 	
- 	<title>GTK Programming Using Vala</title>
+  
+  <title>GTK+ 3.0 Programming Using Vala</title>
 
- 	<xi:include href="01-introduction.xml"/>
- 	<xi:include href="02-getting-started.xml"/>
- 	<xi:include href="03-first-programs.xml"/>
- 	<xi:include href="04-moving-on.xml"/>
- 	<xi:include href="05-packing-widgets.xml"/>
+  <xi:include href="01-introduction.xml"/>
+  
+  <xi:include href="02-getting-started.xml"/>
+  
+  <xi:include href="03-first-programs.xml"/>
+  
+  <xi:include href="04-moving-on.xml"/>
+  
+  <xi:include href="05-widget-overview.xml"/>
+  
+  <xi:include href="06-packing-widgets.xml"/>
+  
+  <xi:include href="07-the-button-widget.xml"/>
+  
  </book>

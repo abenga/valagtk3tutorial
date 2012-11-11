@@ -3,6 +3,7 @@
     "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 ]>
 <chapter>
+
   <title>Packing Widgets</title>
 
   <para>When creating an application, you'll want to put more than one widget 
@@ -17,24 +18,39 @@
     <title>Theory of Packing Boxes</title>
 
     <para>Most packing is done by using boxes. These are invisible widget 
-      containers that we can pack our widgets into. They are all instances of 
-      the <classname>Gtk.Box</classname> widget. It allows us to pack widgets 
-      both vertically or horizontally. When packing widgets horizontally, the 
-      objects are inserted from left to right or right to left depending on the 
-      call used. If they are inserted vertically, widgets are packed from top to 
-      bottom or vice versa. You may use any combination of boxes inside or 
-      beside other boxes to create a desired effect.</para>
+      containers that we can pack our widgets into (we will refer the widgets 
+      we pack into the box as <emphasis>children</emphasis>). These boxes are 
+      instances of the <classname>Gtk.Box</classname> widget. The 
+      <classname>Gtk.Box</classname> widget organizes its child widgets into a 
+      rectangular area.</para>
 
-    <para>To create a new horizontal box, you could create a new instance of a 
-      <classname>Gtk.HBox</classname>, and for vertical boxes, you could create 
-      a <classname>Gtk.VBox</classname>. However, these two widgets have been 
-      deprecated. It is recommended that you should only use 
-      <classname>Gtk.Box</classname> going forward.</para>
-    
+    <para>The rectangular area of a <classname>Gtk.Box</classname> is organized 
+      into either a single row or a single column of child widgets depending 
+      upon the orientation selected. In a horizontal <classname>Gtk.Box</classname> 
+      all children are allocated the same height, and in a vertical 
+      <classname>Gtk.Box</classname> all the children of the box have the same 
+      width.</para>
+
+    <para><classname>Gtk.Box</classname> uses a notion of <emphasis>packing</emphasis>. 
+      Packing refers to adding widgets with reference to a particular position 
+      in a <classname>Gtk.Container</classname> (<classname>Gtk.Box</classname> 
+      is a subclass of <classname>Gtk.Container</classname>). For a 
+      <classname>Gtk.Box</classname>, there are two reference positions: the 
+      start and the end of the box. For a vertical <classname>Gtk.Box</classname>, 
+      the start is defined as the top of the box and the end is defined as the 
+      bottom. For a horizontal <classname>Gtk.Box</classname> the start is 
+      defined as the left side and the end is defined as the right side.</para>
+
+    <para>When packing widgets horizontally, the objects are inserted from left 
+      to right or right to left depending on the call used. If they are inserted 
+      vertically, widgets are packed from top to bottom or vice versa. You may 
+      use any combination of boxes inside or beside other boxes to create a 
+      desired effect.</para>
+
     <para>The constructor for <classname>Gtk.Box</classname> is</para>
 
-<programlisting>
-  Gtk.Box(Gtk.Orientation orientation, int spacing);
+<programlisting language="vala">
+  var box = Gtk.Box(Gtk.Orientation orientation, int spacing);
 </programlisting>
     
     <para><varname>orientation</varname> is an instance of the enumerated type 
@@ -48,20 +64,45 @@
       between children.</para>
     
     <para>The <function>pack_start()</function> and <function>pack_end()</function> 
-      methods are used to place objects inside of these containers. The 
-      <function>pack_start()</function> method will start at the top and work 
-      its way down in a box oriented vertically, and pack left to right in a 
-      horizontally oriented box. The <function>pack_end()</function> method will 
-      do the opposite, packing from bottom to top in a vertically oriented box, 
-      and right to left in a horizontally oriented box. Using these methods 
-      allows us to right justify or left justify our widgets and may be mixed in 
-      any way to achieve the desired effect. We will use 
-      <function>pack_start()</function> in most of our examples. An object may 
-      be another container or a widget. In fact, many widgets are actually 
-      containers themselves, including the button, but we usually only use a 
-      label inside a button.</para>
+      methods are used to place child objects inside of these containers.</para>
+
+<programlisting language="vala">
+/* When called as box.pack_end(...) it adds child to 
+   box, packed with reference to the end of box. */
+public void pack_end (Gtk.Widget child, bool expand = true, 
+                      bool fill = true, uint padding = 0);
+
+/* When called as box.pack_start(...) it adds child to box, 
+   packed with reference to the beginning of box. */
+public void pack_start (Gtk.Widget child, bool expand = true, 
+                        bool fill = true, uint padding = 0);
+</programlisting>
+
+    <para>The <function>pack_start()</function> method will start at the top and 
+      work its way down in a vertical box, and pack left to right in a horizontal 
+      box. The <function>pack_end()</function> method will do the opposite, 
+      packing from bottom to top in a vertical box, and right to left in a 
+      horizontal box. Using these methods allows us to right justify or left 
+      justify our widgets and may be mixed in any way to achieve the desired 
+      effect. We will use <function>pack_start()</function> in most of our 
+      examples. The child object may be another container or a widget. In fact, 
+      many widgets are actually containers themselves, including the button 
+      (though we usually only use a label inside a button).</para>
     
-    <para>By using these calls, GTK knows where you want to place your widgets 
+    <para>You may use the <function>box.set_homogeneous(bool homogeneous)</function> 
+      to specify whether or not all children of the <classname>Gtk.Box</classname> 
+      are forced to get the same amount of space (if <varname>homogeneous</varname> 
+      is set to <token>true</token>, child widgets will be allocated equal width 
+      in a horizontal box or equal height in a vertical box).</para>
+
+    <para>You can also use <function>box.set_spacing()</function> to determine 
+      how much space will be minimally placed between all children in the 
+      <classname>Gtk.Box</classname>. Note that spacing is added between the 
+      children, while the padding added by <function>pack_start</function> or 
+      <function>pack_end</function>  is added on either side of the widget it 
+      belongs to.</para>
+
+    <para>By using these calls, GTK+ knows where you want to place your widgets 
       so it can do automatic resizing and other nifty things. There are also a 
       number of options as to how your widgets should be packed. This method 
       gives us a quite a bit of flexibility when placing and creating 
@@ -70,13 +111,16 @@
   </sect1>
 
   <sect1>
+
     <title>Details of Boxes</title>
+
     <para>Because of this flexibility, packing boxes in GTK can be confusing at 
       first. There are a lot of options, and it's not immediately obvious how 
       they all fit together. In the end, however, there are basically five 
       different styles.</para>
 
-    <!--<para>The figure below, yada, yada, yada ...:</para> -->
+    <para>Below, we see how we may use some of the box packing methods to 
+      achieve certain effects.</para>
     
     <figure id="packing-window-1">
       <title>Packing: Five Variations</title>
@@ -101,7 +145,7 @@
     <para>This is an example of the <function>pack_start()</function> 
       method.</para>
 
-<programlisting>
+<programlisting language="vala">
   box.pack_start(child, expand, fill, padding)
 </programlisting>
 
@@ -123,37 +167,23 @@
       whether the extra space is allocated to the objects themselves 
       (<token>true</token>), or as extra padding in the box around these objects 
       (<token>false</token>). It's value affects the appearance of the box and 
-      its widgets if the <varname>expand</varname> argument is also 
+      its widgets only if the <varname>expand</varname> argument is also set to
       <token>true</token>.</para>
 
     <para>Vala allows a method or function to be defined with default argument 
       values. For example the <function>pack_start()</function> and 
       <function>pack_start()</function> method are defined as:</para>
 
-<programlisting>
+<programlisting language="vala">
   public void pack_start (Widget child, bool expand = true, bool fill = true, uint padding = 0)
 </programlisting>
 
-<programlisting>
+<programlisting language="vala">
   public void pack_end (Widget child, bool expand = true, bool fill = true, uint padding = 0)
 </programlisting>
 
     <para>child, expand, fill and padding are keywords. The expand, fill and padding 
       arguments have the defaults shown. The child argument must be specified.</para>
-
-    <para>When creating a new box, the function looks like this:</para>
-
-<programlisting>
-  hbox = gtk.HBox(homogeneous=False, spacing=0)
-
-  vbox = gtk.VBox(homogeneous=False, spacing=0)
-</programlisting>
-
-    <para>The homogeneous argument to <function>Gtk.HBox()</function> and 
-      <function>Gtk.VBox()</function> controls whether each object in the box has 
-      the same size (i.e., the same width in a <classname>HBox</classname>, or 
-      the same height in a <classname>VBox</classname>). If it is set, the pack routines 
-      function essentially as if the expand argument was always turned on.</para>
 
     <para>What's the difference between spacing (set when the box is created) and padding 
       (set when elements are packed)? Spacing is added between objects, and padding 
@@ -560,7 +590,7 @@ class PackBox1 {
     <para>The first thing to look at, of course, is the 
       <classname>Gtk.Table()</classname> constructor:</para>
 
-<programlisting>
+<programlisting language="vala">
   var table = Gtk.Table (uint rows, uint columns, bool homogeneous)
 </programlisting>
 
@@ -597,7 +627,7 @@ class PackBox1 {
     <para>Note also that <varname>rows</varname> and <varname></varname> has to 
       be between 1 and 65535.</para>
 
-<programlisting>
+<programlisting language="vala">
   table.attach (Widget child, uint left_attach, uint right_attach, 
                 uint top_attach, uint bottom_attach, AttachOptions xoptions, 
                 AttachOptions yoptions, uint xpadding, uint ypadding)
@@ -632,18 +662,18 @@ class PackBox1 {
 
     <itemizedlist>
       <listitem>
-        <para><varname>FILL</varname></para>
-        <para>If the table cell is larger than the widget, and <varname>FILL</varname> 
+        <para><constant>FILL</constant></para>
+        <para>If the table cell is larger than the widget, and <constant>FILL</constant> 
           is specified, the widget will expand to use all the room available in 
           the cell.</para></listitem>
       <listitem>
-        <para><token>SHRINK</token></para>
+        <para><constant>SHRINK</constant></para>
         <para>If the table widget was allocated less space then was requested 
           (usually by the user resizing the window), then the widgets would 
           normally just be pushed off the bottom of the window and disappear. 
-          If <varname>SHRINK</varname> is specified, the widgets will shrink 
+          If <constant>SHRINK</constant> is specified, the widgets will shrink 
           with the table.</para></listitem>
-      <listitem><para><token>EXPAND</token></para>
+      <listitem><para><constant>EXPAND</constant></para>
         <para>This will cause the table cell to expand to use up any remaining 
           space allocated to the table.</para></listitem>
     </itemizedlist>
@@ -655,13 +685,13 @@ class PackBox1 {
       <function>set_col_spacing()</function> methods. These add spacing between 
       the rows at the specified row or column.</para>
 
-<programlisting>
+<programlisting language="vala">
   table.set_row_spacing (uint row, uint spacing)
 </programlisting>
 
     <para>and</para>
 
-<programlisting>
+<programlisting language="vala">
   table.set_col_spacing (uint column, uint spacing)
 </programlisting>
 
@@ -671,13 +701,13 @@ class PackBox1 {
     <para>You can also set a consistent spacing of all rows and/or columns 
       with:</para>
 
-<programlisting>
+<programlisting language="vala">
   table.set_row_spacings (uint spacing)
 </programlisting>
 
     <para>and,</para>
 
-<programlisting>
+<programlisting language="vala">
   table.set_col_spacings (uint spacing)
 </programlisting>
 

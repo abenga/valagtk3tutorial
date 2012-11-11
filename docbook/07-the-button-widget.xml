@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+]>
+<chapter>
+  
+  <title>The Button Widget</title>
+
+  <sect1>
+    
+    <title>Normal Buttons</title>
+
+    <para>We've almost seen all there is to see of the button widget. It's 
+      pretty simple. There is however more than one way to create a button. 
+      This is facilitated by Vala's support for <emphasis>named 
+      constructors</emphasis>.</para>
+
+    <para>The first is </para>
+
+<programlisting language="vala">
+  Gtk.Button.with_label(string label)
+</programlisting> 
+
+    <para>which creates an instance of the <classname>Gtk.Button</classname> 
+      widget with a <classname>Gtk.Label</classname> child containing the text 
+      passed to the constructor as the <varname>label</varname> argument.</para>
+
+    <para>We also have </para>
+
+<programlisting language="vala">
+  Gtk.Button.new_with_mnemonic(string label);
+</programlisting>
+
+    <para>which creates a new <classname>Button</classname> containing a 
+      <classname>Label</classname>. In this case, any characters in the label 
+      that are preceded by an underscore are underlined. The first underlined 
+      character represents a keyboard accelerator called a 
+      <emphasis>mnemonic</emphasis>. Pressing <command>Alt</command> and that 
+      key activates the button. If you wish to have a literal underscore 
+      character in the label, you need to use two underscores ('__').</para>
+
+    <para>Another constructor is </para>
+
+<programlisting language="vala">
+  Gtk.Button.from_stock(string stock_id);
+</programlisting> 
+    
+    <para>and it creates a button containing the image and text from a stock 
+      item. Stock items represent commonly used menu or toolbar items such as 
+      "Open" or "Exit". Each stock item is identified by a stock ID; stock IDs 
+      are just strings, but named constants such as <constant>Gtk.Stock.OPEN</constant>, 
+      <constant>Gtk.Stock.OK</constant>, etc. are provided to avoid typing 
+      mistakes in the strings.</para>
+    
+    <para>Finally, we have</para>
+
+<programlisting language="vala">
+  Gtk.Button.new();
+</programlisting> 
+    
+    <para>which creates a blank button. It's then up to you to pack a label or 
+      pixmap into this new button. To do this, create a new box, and then pack 
+      your objects into this box using the usual <function>Gtk.Box.pack_start()</function>, 
+      and then use <function>Gtk.Container.add()</function> to pack the box into 
+      the button.</para>
+    <sect2>
+      <title>A Simple Button Example</title>
+    
+      <para>Here's an example of using <function>Gtk.Button.new()</function> to 
+        create a button with an image and a label in it. I've broken up the code 
+        to create a box from the rest so you can use it in your programs. There 
+        are further examples of using images later in the tutorial.</para>
+
+      <figure id="buttons-1">
+        <title>A Simple Button</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/screenshots/chapter_07/01_button.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>A Simple Button</phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+<programlisting language="vala" linenumbering="numbered">
+
+/* Create a new hbox with an image and a label packed into it
+ * and return the box. */
+static Gtk.Box xpm_label_box(string xpm_filename, 
+                              string label_text ) {
+  
+  /* Create box for image and label */
+  var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+  box.set_homogeneous(false);
+  box.set_border_width(2);
+
+  /* Now on to the image stuff */
+  var image = new Gtk.Image.from_file(xpm_filename);
+
+  /* Create a label for the button */
+  var label = new Gtk.Label(label_text);
+
+  /* Pack the image and label into the box */
+  box.pack_start(image, false, false, 3);
+  box.pack_start(label, false, false, 3);
+
+  image.show();
+  label.show();
+
+  return box;
+}
+
+class ButtonWindow {
+  
+  Gtk.Window window;
+  Gtk.Button button;
+  Gtk.Box box;
+
+  /* Our usual callback function */
+  void callback (string data) {
+    stdout.printf("Hello again - %s was pressed\n", data);
+  }
+
+  public ButtonWindow () {
+
+    /* Create a new window. */
+    this.window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+
+    this.window.set_title("Pixmap'd Buttons!");
+
+    /* It's a good idea to do this for all windows. */
+    this.window.destroy.connect( ()=> { Gtk.main_quit(); } );
+
+    this.window.delete_event.connect( ()=> { return false; } );
+
+    /* Sets the border width of the window. */
+    this.window.set_border_width(10);
+
+    /* Create a new button. */
+    this.button = new Gtk.Button();
+
+    /* Connect the "clicked" signal of the button to our callback. */
+    this.button.clicked.connect( ()=> { this.callback("cool button"); });
+
+    /* This calls our box creating function. */
+    this.box = xpm_label_box("icon.png", "cool button");
+
+    /* Pack and show all our widgets. */
+    this.box.show();
+
+    this.button.add(box);
+
+    this.button.show();
+
+    this.window.add(button);
+
+    this.window.show();
+    
+  }
+  
+  public static int main (string[] args) {
+    
+    Gtk.init(ref args);
+    new ButtonWindow();
+    
+    /* Rest in gtk_main and wait for the fun to begin! */
+    Gtk.main ();
+    
+    return 0;
+  }
+
+}
+
+</programlisting>
+    </sect2>
+  </sect1>
+
+  <sect1>
+
+    <title>Toggle Buttons</title>
+
+    <para>A <classname>Gtk.ToggleButton</classname> is a <classname>Gtk.Button</classname> 
+      which will remain 'pressed-in' when clicked, and return to its previous 
+      state when clicked again. Toggle buttons are derived from normal buttons 
+      and are very similar, except they will always be in one of two states, 
+      changing from one to the other when clicked. If a 
+      <classname>Gtk.ToggleButton</classname> is depressed (in the 'active' 
+      state) and you click it, it will pop back up (become 'inactive'). Click 
+      again, and it will pop back down.</para>
+
+    <para>Toggle buttons are the basis for check buttons and radio buttons, as 
+      such, many of the calls used for toggle buttons are inherited by radio and 
+      check buttons. We will highlight these when we come accross them.</para>
+
+    <para>To create a new toggle button, you'd use one of these constructors:</para>
+
+<programlisting language="vala">
+  Gtk.ToggleButton ();
+</programlisting>
+
+<programlisting language="vala">
+  Gtk.ToggleButton.with_label (string label);
+</programlisting>
+
+<programlisting language="vala">
+  Gtk.ToggleButton.new_with_mnemonic (string label);
+</programlisting>
+
+    <para>As you can imagine, these work identically to the normal 
+      <classname>Gtk.Button</classname> widget constructors we saw in the 
+      previous section. The first creates a blank toggle button, and the last 
+      two, a button with a label widget already packed into it. The 
+      <function>_mnemonic()</function> variant additionally parses the label 
+      for '_'-prefixed mnemonic characters.</para>
+
+    <para>To retrieve the state of the toggle widget, including radio and check 
+      buttons, we use a construct as shown in our example below. This tests the 
+      state of the toggle button, by accessing the active field of the toggle 
+      widget's structure, after first using the Gtk.TOGGLE_BUTTON macro to cast 
+      the widget pointer into a toggle widget pointer. The signal of interest to 
+      us emitted by toggle buttons (the toggle button, check button, and radio 
+      button widgets) is the "toggled" signal. To check the state of these 
+      buttons, set up a signal handler to catch the toggled signal, and access 
+      the structure to determine its state. The callback will look something 
+      like:</para>
+
+<programlisting language="Vala">
+void toggle_button_callback (GtkWidget *widget, gpointer data)
+{
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) 
+    {
+        /* If control reaches here, the toggle button is down */
+    
+    } else {
+        /* If control reaches here, the toggle button is up */
+    }
+}
+</programlisting>
+
+    <para>To force the state of a toggle button, and its children, the radio and 
+      check buttons, use this function:</para>
+
+<programlisting>
+  Gtk.ToggleButton.button_set_active(Gtk.ToggleButton *toggle_button, bool active);
+</programlisting>
+
+    <para>The above call can be used to set the state of the toggle button, and 
+      its children the radio and check buttons. Passing in your created button 
+      as the first argument, and a TRUE or FALSE for the second state argument 
+      to specify whether it should be down (depressed) or up (released). Default 
+      is up, or FALSE.</para>
+
+    <para>Note that when you use the gtk_toggle_button_set_active() function, 
+      and the state is actually changed, it causes the "clicked" and "toggled" 
+      signals to be emitted from the button.</para>
+
+<programlisting>
+  gboolean Gtk.ToggleButton.get_active();
+</programlisting>
+
+    <para>This returns the current state of the toggle button as a boolean 
+      <token>true</token>/<token>false</token> value.</para>
+
+  </sect1>
+
+</chapter>
