@@ -28,7 +28,7 @@
     <para>We also have </para>
 
 <programlisting language="vala">
-  Gtk.Button.new_with_mnemonic(string label);
+  Gtk.Button.with_mnemonic(string label);
 </programlisting>
 
     <para>which creates a new <classname>Button</classname> containing a 
@@ -90,8 +90,7 @@
 
 /* Create a new hbox with an image and a label packed into it
  * and return the box. */
-static Gtk.Box xpm_label_box(string xpm_filename, 
-                              string label_text ) {
+static Gtk.Box xpm_label_box(string xpm_filename, string label_text ) {
   
   /* Create box for image and label */
   var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
@@ -207,7 +206,7 @@ class ButtonWindow {
 </programlisting>
 
 <programlisting language="vala">
-  Gtk.ToggleButton.new_with_mnemonic (string label);
+  Gtk.ToggleButton.with_mnemonic (string label);
 </programlisting>
 
     <para>As you can imagine, these work identically to the normal 
@@ -218,53 +217,87 @@ class ButtonWindow {
       for '_'-prefixed mnemonic characters.</para>
 
     <para>To retrieve the state of the toggle widget, including radio and check 
-      buttons, we use a construct as shown in our example below. This tests the 
-      state of the toggle button, by accessing the active field of the toggle 
-      widget's structure, after first using the Gtk.TOGGLE_BUTTON macro to cast 
-      the widget pointer into a toggle widget pointer. The signal of interest to 
-      us emitted by toggle buttons (the toggle button, check button, and radio 
-      button widgets) is the "toggled" signal. To check the state of these 
-      buttons, set up a signal handler to catch the toggled signal, and access 
-      the structure to determine its state. The callback will look something 
-      like:</para>
+      buttons, we use the following method:</para>
 
-<programlisting language="Vala">
-void toggle_button_callback (GtkWidget *widget, gpointer data)
-{
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) 
-    {
-        /* If control reaches here, the toggle button is down */
-    
-    } else {
-        /* If control reaches here, the toggle button is up */
-    }
-}
+<programlisting>
+  bool Gtk.ToggleButton.get_active();
 </programlisting>
+    
+    <para>This returns the current state of the toggle button as a boolean 
+      <constant>true</constant>/<constant>false</constant> value.</para>
 
     <para>To force the state of a toggle button, and its children, the radio and 
       check buttons, use this function:</para>
 
 <programlisting>
-  Gtk.ToggleButton.button_set_active(Gtk.ToggleButton *toggle_button, bool active);
+  Gtk.ToggleButton.set_active(bool is_active);
 </programlisting>
 
     <para>The above call can be used to set the state of the toggle button, and 
-      its children the radio and check buttons. Passing in your created button 
-      as the first argument, and a TRUE or FALSE for the second state argument 
-      to specify whether it should be down (depressed) or up (released). Default 
-      is up, or FALSE.</para>
+      its children the radio and check buttons. When called on a 
+      <classname>Gtk.ToggleButton</classname> instance and passed a 
+      <constant>true</constant> boolean, it is set to active (depressed). If 
+      passed <constant>false</constant>, the button is set to the inactive 
+      state.</para>
 
-    <para>Note that when you use the gtk_toggle_button_set_active() function, 
-      and the state is actually changed, it causes the "clicked" and "toggled" 
-      signals to be emitted from the button.</para>
-
-<programlisting>
-  gboolean Gtk.ToggleButton.get_active();
-</programlisting>
-
-    <para>This returns the current state of the toggle button as a boolean 
-      <token>true</token>/<token>false</token> value.</para>
+    <para>Note that when you use the <function>Gtk.ToggleButton.set_active()</function> 
+      method, and the state is actually changed, it causes the "clicked" and 
+      "toggled" signals to be emitted from the button.</para>
 
   </sect1>
+
+  <sect1>
+
+    <title>Check Buttons</title>
+    
+    <para>Check buttons inherit many properties and functions from the the 
+      toggle buttons above, but look a little different. Rather than being 
+      buttons with text inside them, they are small squares with the text to the 
+      right of them. These are often used for toggling options on and off in 
+      applications.</para>
+
+    <para>The constructors are similar to those of the normal button.</para>
+
+<programlisting language="vala">
+  Gtk.CheckButton ();
+</programlisting>
+
+<programlisting language="vala">
+  Gtk.CheckButton.with_label (string label);
+</programlisting>
+
+<programlisting language="vala">
+  Gtk.CheckButton.with_mnemonic (string label);
+</programlisting>
+
+
+    <para>The <function>Gtk.CheckButton.with_label(label)</function> function 
+      creates a check button with a label beside it.</para>
+
+    <para>Checking the state of the check button is identical to that of the 
+      toggle button.</para>
+
+  </sect1>
+
+  <sect1>
+    
+    <title>Radio Buttons</title>
+
+    <para>Radio buttons are similar to check buttons except they are grouped so 
+      that only one may be selected/depressed at a time. This is good for places 
+      in your application where you need to select from a short list of 
+      options.</para>
+
+    <para>Creating a new radio button is done with one of these calls:</para>
+    <para>The constructor.</para>
+<programlisting language="vala">
+  public RadioButton (SList&lt;RadioButton&gt;? group)
+</programlisting>
+      <para>Creates a new RadioButton.</para>
+
+
+  
+  </sect1>
+
 
 </chapter>

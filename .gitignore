@@ -1,0 +1,5 @@
+content/
+*.kdev4
+*.bin
+vala-gtk.sublime-project
+vala-gtk.sublime-workspace

@@ -15,7 +15,7 @@
 
 <programlisting linenumbering="numbered">
 
-using Gtk;
+/* examples/chapter_02/01_simplewindow.vala */
 
 int main(string[] args) {
   Gtk.init (ref args);
@@ -76,16 +76,6 @@ int main(string[] args) {
       execution of the program, you have to press <command>CTR+C</command> 
       in the console from which you launched the program.</para>
 
-    <para>The line</para>
-
-<programlisting  linenumbering="numbered" startinglinenumber="2">
-  using Gtk;
-</programlisting>
-
-    <para>informs the compiler to include the Gtk+ header file which declares 
-      the variables, functions, structures, etc. that will be used in your GTK+ 
-      application.</para>
-
     <para>The next line:</para>
 
 <programlisting linenumbering="numbered" startinglinenumber="5">
@@ -145,9 +135,9 @@ window.show_all();
 
     <para>enters the GTK main processing loop. This is a  call you will see in 
       every GTK application. When control reaches this point, GTK will sleep 
-      waiting for X events (such as button or key presses), timeouts, or file 
-      IO notifications to occur. In our simple example, however, events are 
-      ignored.</para>
+      waiting for the user to interact with the application through events such 
+      as button or key presses, etc or for timeouts, or file IO notifications to 
+      occur. In our simple example, however, these events are ignored.</para>
 
 </sect1>
 
@@ -176,7 +166,7 @@ window.show_all();
 
 <programlisting linenumbering="numbered">
 
-using Gtk;
+/* examples/chapter_02/02_helloworld.vala */
 
 class HelloWorld {
   
@@ -313,11 +303,13 @@ class HelloWorld {
     <para>This passing of control is done using the idea of "signals". Signals 
       are a system allowing a objects to emit events which can be recieved by 
       arbitrary listeners. They form a convenient way for objects to inform each 
-      other about events Only instances descended from <classname>GLib.Object</classname> 
-      can emit signals. These signals are not the same as the Unix system signals, 
-      and are not implemented using them, although the terminology is almost 
-      identical. Through these signals, we can connect arbitrary 
-      application-specific events with any number of listeners.</para>
+      other about events Only instances of classes  descended from 
+      <classname>GLib.Object</classname> can emit signals. These signals are not 
+      the same as the Unix system signals, and are not implemented using them, 
+      although the terminology is almost identical. Through these signals, we 
+      can connect arbitrary application-specific events with any number of 
+      listeners.</para>
+    
     <sect2>
 
       <title>Signals and Callbacks in Vala</title>

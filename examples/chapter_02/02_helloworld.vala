@@ -1,5 +1,5 @@
 
-using Gtk;
+/* examples/chapter_02/02_helloworld.vala */
 
 class HelloWorld {
   

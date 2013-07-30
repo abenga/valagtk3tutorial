@@ -1,5 +1,5 @@
 
-using Gtk;
+/* examples/chapter_02/01_simplewindow.vala */
 
 int main(string[] args) {
   
