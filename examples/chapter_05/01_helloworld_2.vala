@@ -37,9 +37,9 @@ class HelloWorld2 {
     /* Sets the border width of the window. */
     this.window.set_border_width(10);
 
-    /* We create a box to pack widgets into.  This is described in detail
-     * in the "packing" section. The box is not really visible, it
-     * is just used as a tool to arrange widgets. */
+    /* We create a box to pack widgets into.  This is described 
+     * in detail in the "packing" section. The box is not really 
+     * visible, it is just used as a tool to arrange widgets. */
     box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
     /* Put the box into the main window. */
@@ -52,16 +52,16 @@ class HelloWorld2 {
      * with a pointer to "button 1" as its argument */
     this.button1.clicked.connect (() => { this.callback("Button 1"); });  
 
-    /* Instead of gtk_container_add, we pack this button into the invisible
-     * box, which has been packed into the window. */
+    /* Instead of gtk_container_add, we pack this button into the 
+     * invisible box, which has been packed into the window. */
     box.pack_start(button1, true, true, 0);
 
-    /* Always remember this step, this tells GTK that our preparation for
-     * this button is complete, and it can now be displayed. */
+    /* Always remember this step, this tells GTK that our preparation 
+     * for this button is complete, and it can now be displayed. */
     button1.show();
 
     /* Do these same steps again to create a second button */
-    button2 = new Gtk.Button.with_label("Button 2");
+    this.button2 = new Gtk.Button.with_label("Button 2");
 
     /* Call the same callback function with a different argument,
        passing a pointer to "button 2" instead. */
@@ -69,8 +69,9 @@ class HelloWorld2 {
 
     box.pack_start(button2, true, true, 0);
 
-    /* The order in which we show the buttons is not really important, but I
-     * recommend showing the window last, so it all pops up at once. */
+    /* The order in which we show the buttons is not really important, 
+     * but we recommend showing the window last, so it all pops up at 
+     * once. */
     button2.show();
 
     box.show();

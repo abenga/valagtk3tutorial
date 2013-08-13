@@ -1,5 +1,5 @@
 
-/* examples/chapter_02/02_helloworld.vala */
+/* examples/chapter_03/02_helloworld.vala */
 
 class HelloWorld {
   
