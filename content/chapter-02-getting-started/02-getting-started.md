@@ -56,3 +56,15 @@ And on Fedora, one would run:
 
 You may also use your distribution's graphical software management
 tools like the Ubuntu Software Centre or Synaptic.
+
+
+
+## References and Further Reading
+
+* Compiling the GTK+ libraries. [Online] Available from:
+  [https://developer.gnome.org/gtk3/stable/gtk-building.html](https://developer.gnome.org/gtk3/stable/gtk-building.html)
+  [Accessed 16 September 2014]
+
+* Vala Tools. [Online] Available from:
+  [https://wiki.gnome.org/Projects/Vala/Tools](https://wiki.gnome.org/Projects/Vala/Tools)
+  [Accessed 16 September 2014]
