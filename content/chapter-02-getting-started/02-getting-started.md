@@ -33,14 +33,14 @@ On Fedora, it would be:
     # yum install libgtk-3-dev
 
 You may also use your distribution's graphical software management
-tools like the Ubuntu Software Centre or Synaptic.
+tools like the Ubuntu Software Centre, Synaptic, or PackageKit.
 
 
 ### Installing Vala
 
 You can install Vala by building from source. First, one obtains
 the vala source code by downloading a tarball from the vala releases page
-([http://live.gnome.org/Vala/Release](http://live.gnome.org/Vala/Release))
+([https://wiki.gnome.org/Projects/Vala/Release](https://wiki.gnome.org/Projects/Vala/Release))
 and extracting it and running `./configure`, `make` and `make install`
 in the source folder.
 
