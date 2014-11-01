@@ -98,7 +98,7 @@ one byte. Instead, the string fundamental struct type (which all strings are
 instances of) provides access methods along with other tools.
 
 
-### Parameterised Types
+### Parameterized Types
 
 Vala allows definitions of types that can be customised at runtime with type
 parameters. For example, a list can be defined so that it can be instantiated as

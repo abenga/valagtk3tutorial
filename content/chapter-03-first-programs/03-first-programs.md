@@ -242,7 +242,7 @@ GTK is an event driven toolkit, which means it will sleep in `Gtk.main()` until
 an event occurs and control is passed to the appropriate function.
 
 This passing of control is done using the idea of *"signals"*. Signals are a
-system allowing a objects to emit events which can be recieved by arbitrary
+system allowing a objects to emit events which can be received by arbitrary
 listeners. They form a convenient way for objects to inform each other about
 events.
 
@@ -294,7 +294,7 @@ The second way is to store the return value of the `connect()` callback (it
 usually returns a `ulong` handler id) and then pass this signal id to
 `my_object.disconnect()`. Note that you have to invoke `disconnect()` on the
 object, not the signal. This is particularly useful when you connect closures
-(anonymous methods, also known as *lambda expressions*) as callbacks, for
+(anonymous functions, also known as *lambda expressions*) as callbacks, for
 example:
 
     ulong handlerId = foo.some_event.connect (() => { /* Closure code here. */ });
@@ -669,3 +669,18 @@ will cause the *"delete_event"* to be emitted. This will call our *"delete_event
 handler. If we return `true` here, the window will be left as is and nothing
 will happen. Returning `false` will cause GTK to emit the *"destroy"* signal
 that causes the `HelloWorld` *"destroy"* callback to be called, exiting GTK.
+
+
+## References and Further Reading
+
+* The GTK+ Tutorial: Getting Started. [Online] Available from:
+  [https://developer.gnome.org/gtk-tutorial/2.90/c39.html](https://developer.gnome.org/gtk-tutorial/2.90/c39.html)
+  [Accessed 16 September 2014]
+
+* Vala Documentation: Signals and Callbacks. [Online] Available from:
+  [https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks](https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks)
+  [Accessed 16 September 2014]
+
+* Valadoc (Vala online package binding reference documentation) [Online] Available from:
+  [http://valadoc.org/#!api=gobject-2.0/GLib.SignalHandler](http://valadoc.org/#!api=gobject-2.0/GLib.SignalHandler)
+  [Accessed 16 September 2014]

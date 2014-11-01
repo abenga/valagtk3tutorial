@@ -76,7 +76,7 @@ class HelloWorld {
     var hello = new HelloWorld();
     
     /* All Vala GTK applications must have a Gtk.main(). Control ends here
-       and waits for an event to occur (like a key press or mouse event). */
+       and waits for an event (like a key press or mouse event) to occur. */
     Gtk.main();
     
     return 0;
