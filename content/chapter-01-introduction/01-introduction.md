@@ -1,4 +1,4 @@
-# GTK+ Programming Using Vala: Background
+# Background
 
 ## About GTK
 
@@ -29,66 +29,66 @@ GTK+ depends on the following libraries:
 
 * **GLib**
 
-  [GLib](https://developer.gnome.org/glib/) is a general-purpose
-  utility library, not specific to graphical user interfaces. GLib
-  provides many useful data types, macros, type conversions, string
-  utilities, file utilities, a main loop abstraction, and so on.
+    [GLib](https://developer.gnome.org/glib/) is a general-purpose
+    utility library, not specific to graphical user interfaces. GLib
+    provides many useful data types, macros, type conversions, string
+    utilities, file utilities, a main loop abstraction, and so on.
 
 * **GObject**
 
-  [GObject](https://developer.gnome.org/gobject/stable/‎) is library that
-  provides a type system, a collection of fundamental types
-  including an object type, a signal system.GObject, and its lower-level
-  type system, GType, are used by GTK+ and most GNOME libraries to
-  provide Object-oriented C-based APIs and automatic transparent API
-  bindings to other compiled or interpreted languages.
+    [GObject](https://developer.gnome.org/gobject/stable/‎) is library that
+    provides a type system, a collection of fundamental types
+    including an object type, a signal system.GObject, and its lower-level
+    type system, GType, are used by GTK+ and most GNOME libraries to
+    provide Object-oriented C-based APIs and automatic transparent API
+    bindings to other compiled or interpreted languages.
 
 * **GIO**
+  
+    [GIO](https://developer.gnome.org/gio/) is a modern, easy-to-use
+    Virtual File System API including abstractions for files, drives,
+    volumes, stream IO, as well as network programming and DBus
+    communication.
 
-  [GIO](https://developer.gnome.org/gio/) is a modern, easy-to-use
-  Virtual File System API including abstractions for files, drives,
-  volumes, stream IO, as well as network programming and DBus
-  communication.
-
-  A virtual file system (VFS) or virtual filesystem switch is an
-  abstraction layer on top of a more concrete file system. The purpose of
-  a VFS is to allow client applications to access different types of
-  concrete file systems (Ext3, FAT, NTFS, etc) in a uniform way.
+    A virtual file system (VFS) or virtual filesystem switch is an
+    abstraction layer on top of a more concrete file system. The purpose of
+    a VFS is to allow client applications to access different types of
+    concrete file systems (Ext3, FAT, NTFS, etc) in a uniform way.
 
 * **Cairo**
-
-  [Cairo](http://www.cairographics.org/‎) is a 2D graphics library with
-  support for multiple output devices.
+  
+    [Cairo](http://www.cairographics.org/‎) is a 2D graphics library with
+    support for multiple output devices.
 
 * **Pango**
 
-  [Pango](http://pango.org) is a library for internationalized text
-  handling. It centers around the `PangoLayout` object, representing a
-  paragraph of text. Pango provides the engine for `Gtk.TextView`,
-  `Gtk.Label`, `Gtk.Entry`, and other widgets that display text.
+    [Pango](http://pango.org) is a library for internationalized text
+    handling. It centers around the `PangoLayout` object, representing a
+    paragraph of text. Pango provides the engine for `Gtk.TextView`,
+    `Gtk.Label`, `Gtk.Entry`, and other widgets that display text.
 
 * **ATK**
 
-  [ATK](https://developer.gnome.org/atk/) is the Accessibility Toolkit.
-  It provides a set of generic interfaces allowing accessibility
-  technologies (technologies that allow people with physical disabilities,
-  e.g. blindness to use computers) to interact with a graphical user
-  interface. For example, a screen reader uses ATK to discover the text
-  in an interface and read it to blind users. GTK+ widgets have built-in
-  support for accessibility using the ATK framework.
+    [ATK](https://developer.gnome.org/atk/) is the Accessibility Toolkit.
+    It provides a set of generic interfaces allowing accessibility
+    technologies (technologies that allow people with physical disabilities,
+    e.g. blindness to use computers) to interact with a graphical user
+    interface. For example, a screen reader uses ATK to discover the text
+    in an interface and read it to blind users. GTK+ widgets have built-in
+    support for accessibility using the ATK framework.
 
 * **GdkPixbuf**
 
-  [GdkPixbuf](https://developer.gnome.org/gdk-pixbuf/) is a small library
-  which allows you to create GdkPixbuf ("pixel buffer") objects from
-  image data or image files. Use a GdkPixbuf in combination with
-  `Gtk.Image` to display images.
+    [GdkPixbuf](https://developer.gnome.org/gdk-pixbuf/) is a small library
+    which allows you to create GdkPixbuf ("pixel buffer") objects from
+    image data or image files. Use a GdkPixbuf in combination with
+    `Gtk.Image` to display images.
 
 * **GDK**
 
-  [GDK](https://developer.gnome.org/gdk/) is the abstraction layer that
-  allows GTK+ to support multiple windowing systems. GDK provides window
-  system facilities on X11, Windows, and OS X.
+    [GDK](https://developer.gnome.org/gdk/) is the abstraction layer that
+    allows GTK+ to support multiple windowing systems. GDK provides window
+    system facilities on X11, Windows, and OS X.
 
 GTK+ is essentially an object oriented application programming interface
 (API). Although written completely in C, it is implemented using the
