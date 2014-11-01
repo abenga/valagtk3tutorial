@@ -283,3 +283,7 @@ When compiled and run, it looks something like this:
   <img src="https://lh6.googleusercontent.com/-HFq2_JMwuyM/UiIzA7LGNUI/AAAAAAAAAGU/I-qy2nsolvw/w354-h294-no/02Grid.png" alt="Grid Packing Example Image" title="Grid Packing Example">
   <figcaption>Grid Packing Example</figcaption>
 </figure>
+
+To learn more about `Gtk.Grid` widget, read the C API documentation at
+[https://developer.gnome.org/gtk3/stable/GtkGrid.html](https://developer.gnome.org/gtk3/stable/GtkGrid.html),
+and the Vala API documentation at [http://valadoc.org/#!api=gtk+-3.0/Gtk.Grid](http://valadoc.org/#!api=gtk+-3.0/Gtk.Grid).
