@@ -1,9 +1,15 @@
+/*
+ * Copyright (C) Horace Abenga
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 2 of the License, or (at your option) any later
+ * version. See http://www.gnu.org/copyleft/gpl.html the full text of the
+ * license.
+ */
 
-using Gtk;
-
-class HelloWorld2 {
+class HelloWorld : Gtk.Window {
   
-  private Gtk.Window window;
   private Gtk.Button button1;
   private Gtk.Button button2;
   private Gtk.Box box;
@@ -15,27 +21,24 @@ class HelloWorld2 {
   }
 
   /* another callback */
-  static bool delete_event() {
+  static bool on_delete_event() {
     Gtk.main_quit();
     return false;
   }
   
-  public HelloWorld2 () {
+  public HelloWorld () {
     
-
-    /* Create a new window */
-    this.window = new Gtk.Window();
 
     /* This is a new call, which just sets the title of our
      * new window to "Hello Buttons!" */
-    this.window.set_title("Hello Buttons!");
+    this.set_title("Hello Buttons!");
 
     /* Here we just set a handler for delete_event that immediately
      * exits GTK. */
-    this.window.delete_event.connect(this.delete_event);
+    this.delete_event.connect(this.delete_event);
 
     /* Sets the border width of the window. */
-    this.window.set_border_width(10);
+    this.set_border_width(10);
 
     /* We create a box to pack widgets into.  This is described 
      * in detail in the "packing" section. The box is not really 
@@ -43,7 +46,7 @@ class HelloWorld2 {
     box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
     /* Put the box into the main window. */
-    this.window.add(box);
+    this.add(box);
 
     /* Creates a new button with the label "Button 1". */
     this.button1 = new Gtk.Button.with_label("Button 1");
@@ -85,7 +88,7 @@ class HelloWorld2 {
      * from the command line and are returned to the application. */
     Gtk.init (ref args);
     
-    var hello = new HelloWorld2();
+    var hello = new HelloWorld();
     
     /* Rest in gtk_main and wait for the fun to begin! */
     Gtk.main();

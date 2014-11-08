@@ -134,7 +134,8 @@ According to the [Vala tutorial](https://wiki.gnome.org/Vala/Tutorial):
 
 * The GTK+ 2.0 Tutorial: Introduction. [Online] Available from:
   [https://developer.gnome.org/gtk-tutorial/2.90/c24.html](https://developer.gnome.org/gtk-tutorial/2.90/c24.html)
-  [Accessed 16 September 2014]
+  [Accessed 16&nbsp;September&nbsp;2014]
 
 * The Vala Tutorial. [Online] Available from: 
-  [https://wiki.gnome.org/Projects/Vala/Tutorial](https://wiki.gnome.org/Projects/Vala/Tutorial) [Accessed: 16 September 2014] 
+  [https://wiki.gnome.org/Projects/Vala/Tutorial](https://wiki.gnome.org/Projects/Vala/Tutorial) 
+  [Accessed: 16&nbsp;September&nbsp;2014] 
