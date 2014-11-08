@@ -1,8 +1,8 @@
 /** chapter-05-packing-widgets/code/02Grid.vala */
 
-class GridExample {
+class GridExample : Gtk.Window {
 
-  private Gtk.Window window;
+  /** private Gtk.Window window;*/
 
   /* Our callback.
    * The data passed to this method is printed to stdout */
