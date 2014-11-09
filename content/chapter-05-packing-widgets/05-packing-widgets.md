@@ -1,12 +1,20 @@
 
 # Packing Widgets
 
-When creating an application, you'll want to put more than one widget inside a
-window. Our first helloworld example only used one widget so we could simply use
-the `Gtk.Container.add()` method to "pack" the widget into the window. But when
-you want to put more than one widget into a window, how do you control where
-that widget is positioned? This is where packing comes in.
+When creating an application, you'll probably want to put more than one widget 
+inside a window. Our first helloworld example only used one widget so we could 
+simply use the `Gtk.Container.add()` method to "pack" the widget into the window. 
+But when you want to put more than one widget into a window, you will need to 
+control the widgets' sizes and where they are positioned in the window. This is 
+where *packing* comes in.
 
+GTK+ comes with a variety of *layout containers* whose purpose it is to control
+the layout of child widgets added to them, as well as how they behave when the 
+window is resized. An overview may be seen in the 
+[Layout Containers Overview](https://developer.gnome.org/gtk3/stable/LayoutContainers.html)
+in the online GTK+ documentation.
+
+In this chapter, we shall look at packing using Boxes and Grids in detail.
 
 ## Packing Using Boxes
 
@@ -48,11 +56,11 @@ pixels to place by default between children.
 The instance methods `pack_start()` and `pack_end()` are used to place child
 objects inside the `Gtk.Box` containers.
 
-    /* When called as box.pack_end(...) it adds child to
+    /* When we call box.pack_end(...) we add child to
        box, packed with reference to the end of box. */
     public void pack_end (Gtk.Widget child, bool expand = true, bool fill = true, uint padding = 0);
 
-    /* When called as box.pack_start(...) it adds child to box,
+    /* When we call box.pack_start(...) it adds child to box,
        packed with reference to the beginning of box. */
     public void pack_start (Gtk.Widget child, bool expand = true, bool fill = true, uint padding = 0);
 
@@ -214,7 +222,7 @@ A `Gtk.Grid` has a boolean "`column_homogeneous`" property, if its value is
 `true` the grid's columns will all the same width (the width of the widest
 child widget in the grid). Its default value is `false`, where the width of a
 grid's column is dictated by the widest widget in the column. An analogous
-`row_homogeneous` property does the same for the height rows.
+`row_homogeneous` property does the same for the height of rows.
 
 Note that the coordinate system starts from 0 in the upper left hand corner.
 

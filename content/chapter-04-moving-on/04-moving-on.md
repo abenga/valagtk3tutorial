@@ -2,10 +2,12 @@
 
 ## Vala Data Types
 
-Vala supports four kinds of data types: value types, reference types,
-parametrized types, and pointer types. Value types include simple types (e.g.
-`char`, `int`, and `float`), enum types, and struct types. Reference types
-include object types, array types, delegate types, and error types.
+Vala supports three kinds of data types: value types, reference types,
+and meta types. Value types include simple types (e.g. `char`, `int`, and 
+`float`), enum types, and struct types. Reference types include object types, 
+array types, delegate types, and error types. Meta types are created from other 
+types, and so may have either reference or value type semantics. They include 
+parametrized types, nullable types, and pointer types
 
 ### Value Types
 
@@ -89,8 +91,8 @@ Instances of **error** types represent recoverable runtime errors. All errors
 are described using error domains, a type of enumerated value, but errors
 themselves are not enumerated types.
 
-Vala has built in support for Unicode strings, via the fundamental `string` type.
-This is the only fundamental type that is a reference type. Like other
+Vala has built in support for Unicode **strings**, via the fundamental `string` 
+type. This is the only fundamental type that is a reference type. Like other
 fundamental types, it can be instantiated with a literal expression. Strings are
 UTF-8 encoded which means that they cannot be accessed like character arrays in
 C since it is not guaranteed that each Unicode character will be stored in just
@@ -98,40 +100,42 @@ one byte. Instead, the string fundamental struct type (which all strings are
 instances of) provides access methods along with other tools.
 
 
-### Parameterized Types
+### Meta Types
 
-Vala allows definitions of types that can be customised at runtime with type
-parameters. For example, a list can be defined so that it can be instantiated 
-as a list of ints, a list of Objects, etc. This is achieved using generic
-declarations.
+* **Parameterized Types**
 
-### Pointer types
+    Vala allows definitions of types that can be customised at runtime with type
+    parameters. For example, a list can be defined so that it can be instantiated 
+    as a list of ints, a list of Objects, etc. This is achieved using generic
+    declarations.
 
-The name of a type can be used to implicitly create a pointer type related to
-that type. The value of a variable declared as being of type `T*` represents the
-memory address of an instance of type `T`. The instance is never made aware that
-its address has been recorded, and so cannot record the fact that it is referred
-to in this way.
+* **Pointer types**
 
-Instances of any type can be assigned to a variable that is declared to be a
-pointer to an instance of that type. For referenced types, direct assignment is
-allowed in either direction. For value types the pointer-to operator **`&`**
-is required to assign to a pointer, and the pointer-indirection operator **`*`**
-is used to access the instance pointed to.
+    The name of a type can be used to implicitly create a pointer type related to
+    that type. The value of a variable declared as being of type `T*` represents the
+    memory address of an instance of type `T`. The instance is never made aware that
+    its address has been recorded, and so cannot record the fact that it is referred
+    to in this way.
 
-The `void*` type represents a pointer to an unknown type. As the referred type
-is unknown, the indirection operator cannot be applied to a pointer of type
-`void*`, nor can any arithmetic be performed on such a pointer. However, a
-pointer of type `void*` can be cast to any other pointer type (and vice-versa)
-and compared to values of other pointer types.
+    Instances of any type can be assigned to a variable that is declared to be a
+    pointer to an instance of that type. For referenced types, direct assignment is
+    allowed in either direction. For value types the pointer-to operator **`&`**
+    is required to assign to a pointer, and the pointer-indirection operator **`*`**
+    is used to access the instance pointed to.
 
-### Nullable Types
+    The `void*` type represents a pointer to an unknown type. As the referred type
+    is unknown, the indirection operator cannot be applied to a pointer of type
+    `void*`, nor can any arithmetic be performed on such a pointer. However, a
+    pointer of type `void*` can be cast to any other pointer type (and vice-versa)
+    and compared to values of other pointer types.
 
-There is another characterization of types, *nullable types*. The name of a type
-can be used to implicitly create a nullable type related to that type. An
-instance of a nullable type `T?` can either be a value of type `T` or `null`.
-A nullable type will have either value or reference type semantics, depending on
-the type it is based on.
+* **Nullable Types**
+
+    There is another characterization of types, *nullable types*. The name of a type
+    can be used to implicitly create a nullable type related to that type. An
+    instance of a nullable type `T?` can either be a value of type `T` or `null`.
+    A nullable type will have either value or reference type semantics, depending on
+    the type it is based on.
 
 
 
@@ -313,3 +317,28 @@ The window is shown by the line
     hello.show();
 
 in `main()`.
+
+
+
+## References and Further Reading
+
+* The GTK+ Tutorial: Getting Started. [Online] Available from:
+  [https://developer.gnome.org/gtk-tutorial/2.90/c39.html](https://developer.gnome.org/gtk-tutorial/2.90/c39.html)
+  [Accessed 16&nbsp;September&nbsp;2014]
+
+* The GTK 3 Reference Manual. [Online] Available from:
+  [https://developer.gnome.org/gtk3/stable/](https://developer.gnome.org/gtk3/stable/)
+  [Accessed 9&nbsp;November&nbsp;2014]
+
+* The Vala Manual (draft) [Online] Available from:
+  [http://www.vala-project.org/doc/vala-draft/types.html](http://www.vala-project.org/doc/vala-draft/types.html)
+  [Accessed 9&nbsp;November&nbsp;2014]
+
+* Vala Documentation: Signals and Callbacks. [Online] Available from:
+  [https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks](https://wiki.gnome.org/Projects/Vala/SignalsAndCallbacks)
+  [Accessed 16&nbsp;September&nbsp;2014]
+
+* Valadoc (Vala online package binding reference documentation) [Online] Available from:
+  [http://valadoc.org/#!api=gobject-2.0/GLib.SignalHandler](http://valadoc.org/#!api=gobject-2.0/GLib.SignalHandler)
+  [Accessed 16&nbsp;September&nbsp;2014]
+
