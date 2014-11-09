@@ -67,26 +67,21 @@ static Gtk.Box make_box (bool homogeneous, int spacing,
   return box;
 }
 
-class PackBox1 {
+class PackBox : Gtk.Window {
 
-  public Gtk.Window window;
-
-  public bool delete_event () {
+  public bool on_delete_event () {
     Gtk.main_quit();
     return false;
   }
 
-  public PackBox1 (int which) {
-
-    /* Create our window. */
-    this.window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
+  public PackBox (int which) {
 
     /* You should always remember to connect the delete_event signal
      * to the main window. This is very important for proper intuitive
      * behavior */
 
-    this.window.delete_event.connect(this.delete_event);
-    this.window.set_border_width(10);
+    this.delete_event.connect(this.on_delete_event);
+    this.set_border_width(10);
 
     /* We create a vertical box (vbox) to pack the horizontal boxes
      * into. This allows us to stack the horizontal boxes filled with
@@ -279,7 +274,7 @@ class PackBox1 {
 
     /* Pack the vbox (box1) which now contains all our widgets, into the
      * main window. */
-    this.window.add(box1);
+    this.add(box1);
 
     /* And show everything left */
     button.show();
@@ -287,7 +282,7 @@ class PackBox1 {
     box1.show();
 
     /* Showing the window last so everything pops up at once. */
-    this.window.show();
+    this.show();
   }
 
   public static int main (string[] args) {
@@ -296,7 +291,8 @@ class PackBox1 {
 
       Gtk.init(ref args);
 
-      new PackBox1(int.parse(args[1]));
+      var window = new PackBox(int.parse(args[1]));
+      window.show();
 
       /* And of course, our mainloop. */
       Gtk.main();
