@@ -58,7 +58,7 @@ Reference types include classes, arrays, delegates, errors and strings.
 A **class** definition introduces a new reference type - this is the most common
 way of creating a new type in Vala. A class is definition of a new data type. A
 class can contain fields, constants, methods, properties, and signals. Class
-types support inheritance, a mechanism whereby a derived class can extend and
+types support *inheritance*, a mechanism whereby a derived class can extend and
 specialize a base class. Vala supports three different types of classes, namely:
 
 * GObject subclasses, which inherit directly from `GLib.Object`, and are the
@@ -101,15 +101,15 @@ instances of) provides access methods along with other tools.
 ### Parameterized Types
 
 Vala allows definitions of types that can be customised at runtime with type
-parameters. For example, a list can be defined so that it can be instantiated as
-a list of ints, a list of Objects, etc. This is achieved using generic
+parameters. For example, a list can be defined so that it can be instantiated 
+as a list of ints, a list of Objects, etc. This is achieved using generic
 declarations.
 
 ### Pointer types
 
 The name of a type can be used to implicitly create a pointer type related to
 that type. The value of a variable declared as being of type `T*` represents the
-memory address of an instance of type T. The instance is never made aware that
+memory address of an instance of type `T`. The instance is never made aware that
 its address has been recorded, and so cannot record the fact that it is referred
 to in this way.
 
@@ -133,20 +133,19 @@ instance of a nullable type `T?` can either be a value of type `T` or `null`.
 A nullable type will have either value or reference type semantics, depending on
 the type it is based on.
 
+
+
 ## An Upgraded Hello World
 
 Let us now take a look at a slightly improved `helloworld` with better examples
 of callbacks. This will also introduce us to our next topic, packing widgets.
 
-    using Gtk;
-
-    class HelloWorld2 {
-
-      private Gtk.Window window;
+    class HelloWorld : Gtk.Window {
+  
       private Gtk.Button button1;
       private Gtk.Button button2;
       private Gtk.Box box;
-
+      
       /* Our new improved callback.  The data passed to this function
        * is printed to stdout. */
       void callback(string data) {
@@ -154,81 +153,80 @@ of callbacks. This will also introduce us to our next topic, packing widgets.
       }
 
       /* another callback */
-      static bool delete_event() {
+      bool on_delete_event() {
         Gtk.main_quit();
         return false;
       }
-
-      public HelloWorld2 () {
-
-        /* Create a new window */
-        this.window = new Gtk.Window();
+      
+      public HelloWorld () {
+        
 
         /* This is a new call, which just sets the title of our
          * new window to "Hello Buttons!" */
-        this.window.set_title("Hello Buttons!");
+        this.set_title("Hello Buttons!");
 
         /* Here we just set a handler for delete_event that immediately
          * exits GTK. */
-        this.window.delete_event.connect(this.delete_event);
+        this.delete_event.connect(this.on_delete_event);
 
         /* Sets the border width of the window. */
-        this.window.set_border_width(10);
+        this.set_border_width(10);
 
-        /* We create a box to pack widgets into.  This is described in detail
-         * in the "packing" section. The box is not really visible, it
-         * is just used as a tool to arrange widgets. */
+        /* We create a box to pack widgets into.  This is described 
+         * in detail in the "packing" section. The box is not really 
+         * visible, it is just used as a tool to arrange widgets. */
         box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
         /* Put the box into the main window. */
-        this.window.add(box);
+        this.add(box);
 
         /* Creates a new button with the label "Button 1". */
         this.button1 = new Gtk.Button.with_label("Button 1");
-
+        
         /* Now when the button is clicked, we call the "callback" function
          * with a pointer to "button 1" as its argument */
-        this.button1.clicked.connect (() => { this.callback("Button 1"); });
+        this.button1.clicked.connect (() => { this.callback("Button 1"); });  
 
-        /* Instead of gtk_container_add, we pack this button into the invisible
-         * box, which has been packed into the window. */
+        /* Instead of gtk_container_add, we pack this button into the 
+         * invisible box, which has been packed into the window. */
         box.pack_start(button1, true, true, 0);
 
-        /* Always remember this step, this tells GTK that our preparation for
-         * this button is complete, and it can now be displayed. */
+        /* Always remember this step, this tells GTK that our preparation 
+         * for this button is complete, and it can now be displayed. */
         button1.show();
 
         /* Do these same steps again to create a second button */
-        button2 = new Gtk.Button.with_label("Button 2");
+        this.button2 = new Gtk.Button.with_label("Button 2");
 
         /* Call the same callback function with a different argument,
            passing a pointer to "button 2" instead. */
-        this.button2.clicked.connect (() => { this.callback("Button 2"); });
+        this.button2.clicked.connect (() => { this.callback("Button 2"); }); 
 
         box.pack_start(button2, true, true, 0);
 
-        /* The order in which we show the buttons is not really important, but I
-         * recommend showing the window last, so it all pops up at once. */
+        /* The order in which we show the buttons is not really important, 
+         * but we recommend showing the window last, so it all pops up at 
+         * once. */
         button2.show();
 
         box.show();
 
-        window.show();
-
       }
-
+      
       public static int main (string[] args) {
         /* This is called in all GTK applications. Arguments are parsed
          * from the command line and are returned to the application. */
         Gtk.init (ref args);
+        
+        var hello = new HelloWorld();
 
-        var hello = new HelloWorld2();
-
+        hello.show();
+        
         /* Rest in gtk_main and wait for the fun to begin! */
         Gtk.main();
-
+        
         return 0;
-      }
+      }  
     }
 
 Compiling and running the code produces the window below, *"Upgraded Hello World
@@ -262,7 +260,7 @@ including data passed in.
 
 The line
 
-    this.window.set_title("Hello Buttons!");
+    this.set_title("Hello Buttons!");
 
 sets a title string to be used on the titlebar of the window, as seen in
 the screenshot above.
@@ -308,6 +306,10 @@ The lines
 
     box.show();
 
-    window.show();
-
 ask GTK to display the box and the window respectively.
+
+The window is shown by the line 
+
+    hello.show();
+
+in `main()`.

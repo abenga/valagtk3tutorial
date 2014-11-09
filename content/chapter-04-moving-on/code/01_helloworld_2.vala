@@ -21,7 +21,7 @@ class HelloWorld : Gtk.Window {
   }
 
   /* another callback */
-  static bool on_delete_event() {
+  bool on_delete_event() {
     Gtk.main_quit();
     return false;
   }
@@ -35,7 +35,7 @@ class HelloWorld : Gtk.Window {
 
     /* Here we just set a handler for delete_event that immediately
      * exits GTK. */
-    this.delete_event.connect(this.delete_event);
+    this.delete_event.connect(this.on_delete_event);
 
     /* Sets the border width of the window. */
     this.set_border_width(10);
@@ -79,8 +79,6 @@ class HelloWorld : Gtk.Window {
 
     box.show();
 
-    window.show();
-    
   }
   
   public static int main (string[] args) {
@@ -89,6 +87,8 @@ class HelloWorld : Gtk.Window {
     Gtk.init (ref args);
     
     var hello = new HelloWorld();
+
+    hello.show();
     
     /* Rest in gtk_main and wait for the fun to begin! */
     Gtk.main();
