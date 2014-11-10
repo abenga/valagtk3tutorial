@@ -19,30 +19,28 @@ class GridExample : Gtk.Window {
   }
 
   /* This callback quits the program. */
-  public bool delete_event() {
+  public bool on_delete_event() {
     Gtk.main_quit();
     return false;
   }
 
   public GridExample () {
-    /* Create a new window. */
-    this.window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
-
+    
     /* Set the window title. */
-    this.window.set_title("Grid Packing Example");
+    this.set_title("Grid Packing Example");
 
     /* Set a handler for delete_event that immediately
      *exits Gtk. */
-    this.window.delete_event.connect(this.delete_event);
+    this.delete_event.connect(this.on_delete_event);
 
     /* Sets the border width of the window. */
-    this.window.set_border_width(20);
+    this.set_border_width(20);
 
     /* Create a 2x2 table. */
     var grid = new Gtk.Grid();
 
     /* Put the table in the main window. */
-    this.window.add(grid);
+    this.add(grid);
 
     /* Create first button. */
     var button = new Gtk.Button.with_label("button 1");
@@ -101,16 +99,18 @@ class GridExample : Gtk.Window {
     /* Insert the quit button into the fourth row of the grid. */
     grid.attach(button, 0, 3, 3, 1);
     button.show();
-	
+
     grid.show();
-    this.window.show();
+    
   }
 
   public static int main(string[] args) {
 
     Gtk.init(ref args);
 
-    new GridExample();
+    var gridexample = new GridExample();
+
+    gridexample.show();
 
     Gtk.main();
 

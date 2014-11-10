@@ -272,18 +272,115 @@ the space goes below the row.
 In the example below, we will make a window with seven buttons in a grid, showing
 the various ways you can position child elements in a grid.
 
-<div class="accordion" id="GridDemo">
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="GridDemo" href="#GridGist">View Code</a>
-    </div>
-    <div id="GridGist" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <script src="https://gist.github.com/abenga/6399805.js"></script>
-      </div>
-    </div>
-  </div>
-</div>
+    class GridExample : Gtk.Window {
+
+      /** private Gtk.Window window;*/
+
+      /* Our callback.
+       * The data passed to this method is printed to stdout */
+      void callback(string data) {
+        stdout.printf("Hello again - %s was pressed\n", data);
+      }
+
+      /* This callback quits the program. */
+      public bool on_delete_event() {
+        Gtk.main_quit();
+        return false;
+      }
+
+      public GridExample () {
+        
+        /* Set the window title. */
+        this.set_title("Grid Packing Example");
+
+        /* Set a handler for delete_event that immediately
+         *exits Gtk. */
+        this.delete_event.connect(this.on_delete_event);
+
+        /* Sets the border width of the window. */
+        this.set_border_width(20);
+
+        /* Create a 2x2 table. */
+        var grid = new Gtk.Grid();
+
+        /* Put the table in the main window. */
+        this.add(grid);
+
+        /* Create first button. */
+        var button = new Gtk.Button.with_label("button 1");
+        /* When the button is clicked, we call the "callback" method. */
+      button.clicked.connect( ()=>{ this.callback("button 1"); });
+      grid.attach (button, 0, 0, 1, 1);
+      button.show();
+      
+      /* Create second button. */
+        button = new Gtk.Button.with_label("button 2");
+        /* When the button is clicked, we call the "callback" method, this
+         * time with a different button name. */
+        button.clicked.connect( () => { this.callback("button 2"); } );
+        /* Insert button 2 into the second column of the first row. */
+        grid.attach(button, 1, 0, 1, 1);
+        button.show();
+        
+        /* Create Third button. */
+        button = new Gtk.Button.with_label("button 3");
+        button.clicked.connect( () => { this.callback("button 3"); } );
+        /* Insert button 3 to the right of button 2. */
+        grid.attach_next_to(button, grid.get_child_at(0, 1), Gtk.PositionType.RIGHT, 1, 1);
+        button.show();
+        
+        /* Create Fourth button. */
+        button = new Gtk.Button.with_label("button 4");
+        button.clicked.connect( () => { this.callback("button 4"); } );
+        /* Insert button 4 into the 2nd row of the grid (below button 1). */
+        grid.attach_next_to(button, grid.get_child_at(0, 0), Gtk.PositionType.BOTTOM, 1, 2);
+        button.show();
+        
+        button = new Gtk.Button.with_label("button 5");
+        button.clicked.connect( () => { this.callback("button 5"); } );
+        /* Insert button 5 into the second row of the grid, to occupy 2
+         * columns. */
+        grid.attach(button, 1, 1, 2, 1);
+        button.show();
+        
+        button = new Gtk.Button.with_label("button 6");
+        button.clicked.connect( () => { this.callback("button 6"); } );
+        /* Insert button 6 into the third row of the grid. */
+        grid.attach(button, 1, 2, 1, 1);
+        button.show();
+        
+        button = new Gtk.Button.with_label("button 7");
+        button.clicked.connect( () => { this.callback("button 7"); } );
+        /* Insert button 7 into the third row of the grid. */
+        grid.attach(button, 2, 2, 1, 1);
+        button.show();
+        
+        /* Create "Quit" button */
+        button = new Gtk.Button.with_label("Quit");
+        /* When the button is clicked, we call the main_quit function
+         * and the program exits. */
+        button.clicked.connect( ()=> { Gtk.main_quit(); });
+        /* Insert the quit button into the fourth row of the grid. */
+        grid.attach(button, 0, 3, 3, 1);
+        button.show();
+
+        grid.show();
+        
+      }
+
+      public static int main(string[] args) {
+
+        Gtk.init(ref args);
+
+        var gridexample = new GridExample();
+
+        gridexample.show();
+
+        Gtk.main();
+
+        return 0;
+      }
+    }
 
 When compiled and run, it looks something like this:
 
@@ -292,6 +389,21 @@ When compiled and run, it looks something like this:
   <figcaption>Grid Packing Example</figcaption>
 </figure>
 
-To learn more about `Gtk.Grid` widget, read the C API documentation at
-[https://developer.gnome.org/gtk3/stable/GtkGrid.html](https://developer.gnome.org/gtk3/stable/GtkGrid.html),
-and the Vala API documentation at [http://valadoc.org/#!api=gtk+-3.0/Gtk.Grid](http://valadoc.org/#!api=gtk+-3.0/Gtk.Grid).
+
+## References and Further Reading
+
+* The GTK+ Tutorial: Packing Widgets. [Online] Available from:
+  [https://developer.gnome.org/gtk-tutorial/2.90/c354.html](https://developer.gnome.org/gtk-tutorial/2.90/c354.html)
+  [Accessed 10&nbsp;November&nbsp;2014]
+
+* The GtkGrid Section of the GTK 3 Reference Manual. [Online] Available from:
+  [https://developer.gnome.org/gtk3/stable/GtkGrid.html](https://developer.gnome.org/gtk3/stable/GtkGrid.html)
+  [Accessed 10&nbsp;November&nbsp;2014]
+
+* Documentation on Gtk.Box in Valadoc [Online] Available from:
+  [http://valadoc.org/#!api=gtk+-3.0/Gtk.Box](http://valadoc.org/#!api=gtk+-3.0/Gtk.Box)
+  [Accessed 16&nbsp;September&nbsp;2014]
+
+* Documentation on Gtk.Grid in Valadoc [Online] Available from:
+  [http://valadoc.org/#!api=gtk+-3.0/Gtk.Grid](http://valadoc.org/#!api=gtk+-3.0/Gtk.Grid)
+  [Accessed 16&nbsp;September&nbsp;2014]
