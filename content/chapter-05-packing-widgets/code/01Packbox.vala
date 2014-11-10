@@ -8,13 +8,13 @@
  * license.
  */
 
+
 /*
  * Helper function that makes a new hbox filled with button-labels.
  * Arguments for the variables we're interested are passed in to
  * this function.  We do not show the box, but do show everything
  * inside.
  */
-
 static Gtk.Box make_box (bool homogeneous, int spacing,
                          bool expand, bool fill, int padding) {
 

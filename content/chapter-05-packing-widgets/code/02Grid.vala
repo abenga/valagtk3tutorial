@@ -10,8 +10,6 @@
 
 class GridExample : Gtk.Window {
 
-  /** private Gtk.Window window;*/
-
   /* Our callback.
    * The data passed to this method is printed to stdout */
   void callback(string data) {
