@@ -8,18 +8,16 @@
  * license.
  */
 
-using Gtk;
-
-/* Create a new hbox with an image and a label packed into it
+/* Create a new box with an image and a label packed into it
  * and return the box. */
-static Gtk.HBox xpm_label_box(string xpm_filename, 
+static Gtk.Box xpm_label_box(string xpm_filename, 
                               string label_text ) {
-  Gtk.HBox box;
+  Gtk.Box box;
   Gtk.Label label;
   Gtk.Image image;
 
   /* Create box for image and label */
-  box = new Gtk.HBox(false, 0);
+  box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
   box.set_border_width(2);
 
   /* Now on to the image stuff */
@@ -38,11 +36,10 @@ static Gtk.HBox xpm_label_box(string xpm_filename,
   return box;
 }
 
-class ButtonWindow {
+class ButtonWindow : Gtk.Window {
   
-  Gtk.Window window;
   Gtk.Button button;
-  Gtk.HBox box;
+  Gtk.Box box;
 
   /* Our usual callback function */
   void callback (string data) {
@@ -51,18 +48,15 @@ class ButtonWindow {
 
   public ButtonWindow () {
 
-    /* Create a new window. */
-    this.window = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
-
-    this.window.set_title("Pixmap'd Buttons!");
+    this.set_title("Pixmap'd Buttons!");
 
     /* It's a good idea to do this for all windows. */
-    this.window.destroy.connect( ()=> { Gtk.main_quit(); } );
+    this.destroy.connect( ()=> { Gtk.main_quit(); } );
 
-    this.window.delete_event.connect( ()=> { return false; } );
+    this.delete_event.connect( ()=> { return false; } );
 
     /* Sets the border width of the window. */
-    this.window.set_border_width(10);
+    this.set_border_width(10);
 
     /* Create a new button. */
     this.button = new Gtk.Button();
@@ -80,19 +74,18 @@ class ButtonWindow {
 
     this.button.show();
 
-    this.window.add(button);
+    this.add(button);
 
-    this.window.show();
-    
   }
   
   public static int main (string[] args) {
     
     Gtk.init(ref args);
-    new ButtonWindow();
+
+    var buttonwindow = new ButtonWindow();
+    buttonwindow.show();
     
-    /* Rest in gtk_main and wait for the fun to begin! */
-    Gtk.main ();
+    Gtk.main();
     
     return 0;
   }
