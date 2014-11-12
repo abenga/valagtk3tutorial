@@ -2,15 +2,24 @@
 
 ## Normal Buttons
 
-We've almost seen all there is to see of the button widget. It's pretty simple, 
-as seen from previous examples. 
+A button (the `Gtk.Button` widget) is a widget that emits a signal when clicked
+on. We've almost seen all there is to see of the button widget . It's 
+pretty simple, as seen from previous examples. 
 
-There is however more than one way to create a button. You can use the 
-`Gtk.Button()` to create a blank button (it is then up to you to pack labels and
-graphics into this button), `Gtk.Button.new_with_label()` or 
-`Gtk.Button.new_with_mnemonic()` to create a button containing a textual label, 
-or `Gtk.Button.new_from_stock()` to create a button containing the image and text 
-from a stock item.
+There is more than one way to create a button:
+
+1.  You can use the `Gtk.Button()` creates a blank button. It is then up to you 
+    to pack labels and graphics into this button, usually using the `add()` 
+    callback.
+
+2.  `Gtk.Button.new_with_label()` and `Gtk.Button.new_with_mnemonic()` creates a 
+    button containing a textual label.
+
+3.  `Gtk.Button.new_with_mnemonic()` creates a button containing a textual label
+    containing a *mnemonic*. Mnemonics are underlined characters in the label, 
+    used for keyboard navigation. Mnemonics are created by providing a string 
+    with an underscore before the mnemonic character, such as "`_File`".
+
 
 Here's an example of using `Gtk.Button.new()` to create a button with an image
 and a label in it. I've broken up the code to create a box from the rest so you
@@ -105,7 +114,7 @@ in the tutorial.
 The `xpm_label_box()` function could be used to pack images and labels into any 
 widget that can be a container.
 
-Signals that we are usually interested in when programming buttons are:
+The signals that we are usually interested in when programming buttons are:
 
 * *`button_press_event`* - emitted when a button (typically from a mouse) is 
   pressed. This is not `Gtk.Button`-specific signal, it may be emitted by any 
@@ -158,9 +167,57 @@ The signal of interest to us emitted by toggle buttons (the *toggle button*,
 the state of these buttons, set up a signal handler to catch the toggled signal, 
 and access the structure to determine its state. 
 
-The callback will look something like:
+The following example shows how to create and use toggle buttons:
 
-<!-- TODO: Write example code. -->
+
+    public class Application : Gtk.Window {
+
+      private void toggled (Gtk.ToggleButton button) {
+        stdout.printf("%s: %s\n", button.label, button.active ? "true" : "false");
+      }
+
+      public Application () {
+        
+        // Set Window Attributes
+        this.title = "Toggle Buttons";
+        this.window_position = Gtk.WindowPosition.CENTER;
+        this.destroy.connect(Gtk.main_quit);
+        this.set_default_size(350, 70);
+        this.set_border_width(10);
+
+        // Create a VBox to pack the radio buttons in.
+        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        this.add (box);
+
+        // The buttons:
+        Gtk.ToggleButton button1 = new Gtk.ToggleButton.with_label("Button 1");
+        box.pack_start (button1, false, false, 0);
+        button1.toggled.connect(toggled);
+
+        Gtk.ToggleButton button2 = new Gtk.ToggleButton.with_label("Button 2");
+        box.pack_start (button2, false, false, 0);
+        button2.toggled.connect(toggled);
+
+      }
+
+      public static int main (string[] args) {
+        Gtk.init(ref args);
+
+        Application app = new Application();
+        app.show_all();
+        Gtk.main();
+        return 0;
+      }
+
+    }
+
+Whe compiled, we get a window similar to the following:
+
+<figure>
+  <img src="https://lh4.googleusercontent.com/-zcnyK9OeDso/VGOJVP98-HI/AAAAAAAAAJM/d2jbiFN1cLM/w421-h213-no/02ToggleButton.png" alt="Toggle Buttons" title="Toggle Buttons">
+  <figcaption>Simple Window</figcaption>
+</figure>
+
 
 To get and set the state of a `Gtk.ToggleButton`, `Gtk.RadioButton`, and 
 `Gtk.CheckButton`, we can use the `active` property of these widgets. It is a 
@@ -172,8 +229,8 @@ false otherwise.
 
 Check buttons inherit many properties and functions from the the toggle buttons
 above, but look a little different. Rather than being buttons with text inside
-them, they are small squares with the text to the right of them. These are often
-used for toggling options on and off in applications. 
+them, they place a discrete `Gtk.ToggleButton` next to a widget, (usually a 
+`Gtk.Label`).
 
 The `Gtk.CheckButton` constructors are similar to those for the `Gtk.ToggleButton`:
 
@@ -290,4 +347,6 @@ The following example creates a radio button group with three buttons.
       }
 
     }
+
+# Link Button
 
