@@ -215,7 +215,7 @@ Whe compiled, we get a window similar to the following:
 
 <figure>
   <img src="https://lh4.googleusercontent.com/-zcnyK9OeDso/VGOJVP98-HI/AAAAAAAAAJM/d2jbiFN1cLM/w421-h213-no/02ToggleButton.png" alt="Toggle Buttons" title="Toggle Buttons">
-  <figcaption>Simple Window</figcaption>
+  <figcaption>Toggle Buttons</figcaption>
 </figure>
 
 
@@ -348,5 +348,72 @@ The following example creates a radio button group with three buttons.
 
     }
 
-# Link Button
+## Link Button
+
+A `Gtk.LinkButton` is a `Gtk.Button` with a hyperlink, similar to the one used 
+by web browsers, which triggers an action when clicked. It is useful to show 
+quick links to resources.
+
+A link button is created by calling either 
+
+    Gtk.LinkButton(string uri)
+
+or  
+
+    Gtk.LinkButton.with_label(string uri, string label)
+
+If using the former, the URI you pass to the constructor is used as a label for 
+the widget.
+
+The URI bound to a `Gtk.LinkButton` can be set and retrieved specifically using 
+the property `Gtk.LinkButton.uri`.
+
+By default, `Gtk.LinkButton` calls `Gtk.show_uri()` when the button is clicked. 
+To override this behaviour, you can connect to the `activate_link` signal and 
+stop the propagation of the signal by returning `true` from the handler.
+
+The following example creates a single link button:
+
+    public class Application : Gtk.Window {
+      
+      public Application () {
+        // Prepare Gtk.Window:
+        this.title = "My Gtk.LinkButton";
+        this.window_position = Gtk.WindowPosition.CENTER;
+        this.destroy.connect (Gtk.main_quit);
+        this.set_default_size (350, 70);
+
+        // The button:
+        Gtk.LinkButton button = new Gtk.LinkButton.with_label ("https://developer.gnome.org/gtk3/stable/index.html", "GTK+ 3 Reference Manual");
+        this.add (button);
+      }
+
+      public static int main (string[] args) {
+        Gtk.init (ref args);
+
+        Application app = new Application ();
+        app.show_all ();
+        Gtk.main ();
+        return 0;
+      }
+      
+    }
+
+When compiled an run, it should create a window similar to the following:
+
+
+
+<figure>
+  <img src="https://lh3.googleusercontent.com/-P-NLFbCvvAU/VGTNveOSU6I/AAAAAAAAAKA/MDGbPkDIBcY/w462-h190-no/03LinkButton.png.png" alt="Link Button" title="Link Button">
+  <figcaption>Link Button</figcaption>
+</figure>
+
+
+
+## References and Further Reading
+
+* The GTK 3 Reference Manual : Buttons and Toggles. [Online] Available from:
+  [https://developer.gnome.org/gtk3/stable/ButtonWidgets.html](https://developer.gnome.org/gtk3/stable/ButtonWidgets.html)
+  [Accessed 13<sup>th</sup>&nbsp;November&nbsp;2014]
+
 
