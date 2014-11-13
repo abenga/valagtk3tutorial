@@ -401,8 +401,6 @@ The following example creates a single link button:
 
 When compiled an run, it should create a window similar to the following:
 
-
-
 <figure>
   <img src="https://lh3.googleusercontent.com/-P-NLFbCvvAU/VGTNveOSU6I/AAAAAAAAAKA/MDGbPkDIBcY/w462-h190-no/03LinkButton.png.png" alt="Link Button" title="Link Button">
   <figcaption>Link Button</figcaption>
@@ -416,4 +414,10 @@ When compiled an run, it should create a window similar to the following:
   [https://developer.gnome.org/gtk3/stable/ButtonWidgets.html](https://developer.gnome.org/gtk3/stable/ButtonWidgets.html)
   [Accessed 13<sup>th</sup>&nbsp;November&nbsp;2014]
 
+* The Python GTK 3 Tutorial : Button Widgets. [Online] Available from:
+  [http://python-gtk-3-tutorial.readthedocs.org/en/latest/button_widgets.html](http://python-gtk-3-tutorial.readthedocs.org/en/latest/button_widgets.html)
+  [Accessed 13<sup>th</sup>&nbsp;November&nbsp;2014]
 
+* Documentation on Gtk.LinkButton in Valadoc [Online] Available from:
+  [http://valadoc.org/#!api=gtk+-3.0/Gtk.LinkButton](http://valadoc.org/#!api=gtk+-3.0/Gtk.LinkButton)
+  [Accessed 13<sup>th</sup>&nbsp;November&nbsp;2014]
