@@ -1,16 +1,16 @@
 
-# Packing Widgets
+# Layout Widgets
 
-When creating an application, you'll probably want to put more than one widget 
-inside a window. Our first helloworld example only used one widget so we could 
-simply use the `Gtk.Container.add()` method to "pack" the widget into the window. 
-But when you want to put more than one widget into a window, you will need to 
-control the widgets' sizes and where they are positioned in the window. This is 
+When creating an application, you'll probably want to put more than one widget
+inside a window. Our first helloworld example only used one widget so we could
+simply use the `Gtk.Container.add()` method to "pack" the widget into the window.
+But when you want to put more than one widget into a window, you will need to
+control the widgets' sizes and where they are positioned in the window. This is
 where *packing* comes in.
 
 GTK+ comes with a variety of *layout containers* whose purpose it is to control
-the layout of child widgets added to them, as well as how they behave when the 
-window is resized. An overview may be seen in the 
+the layout of child widgets added to them, as well as how they behave when the
+window is resized. An overview may be seen in the
 [Layout Containers Overview](https://developer.gnome.org/gtk3/stable/LayoutContainers.html)
 in the online GTK+ documentation.
 
@@ -574,7 +574,7 @@ the various ways you can position child elements in a grid.
       }
 
       public GridExample () {
-        
+
         /* Set the window title. */
         this.set_title("Grid Packing Example");
 
@@ -597,7 +597,7 @@ the various ways you can position child elements in a grid.
       button.clicked.connect( ()=>{ this.callback("button 1"); });
       grid.attach (button, 0, 0, 1, 1);
       button.show();
-      
+
       /* Create second button. */
         button = new Gtk.Button.with_label("button 2");
         /* When the button is clicked, we call the "callback" method, this
@@ -606,40 +606,40 @@ the various ways you can position child elements in a grid.
         /* Insert button 2 into the second column of the first row. */
         grid.attach(button, 1, 0, 1, 1);
         button.show();
-        
+
         /* Create Third button. */
         button = new Gtk.Button.with_label("button 3");
         button.clicked.connect( () => { this.callback("button 3"); } );
         /* Insert button 3 to the right of button 2. */
         grid.attach_next_to(button, grid.get_child_at(0, 1), Gtk.PositionType.RIGHT, 1, 1);
         button.show();
-        
+
         /* Create Fourth button. */
         button = new Gtk.Button.with_label("button 4");
         button.clicked.connect( () => { this.callback("button 4"); } );
         /* Insert button 4 into the 2nd row of the grid (below button 1). */
         grid.attach_next_to(button, grid.get_child_at(0, 0), Gtk.PositionType.BOTTOM, 1, 2);
         button.show();
-        
+
         button = new Gtk.Button.with_label("button 5");
         button.clicked.connect( () => { this.callback("button 5"); } );
         /* Insert button 5 into the second row of the grid, to occupy 2
          * columns. */
         grid.attach(button, 1, 1, 2, 1);
         button.show();
-        
+
         button = new Gtk.Button.with_label("button 6");
         button.clicked.connect( () => { this.callback("button 6"); } );
         /* Insert button 6 into the third row of the grid. */
         grid.attach(button, 1, 2, 1, 1);
         button.show();
-        
+
         button = new Gtk.Button.with_label("button 7");
         button.clicked.connect( () => { this.callback("button 7"); } );
         /* Insert button 7 into the third row of the grid. */
         grid.attach(button, 2, 2, 1, 1);
         button.show();
-        
+
         /* Create "Quit" button */
         button = new Gtk.Button.with_label("Quit");
         /* When the button is clicked, we call the main_quit function
@@ -650,7 +650,7 @@ the various ways you can position child elements in a grid.
         button.show();
 
         grid.show();
-        
+
       }
 
       public static int main(string[] args) {
@@ -673,6 +673,19 @@ When compiled and run, it looks something like this:
   <img src="https://lh6.googleusercontent.com/-HFq2_JMwuyM/UiIzA7LGNUI/AAAAAAAAAGU/I-qy2nsolvw/w354-h294-no/02Grid.png" alt="Grid Packing Example Image" title="Grid Packing Example">
   <figcaption>Grid Packing Example</figcaption>
 </figure>
+
+
+## Stacks
+
+The `Gtk.Stack` widget is a container which only shows one of its children at a
+time. A `Gtk.StackSwitcher` widget can be used with GtkStack to provide this
+functionality.
+
+Transitions between pages can be animated as slides or fades. This can be
+controlled with `Gtk.Stack.set_transition_type()`. These animations respect the
+“`gtk-enable-animations`” setting.
+
+
 
 
 ## References and Further Reading
