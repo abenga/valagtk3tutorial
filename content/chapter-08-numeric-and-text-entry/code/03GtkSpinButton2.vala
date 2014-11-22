@@ -9,10 +9,8 @@ public class Application : Gtk.Window {
     this.set_default_size (350, 70);
     this.set_border_width(10);
 
-    // Create the Adjustment and SpinButton.
-    Gtk.Adjustment adj = new Gtk.Adjustment(0, 0, 16, 1, 1, 1);
-    Gtk.SpinButton button = new Gtk.SpinButton(adj, 1, 0);
-    button.set_range(0, 16);
+    // Create the SpinButton.
+    Gtk.SpinButton button = new Gtk.SpinButton.with_range(0, 16, 1);
     this.add(button);
 
     button.value_changed.connect (() => {
