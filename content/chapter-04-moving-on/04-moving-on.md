@@ -119,8 +119,8 @@ instances of) provides access methods along with other tools.
 
     Instances of any type can be assigned to a variable that is declared to be a
     pointer to an instance of that type. For referenced types, direct assignment is
-    allowed in either direction. For value types the pointer-to operator **`&`**
-    is required to assign to a pointer, and the pointer-indirection operator **`*`**
+    allowed in either direction. For value types the pointer-to operator (`&`)
+    is required to assign to a pointer, and the pointer-indirection operator (`*`)
     is used to access the instance pointed to.
 
     The `void*` type represents a pointer to an unknown type. As the referred type
@@ -144,94 +144,95 @@ instances of) provides access methods along with other tools.
 Let us now take a look at a slightly improved `helloworld` with better examples
 of callbacks. This will also introduce us to our next topic, packing widgets.
 
-    class HelloWorld : Gtk.Window {
+<pre><code class="vala">class HelloWorld : Gtk.Window {
+
+  private Gtk.Button button1;
+  private Gtk.Button button2;
+  private Gtk.Box box;
   
-      private Gtk.Button button1;
-      private Gtk.Button button2;
-      private Gtk.Box box;
-      
-      /* Our new improved callback.  The data passed to this function
-       * is printed to stdout. */
-      void callback(string data) {
-        stdout.printf("Hello! - %s was pressed\n", data);
-      }
+  /* Our new improved callback.  The data passed to this function
+   * is printed to stdout. */
+  void callback(string data) {
+    stdout.printf("Hello! - %s was pressed\n", data);
+  }
 
-      /* another callback */
-      bool on_delete_event() {
-        Gtk.main_quit();
-        return false;
-      }
-      
-      public HelloWorld () {
-        
+  /* another callback */
+  bool on_delete_event() {
+    Gtk.main_quit();
+    return false;
+  }
+  
+  public HelloWorld () {
+    
 
-        /* This is a new call, which just sets the title of our
-         * new window to "Hello Buttons!" */
-        this.set_title("Hello Buttons!");
+    /* This is a new call, which just sets the title of our
+     * new window to "Hello Buttons!" */
+    this.set_title("Hello Buttons!");
 
-        /* Here we just set a handler for delete_event that immediately
-         * exits GTK. */
-        this.delete_event.connect(this.on_delete_event);
+    /* Here we just set a handler for delete_event that immediately
+     * exits GTK. */
+    this.delete_event.connect(this.on_delete_event);
 
-        /* Sets the border width of the window. */
-        this.set_border_width(10);
+    /* Sets the border width of the window. */
+    this.set_border_width(10);
 
-        /* We create a box to pack widgets into.  This is described 
-         * in detail in the "packing" section. The box is not really 
-         * visible, it is just used as a tool to arrange widgets. */
-        box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+    /* We create a box to pack widgets into.  This is described 
+     * in detail in the "packing" section. The box is not really 
+     * visible, it is just used as a tool to arrange widgets. */
+    box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
-        /* Put the box into the main window. */
-        this.add(box);
+    /* Put the box into the main window. */
+    this.add(box);
 
-        /* Creates a new button with the label "Button 1". */
-        this.button1 = new Gtk.Button.with_label("Button 1");
-        
-        /* Now when the button is clicked, we call the "callback" function
-         * with a pointer to "button 1" as its argument */
-        this.button1.clicked.connect (() => { this.callback("Button 1"); });  
+    /* Creates a new button with the label "Button 1". */
+    this.button1 = new Gtk.Button.with_label("Button 1");
+    
+    /* Now when the button is clicked, we call the "callback" function
+     * with a pointer to "button 1" as its argument */
+    this.button1.clicked.connect (() => { this.callback("Button 1"); });  
 
-        /* Instead of gtk_container_add, we pack this button into the 
-         * invisible box, which has been packed into the window. */
-        box.pack_start(button1, true, true, 0);
+    /* Instead of gtk_container_add, we pack this button into the 
+     * invisible box, which has been packed into the window. */
+    box.pack_start(button1, true, true, 0);
 
-        /* Always remember this step, this tells GTK that our preparation 
-         * for this button is complete, and it can now be displayed. */
-        button1.show();
+    /* Always remember this step, this tells GTK that our preparation 
+     * for this button is complete, and it can now be displayed. */
+    button1.show();
 
-        /* Do these same steps again to create a second button */
-        this.button2 = new Gtk.Button.with_label("Button 2");
+    /* Do these same steps again to create a second button */
+    this.button2 = new Gtk.Button.with_label("Button 2");
 
-        /* Call the same callback function with a different argument,
-           passing a pointer to "button 2" instead. */
-        this.button2.clicked.connect (() => { this.callback("Button 2"); }); 
+    /* Call the same callback function with a different argument,
+       passing a pointer to "button 2" instead. */
+    this.button2.clicked.connect (() => { this.callback("Button 2"); }); 
 
-        box.pack_start(button2, true, true, 0);
+    box.pack_start(button2, true, true, 0);
 
-        /* The order in which we show the buttons is not really important, 
-         * but we recommend showing the window last, so it all pops up at 
-         * once. */
-        button2.show();
+    /* The order in which we show the buttons is not really important, 
+     * but we recommend showing the window last, so it all pops up at 
+     * once. */
+    button2.show();
 
-        box.show();
+    box.show();
 
-      }
-      
-      public static int main (string[] args) {
-        /* This is called in all GTK applications. Arguments are parsed
-         * from the command line and are returned to the application. */
-        Gtk.init (ref args);
-        
-        var hello = new HelloWorld();
+  }
+  
+  public static int main (string[] args) {
+    /* This is called in all GTK applications. Arguments are parsed
+     * from the command line and are returned to the application. */
+    Gtk.init (ref args);
+    
+    var hello = new HelloWorld();
 
-        hello.show();
-        
-        /* Rest in gtk_main and wait for the fun to begin! */
-        Gtk.main();
-        
-        return 0;
-      }  
-    }
+    hello.show();
+    
+    /* Rest in gtk_main and wait for the fun to begin! */
+    Gtk.main();
+    
+    return 0;
+  }  
+}
+</code></pre>
 
 Compiling and running the code produces the window below, *"Upgraded Hello World
 Example"*.
@@ -254,9 +255,10 @@ As noted above there is no "destroy" event handler in the upgraded *Hello World*
 
 The lines
 
-    void callback(string data) {
-      stdout.printf("Hello! - %s was pressed\n", data);
-    }
+<pre><code class="vala">void callback(string data) {
+  stdout.printf("Hello! - %s was pressed\n", data);
+}
+</code></pre>
 
 define a callback method which is similar to the `hello()` callback
 in the first helloworld. The difference is that the callback prints a message
@@ -264,31 +266,33 @@ including data passed in.
 
 The line
 
-    this.set_title("Hello Buttons!");
+<pre><code class="vala">this.set_title("Hello Buttons!");</code></pre>
 
 sets a title string to be used on the titlebar of the window, as seen in
 the screenshot above.
 
 The line
 
-    box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+<pre><code class="vala">box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);</code></pre>
 
 creates a horizontal box (`Gtk.Box`) to hold the two buttons that are
 created in the lines
 
-    this.button1 = new Gtk.Button.with_label("Button 1");
-    this.button2 = new Gtk.Button.with_label("Button 2");
+<pre><code class="vala">this.button1 = new Gtk.Button.with_label("Button 1");
+this.button2 = new Gtk.Button.with_label("Button 2");
+</code></pre>
 
 The line
 
-    this.window.add(box);
+<pre><code class="vala">this.window.add(box);</code></pre>
 
 adds the horizontal box to the window container.
 
 The lines
 
-    this.button1.clicked.connect (() => { this.callback("Button 1"); });
-    this.button2.clicked.connect (() => { this.callback("Button 2"); });
+<pre><code class="vala">this.button1.clicked.connect (() => { this.callback("Button 1"); });
+this.button2.clicked.connect (() => { this.callback("Button 2"); });
+</code></pre>
 
 connect the `callback()` method to the "clicked" signal of the buttons. Each
 button sets up a different string to be passed to the `callback()` method when
@@ -296,28 +300,29 @@ invoked.
 
 The lines
 
-    box.pack_start(button1, true, true, 0);
-    box.pack_start(button2, true, true, 0);
+<pre><code class="vala">box.pack_start(button1, true, true, 0);
+box.pack_start(button2, true, true, 0);
+</code></pre>
 
 pack the buttons into the horizontal box. The lines
 
-    button1.show();
-    button2.show();
+<pre><code class="vala">button1.show();
+button2.show();
+</code></pre>
 
 ask GTK to display the buttons.
 
 The lines
 
-    box.show();
+<pre><code class="vala">box.show();</code></pre>
 
 ask GTK to display the box and the window respectively.
 
 The window is shown by the line 
 
-    hello.show();
+<pre><code class="vala">hello.show();</code></pre>
 
 in `main()`.
-
 
 
 ## References and Further Reading

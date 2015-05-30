@@ -6,18 +6,19 @@ We will start with the simplest program possible: a program that will create a
 200px by 200px window and has no way of exiting except to be killed using the
 shell.
 
-    /* examples/chapter_03/01_simplewindow.vala */
+<pre><code class="vala">/* examples/chapter_03/01_simplewindow.vala */
 
-    int main(string[] args) {
-      Gtk.init (ref args);
+int main(string[] args) {
+  Gtk.init (ref args);
 
-      Gtk.Window window = new Window();
-      window.show_all();
+  Gtk.Window window = new Window();
+  window.show_all();
 
-      Gtk.main();
+  Gtk.main();
 
-      return 0;
-    }
+  return 0;
+}
+</code></pre>
 
 Vala code is written in files with `.vala`   extensions. The source files for
 the program are supplied as command line parameters to the Vala compiler `valac`,
@@ -28,7 +29,7 @@ This code can also be found as a vala file in the
 in the file `examples/chapter_03/01_simplewindow.vala`. You can compile the
 program above by using
 
-    $ valac --pkg gtk+-3.0 01_simplewindow.vala -o simplewindow
+<pre><code class="bash">$ valac --pkg gtk+-3.0 01_simplewindow.vala -o simplewindow</code></pre>
 
 `valac` is the name of the vala compiler. `--pkg gtk+3.0` tells the vala
 compiler to include the Gtk+ header files in the compilation. The `-o` flag
@@ -39,7 +40,7 @@ is the name of the vala source file we are compiling.
 
 When compilation succeeds, one may execute the program by typing
 
-    $ ./simplewindow
+<pre><code class="bash">$ ./simplewindow</code></pre>
 
 into the console.
 
@@ -56,7 +57,7 @@ you have to press `CTR+C` in the console from which you launched the program.
 
 The line:
 
-    Gtk.init(ref args)
+<pre><code class="vala">Gtk.init(ref args)</code></pre>
 
 calls `Gtk.init()`, the initialization function for GTK. This function will set
 up GTK, the type system, the connection to the windowing environment, etc.
@@ -94,8 +95,8 @@ for your application to parse or ignore.
 
 The next two lines:
 
-    Gtk.Window window = new Window();
-    window.show_all();
+<pre><code class="vala">Gtk.Window window = new Window();
+window.show_all();</code></pre>
 
 create and display a window. The window constructor `Window()` takes a window
 type (one of `Gtk.WindowType.TOPLEVEL` and `Gtk.WindowType.POPUP`) as an
@@ -107,7 +108,7 @@ manipulate it.
 
 The line
 
-    Gtk.main();
+<pre><code class="vala">Gtk.main();</code></pre>
 
 enters the GTK main processing loop. This is a  call you will see in every GTK
 application. When control reaches this point, GTK will sleep waiting for the
@@ -127,98 +128,97 @@ pressed and exit the program.
   <figcaption>Hello World a la GTK</figcaption>
 </figure>
 
-    /** examples/chapter_03/02_helloworld.vala */
+<pre><code class="vala">/** examples/chapter_03/02_helloworld.vala */
 
-    /* We define a HelloWorld class as a subclass Gtk.Window. */
-    class HelloWorld : Gtk.Window {
+/* We define a HelloWorld class as a subclass Gtk.Window. */
+class HelloWorld : Gtk.Window {
 
-      private Gtk.Button button;
+  private Gtk.Button button;
 
-      /* This is a callback function. The data arguments are ignored
-         in this example. More on callbacks below. */
-      public void hello () {
-        stdout.printf("Hello World\n");
-      }
+  /* This is a callback function. The data arguments are ignored
+     in this example. More on callbacks below. */
+  public void hello () {
+    stdout.printf("Hello World\n");
+  }
 
-      public bool on_delete_event () {
-        /* If you return FALSE in the "delete_event" signal handler,
-           GTK will emit the "destroy" signal. Returning TRUE means
-           you don’t want the window to be destroyed.
-           This is useful for popping up ’are you sure you want to quit?’
-           type dialogs. */
-        stdout.printf("delete event occurred\n");
-        /* Change true to false and the main window will be destroyed with
-           a "delete_event". */
-        return false;
-      }
+  public bool on_delete_event () {
+    /* If you return FALSE in the "delete_event" signal handler,
+       GTK will emit the "destroy" signal. Returning TRUE means
+       you don’t want the window to be destroyed.
+       This is useful for popping up ’are you sure you want to quit?’
+       type dialogs. */
+    stdout.printf("delete event occurred\n");
+    /* Change true to false and the main window will be destroyed with
+       a "delete_event". */
+    return false;
+  }
 
-      /* Another callback. */
-      public void on_destroy() {
-       Gtk.main_quit();
-      }
+  /* Another callback. */
+  public void on_destroy() {
+   Gtk.main_quit();
+  }
 
-      public HelloWorld () {
+  public HelloWorld () {
 
-        /* When the window is given the "delete_event" signal (this is given
-           by the window manager, usually by the "close" option, or on the
-           titlebar), we ask it to call the on_delete_event() function as
-           defined above. The data passed to the callback function is NULL
-           and is ignored in the callback function. */
-        this.delete_event.connect(this.on_delete_event);
+    /* When the window is given the "delete_event" signal (this is given
+       by the window manager, usually by the "close" option, or on the
+       titlebar), we ask it to call the on_delete_event() function as
+       defined above. The data passed to the callback function is NULL
+       and is ignored in the callback function. */
+    this.delete_event.connect(this.on_delete_event);
 
-        /* Here we connect the "destroy" event to a signal handler.
-           This event occurs when we call gtk_widget_destroy() on the window,
-           or if we return FALSE in the "on_delete_event" callback. */
-        this.destroy.connect(this.on_destroy);
+    /* Here we connect the "destroy" event to a signal handler.
+       This event occurs when we call gtk_widget_destroy() on the window,
+       or if we return FALSE in the "on_delete_event" callback. */
+    this.destroy.connect(this.on_destroy);
 
-        /* Sets the border width of the window. */
-        this.set_border_width(10);
+    /* Sets the border width of the window. */
+    this.set_border_width(10);
 
-        /* Creates a new button with the label "Hello World". */
-        this.button = new Gtk.Button.with_label("Hello World");
+    /* Creates a new button with the label "Hello World". */
+    this.button = new Gtk.Button.with_label("Hello World");
 
-        /* When the button receives the "clicked" signal, it will call the
-           function hello() passing it None as its argument.  The hello()
-           function is defined above. */
-        this.button.clicked.connect(this.hello);
+    /* When the button receives the "clicked" signal, it will call the
+       function hello() passing it None as its argument.  The hello()
+       function is defined above. */
+    this.button.clicked.connect(this.hello);
 
-        /* This will cause the window to be destroyed by calling
-           Gtk.Widget.destroy(window) when "clicked".  Again, the destroy
-           signal could come from here, or the window manager. */
-        GLib.Signal.connect_swapped(this.button, "clicked", (GLib.Callback)this.on_destroy, this);
+    /* This will cause the window to be destroyed by calling
+       Gtk.Widget.destroy(window) when "clicked".  Again, the destroy
+       signal could come from here, or the window manager. */
+    GLib.Signal.connect_swapped(this.button, "clicked", (GLib.Callback)this.on_destroy, this);
 
-        /* This packs the button into the window (a GTK container). */
-        this.add(this.button);
+    /* This packs the button into the window (a GTK container). */
+    this.add(this.button);
 
-      }
+  }
 
-      public static int main(string[] args){
-        Gtk.init(ref args);
+  public static int main(string[] args){
+    Gtk.init(ref args);
 
-        var hello = new HelloWorld();
+    var hello = new HelloWorld();
 
-        /* Show all the window and all the widgets contained therein. */
-        hello.show_all();
-        /* All Vala GTK applications must have a Gtk.main(). Control ends here
-           and waits for an event (like a key press or mouse event) to occur. */
-        Gtk.main();
+    /* Show all the window and all the widgets contained therein. */
+    hello.show_all();
+    /* All Vala GTK applications must have a Gtk.main(). Control ends here
+       and waits for an event (like a key press or mouse event) to occur. */
+    Gtk.main();
 
-        return 0;
-      }
-
-    }
-
+    return 0;
+  }
+}
+</code></pre>
 
 
 ## Compiling Hello World
 
 To compile *Hello World* above, you invoke `valac` using the command:
 
-    $ valac --pkg gtk+-3.0 -o helloworld 02_helloworld.vala
+<pre><code class="vala">$ valac --pkg gtk+-3.0 -o helloworld 02_helloworld.vala</code></pre>
 
 If you did this instead:
 
-    $ valac --pkg gtk+-3.0 -C 02_helloworld.vala
+<pre><code class="bash">$ valac --pkg gtk+-3.0 -C 02_helloworld.vala</code></pre>
 
 i.e. if you give `valac` the `-C` switch, it won't compile your program into a
 binary file. Instead it will output the intermediate C code for each of your
@@ -254,34 +254,34 @@ can emit the signal in the style of a method call and each callback function
 
 For example,
 
-    class Foo : Glib.Object {
-      public signal void some_event ();// definition of the signal
+<pre><code class="vala">class Foo : Glib.Object {
+  public signal void some_event ();// definition of the signal
 
-      public void method () {
-        some_event(); // emitting the signal (callbacks get invoked)
-      }
-    }
+  public void method () {
+    some_event(); // emitting the signal (callbacks get invoked)
+  }
+}
 
-    void callback_a () {
-      stdout.printf("Callback A\n");
-    }
+void callback_a () {
+  stdout.printf("Callback A\n");
+}
 
-    void callback_b () {
-      stdout.printf("Callback B\n");
-    }
+void callback_b () {
+  stdout.printf("Callback B\n");
+}
 
-    void main () {
-      var foo = new Foo ();
-      foo.some_event.connect(callback_a);  // connecting the callback functions
-      foo.some_event.connect(callback_b);
-      foo.method();
-    }
-
+void main () {
+  var foo = new Foo ();
+  foo.some_event.connect(callback_a);  // connecting the callback functions
+  foo.some_event.connect(callback_b);
+  foo.method();
+}
+</code></pre>
 You may disconnect signal callbacks in one of two ways. The first (and simplest)
 is by calling `myobject.mysignal.disconnect(callback)`. In our example above,
 `callback_a` may be disconnected by calling
 
-    foo.some_event.disconnect(callback_a);
+<pre><code class="vala">foo.some_event.disconnect(callback_a);</code></pre>
 
 The second way is to store the return value of the `connect()` callback (it
 usually returns a `ulong` handler id) and then pass this signal id to
@@ -290,26 +290,27 @@ object, not the signal. This is particularly useful when you connect closures
 (anonymous functions, also known as *lambda expressions*) as callbacks, for
 example:
 
-    ulong handlerId = foo.some_event.connect (() => { /* Closure code here. */ });
-    foo.disconnect(handlerId);
+<pre><code class="vala">ulong handlerId = foo.some_event.connect (() => { /* Closure code here. */ });
+foo.disconnect(handlerId);</code></pre>
 
 You can also temporarily disable and reenable signal handlers with the
 `GLib.SignalHandler.block()` and `GLib.SignalHandler.unblock()` family of
 functions.
 
-    void GLib.SignalHandler.block(void* instance,
-                                  ulong handler_id);
+<pre><code class="vala">void GLib.SignalHandler.block(void* instance,
+                              ulong handler_id);
 
-    void GLib.SignalHandler.block_by_func (void* instance,
-                                           void* func,
-                                           void* data);
+void GLib.SignalHandler.block_by_func (void* instance,
+                                       void* func,
+                                       void* data);
 
-    void GLib.SignalHandler.unblock(void* object,
-                                    ulong id );
+void GLib.SignalHandler.unblock(void* object,
+                                ulong id );
 
-    void GLib.SignalHandler.unblock_by_func(void* object,
-                                            void* func,
-                                            void* data );
+void GLib.SignalHandler.unblock_by_func(void* object,
+                                        void* func,
+                                        void* data );
+</code></pre>
 
 ### GTK Signals
 
@@ -324,7 +325,7 @@ such as *"destroy"*, and there are signals that are widget specific, such as
 To make a button perform an action, we set up a signal handler to catch these
 signals and call the functions connected to this signal.
 
-    handlerID = object.signal.connect(func)
+<pre><code class="vala">handlerID = object.signal.connect(func)</code></pre>
 
 where `object` is the `Gtk.Widget` instance which will be emitting the signal,
 and the argument `func` is the "callback function" you wish to be called when it
@@ -495,7 +496,7 @@ occurred. Possible values for the `Gdk.EventType` are:
 In order to connect a callback function to one of these events you use the
 function `object.signal.connect`, for example
 
-    button.button_press_event.connect(func)
+<pre><code class="vala">button.button_press_event.connect(func)</code></pre>
 
 
 ## Stepping Through Hello World
@@ -505,9 +506,9 @@ example `02_helloworld.vala` program.
 
 The code
 
-    class HelloWorld : Gtk.Window {
-      ...
-    }
+<pre><code class="vala">class HelloWorld : Gtk.Window {
+  ...
+}</code></pre>
 
 defines a class called `HelloWorld` that is a subclass of `Gtk.Window`, which 
 means that it inherits all the public attributes and methods of the `Gtk.Window` 
@@ -517,16 +518,16 @@ obtained using the keyword `this`.
 The `HelloWorld` class contains a single member: `button`, an instance of 
 `Gtk.Button`.
 
-    private Gtk.Button button;
+<pre><code class="vala">private Gtk.Button button;</code></pre>
 
 Now let's examine the callback methods.
 
 The following lines define the `hello()` callback method that will be called
 when `button` is "clicked".
 
-    public void hello () {
-      stdout.printf("Hello World\n");
-    }
+<pre><code class="vala">public void hello () {
+  stdout.printf("Hello World\n");
+}</code></pre>
 
 When called the method prints *"Hello World"* to the console. In this case the
 data parameter is left out since the `hello()` method will never called with
@@ -545,18 +546,18 @@ signal emitted, keeping our application running. By returning `false`, we ask
 that *"destroy"* be emitted, which in turn will call our *"destroy"* signal
 handler (`on_destroy`). Note the comments have been removed for clarity.
 
-    public bool on_delete_event () {
-      stdout.printf("delete event occurred\n");
-      return true;
-    }
+<pre><code class="vala">public bool on_delete_event () {
+  stdout.printf("delete event occurred\n");
+  return true;
+}</code></pre>
 
 The `on_destroy()` callback method causes the program to quit by calling
 `Gtk.main_quit()`. This function tells GTK that it is to exit from `Gtk.main()`
 when control is returned to it.
 
-    public void on_destroy() {
-      Gtk.main_quit();
-    }
+<pre><code class="vala">public void on_destroy() {
+  Gtk.main_quit();
+}</code></pre>
 
 The `HelloWorld` constructor `HelloWorld()` creates the window and widgets used
 by the program. The window (and its contents) is not displayed until we direct 
@@ -568,27 +569,27 @@ signals are caught. The first is emitted when we use the window manager to close
 the window, or when we use the `GtkWidget` `destroy()` method call. The second
 is emitted when, in the `on_delete_event` handler, we return `false`.
 
-    this.delete_event.connect(this.on_delete_event);
+<pre><code class="vala">this.delete_event.connect(this.on_delete_event);
 
-    this.destroy.connect(this.on_destroy);
+this.destroy.connect(this.on_destroy);</code></pre>
 
 The next line sets an attribute of a container object (in this case the window)
 to have a blank area along the inside of it 10 pixels wide where no widgets will
 be placed. There are other similar methods that we will look at in a later
 tutorial chapter.
 
-    this.set_border_width(10);
+<pre><code class="vala">this.set_border_width(10);</code></pre>
 
 The next line
 
-    this.button = new Gtk.Button.with_label("Hello World");
+<pre><code class="vala">this.button = new Gtk.Button.with_label("Hello World");</code></pre>
 
 creates a new button and saves a reference to it in `this.button`. The button
 will have the label *"Hello World"* when displayed.
 
 The line
 
-    this.button.clicked.connect(this.hello);
+<pre><code class="vala">this.button.clicked.connect(this.hello);</code></pre>
 
 we attach a signal handler to the button so when it emits the *"clicked"*
 signal, our `hello()` callback method is called. We are not passing any data to
@@ -615,7 +616,7 @@ signal to be emitted from the window which will in turn cause the `HelloWorld`
 
 The next line
 
-    this.add(this.button);
+<pre><code class="vala">this.add(this.button);</code></pre>
 
 is a packing call, which will be explained in depth later on in a later
 chapter on Packing Widgets. But it is fairly easy to understand. It simply tells
@@ -632,21 +633,21 @@ our program begins.
 
 The line
 
-    var hello = new HelloWorld();
+<pre><code class="vala">var hello = new HelloWorld();</code></pre>
 
 creates an instance of the `HelloWorld` class and saves a reference to
 it in the `hello` variable.
 
 and in the line
 
-    hello.show_all();
+<pre><code class="vala">hello.show_all();</code></pre>
 
 weask GTK to "show" the widgets on the screen using the line.
 
 We then call the `Gtk.main()` function which sleeps and waits for the user to
 interact with the program interface.
 
-    Gtk.main();
+<pre><code class="vala">Gtk.main();</code></pre>
 
 Now, when we click the mouse button on a GTK button, the widget emits a
 *"clicked"* signal. In order for us to use this information, our program sets up

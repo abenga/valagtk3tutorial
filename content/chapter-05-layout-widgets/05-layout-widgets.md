@@ -44,7 +44,7 @@ effect.
 
 The constructor for `Gtk.Box` is
 
-    Gtk.Box(Gtk.Orientation orientation, int spacing);
+<pre><code class="vala">Gtk.Box(Gtk.Orientation orientation, int spacing);</code></pre>
 
 `orientation` is an instance of the enumerated type `Gtk.Orientation`, which
 takes one of two values: `Gtk.Orientation.HORIZONTAL` and
@@ -56,13 +56,14 @@ pixels to place by default between children.
 The instance methods `pack_start()` and `pack_end()` are used to place child
 objects inside the `Gtk.Box` containers.
 
-    /* When we call box.pack_end(...) we add child to
-       box, packed with reference to the end of box. */
-    public void pack_end (Gtk.Widget child, bool expand = true, bool fill = true, uint padding = 0);
+<pre><code class="vala">/* When we call box.pack_end(...) we add child to
+   box, packed with reference to the end of box. */
+public void pack_end (Gtk.Widget child, bool expand = true, bool fill = true, uint padding = 0);
 
-    /* When we call box.pack_start(...) it adds child to box,
-       packed with reference to the beginning of box. */
-    public void pack_start (Gtk.Widget child, bool expand = true, bool fill = true, uint padding = 0);
+/* When we call box.pack_start(...) it adds child to box,
+   packed with reference to the beginning of box. */
+public void pack_start (Gtk.Widget child, bool expand = true, bool fill = true, uint padding = 0);
+</code></pre>
 
 The `pack_start()` method will start at the top and work its way down in a
 vertical box, and pack left to right in a horizontal box. The `pack_end()`
@@ -131,7 +132,7 @@ method are defined as above, with default arguments for `expand`, `fill` and
 `padding` as shown above. The `child` argument, however, must be specified. This
 means that one may add a widget `child` to a box `box` using the call
 
-    box.pack_start(child);
+<pre><code class="vala">box.pack_start(child);</code></pre>
 
 and `child` will be added to `box` with `expand = true`, `fill = true`, and
 `padding = 0`.
@@ -163,305 +164,306 @@ edge of the window when the window is resized.
 The following code contains the code used to create the above images. Try to
 play with it to see the effect of any changes.
 
-    /*
-     * Helper function that makes a new hbox filled with button-labels.
-     * Arguments for the variables we're interested are passed in to
-     * this function.  We do not show the box, but do show everything
-     * inside.
-     */
-    static Gtk.Box make_box (bool homogeneous, int spacing, bool expand, bool fill, int padding) {
+<pre><code class="vala">/*
+ * Helper function that makes a new hbox filled with button-labels.
+ * Arguments for the variables we're interested are passed in to
+ * this function.  We do not show the box, but do show everything
+ * inside.
+ */
+static Gtk.Box make_box (bool homogeneous, int spacing, bool expand, bool fill, int padding) {
 
-      Gtk.Box box;
-      Gtk.Button button;
-      string padstr;
+  Gtk.Box box;
+  Gtk.Button button;
+  string padstr;
 
-      /* Create a new Gtk.Box with the appropriate orientation
-       * and spacing settings */
-      box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, spacing);
-      /* Set whether all child widgets be the same size. */
-      box.set_homogeneous(homogeneous);
+  /* Create a new Gtk.Box with the appropriate orientation
+   * and spacing settings */
+  box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, spacing);
+  /* Set whether all child widgets be the same size. */
+  box.set_homogeneous(homogeneous);
 
-      /* Create a series of buttons with the appropriate settings */
-      button = new Gtk.Button.with_label("box.pack");
-      box.pack_start(button, expand, fill, padding);
-      button.show();
+  /* Create a series of buttons with the appropriate settings */
+  button = new Gtk.Button.with_label("box.pack");
+  box.pack_start(button, expand, fill, padding);
+  button.show();
 
-      /*button = new Gtk.Button.with_label ("(box,");
-      box.pack_start(button, expand, fill, padding);
-      button.show();*/
+  /*button = new Gtk.Button.with_label ("(box,");
+  box.pack_start(button, expand, fill, padding);
+  button.show();*/
 
-      button = new Gtk.Button.with_label("(button,");
-      box.pack_start(button, expand, fill, padding);
-      button.show();
+  button = new Gtk.Button.with_label("(button,");
+  box.pack_start(button, expand, fill, padding);
+  button.show();
 
-      /* Create a button with the label depending on the value of
-       * expand. */
-      button = new Gtk.Button.with_label(@"$expand,");
-      /*if (expand == true)
-        button = new Gtk.Button.with_label("true,");
-      else
-        button = new Gtk.Button.with_label("false,");*/
+  /* Create a button with the label depending on the value of
+   * expand. */
+  button = new Gtk.Button.with_label(@"$expand,");
+  /*if (expand == true)
+    button = new Gtk.Button.with_label("true,");
+  else
+    button = new Gtk.Button.with_label("false,");*/
 
-      box.pack_start(button, expand, fill, padding);
-      button.show();
+  box.pack_start(button, expand, fill, padding);
+  button.show();
 
-      /* This is the same as the button creation for "expand"
-       * above, but uses the shorthand form. */
-      button = new Gtk.Button.with_label(@"$fill,");
-      box.pack_start (button, expand, fill, padding);
-      button.show();
+  /* This is the same as the button creation for "expand"
+   * above, but uses the shorthand form. */
+  button = new Gtk.Button.with_label(@"$fill,");
+  box.pack_start (button, expand, fill, padding);
+  button.show();
 
-      padstr = @"$padding);";
+  padstr = @"$padding);";
 
-      button = new Gtk.Button.with_label(padstr);
-      box.pack_start(button, expand, fill, padding);
-      button.show();
+  button = new Gtk.Button.with_label(padstr);
+  box.pack_start(button, expand, fill, padding);
+  button.show();
 
-      return box;
-    }
+  return box;
+}
 
-    class PackBox : Gtk.Window {
+class PackBox : Gtk.Window {
 
-      public bool on_delete_event () {
-        Gtk.main_quit();
-        return false;
-      }
+  public bool on_delete_event () {
+    Gtk.main_quit();
+    return false;
+  }
 
-      public PackBox (int which) {
+  public PackBox (int which) {
 
-        /* You should always remember to connect the delete_event signal
-         * to the main window. This is very important for proper intuitive
-         * behavior */
+    /* You should always remember to connect the delete_event signal
+     * to the main window. This is very important for proper intuitive
+     * behavior */
 
-        this.delete_event.connect(this.on_delete_event);
-        this.set_border_width(10);
+    this.delete_event.connect(this.on_delete_event);
+    this.set_border_width(10);
 
-        /* We create a vertical box (vbox) to pack the horizontal boxes
-         * into. This allows us to stack the horizontal boxes filled with
-         * buttons one on top of the other in this vbox. */
-        var box1 = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+    /* We create a vertical box (vbox) to pack the horizontal boxes
+     * into. This allows us to stack the horizontal boxes filled with
+     * buttons one on top of the other in this vbox. */
+    var box1 = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
 
-        /* Which example to show. These correspond to the pictures above. */
-        switch (which) {
-          case 1:
-            /* create two new labels. */
-            var label = new Gtk.Label("Gtk.Box(HORIZONTAL, 0)");
-            var label2 = new Gtk.Label("box.set_homogeneous(false)");
+    /* Which example to show. These correspond to the pictures above. */
+    switch (which) {
+      case 1:
+        /* create two new labels. */
+        var label = new Gtk.Label("Gtk.Box(HORIZONTAL, 0)");
+        var label2 = new Gtk.Label("box.set_homogeneous(false)");
 
-            /* Align the labels to the left side.  We'll discuss this method
-             * and others in the section on Widget Attributes. */
-            label.set_alignment(0, 0);
-            label2.set_alignment(0, 0);
+        /* Align the labels to the left side.  We'll discuss this method
+         * and others in the section on Widget Attributes. */
+        label.set_alignment(0, 0);
+        label2.set_alignment(0, 0);
 
-            /* Pack the labels into the vertical box (box box1).  Remember
-             * that widgets added to a vertically oriented box will be
-             * packed one on top of the other in order. */
-            box1.pack_start(label, false, false, 0);
-            box1.pack_start(label2, false, false, 0);
+        /* Pack the labels into the vertical box (box box1).  Remember
+         * that widgets added to a vertically oriented box will be
+         * packed one on top of the other in order. */
+        box1.pack_start(label, false, false, 0);
+        box1.pack_start(label2, false, false, 0);
 
-            /* Show the labels. */
-            label.show();
-            label2.show();
+        /* Show the labels. */
+        label.show();
+        label2.show();
 
-            /* Call our make box function - homogeneous = false, spacing = 0,
-             * expand = false, fill = false, padding = 0 */
-            var box2 = make_box(false, 0, false, false, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
+        /* Call our make box function - homogeneous = false, spacing = 0,
+         * expand = false, fill = false, padding = 0 */
+        var box2 = make_box(false, 0, false, false, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-            /* Call our make box function - homogeneous = false, spacing = 0,
-             * expand = true, fill = false, padding = 0 */
-            box2 = make_box(false, 0, true, false, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
+        /* Call our make box function - homogeneous = false, spacing = 0,
+         * expand = true, fill = false, padding = 0 */
+        box2 = make_box(false, 0, true, false, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-            /* Args are: homogeneous, spacing, expand, fill, padding */
-            box2 = make_box(false, 0, true, true, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
+        /* Args are: homogeneous, spacing, expand, fill, padding */
+        box2 = make_box(false, 0, true, true, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-            /* Creates a separator, we'll learn more about these later,
-             * but they are quite simple. */
-            var separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
+        /* Creates a separator, we'll learn more about these later,
+         * but they are quite simple. */
+        var separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
 
-            /* Pack the separator into the vbox. Remember each of these
-             * widgets is being packed into a vertically oriented box, so
-             * they'll be stacked vertically. */
-            box1.pack_start(separator, false, true, 5);
-            separator.show();
+        /* Pack the separator into the vbox. Remember each of these
+         * widgets is being packed into a vertically oriented box, so
+         * they'll be stacked vertically. */
+        box1.pack_start(separator, false, true, 5);
+        separator.show();
 
-            /* Create another new label, and show it. */
-            label = new Gtk.Label("Gtk.Box(Gtk.Orientation.HORIZONTAL, 0)");
+        /* Create another new label, and show it. */
+        label = new Gtk.Label("Gtk.Box(Gtk.Orientation.HORIZONTAL, 0)");
 
-            label.set_alignment(0, 0);
-            box1.pack_start(label, false, false, 0);
-            label.show();
+        label.set_alignment(0, 0);
+        box1.pack_start(label, false, false, 0);
+        label.show();
 
-            label2 = new Gtk.Label("box.set_homogeneous(true)");
-            label2.set_alignment(0, 0);
-            box1.pack_start(label2, false, false, 0);
-            label2.show();
+        label2 = new Gtk.Label("box.set_homogeneous(true)");
+        label2.set_alignment(0, 0);
+        box1.pack_start(label2, false, false, 0);
+        label2.show();
 
 
-            /* Args are: homogeneous, spacing, expand, fill, padding */
-            box2 = make_box(true, 0, true, false, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
+        /* Args are: homogeneous, spacing, expand, fill, padding */
+        box2 = make_box(true, 0, true, false, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-            /* Args are: homogeneous, spacing, expand, fill, padding */
-            box2 = make_box(true, 0, true, true, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
+        /* Args are: homogeneous, spacing, expand, fill, padding */
+        box2 = make_box(true, 0, true, true, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-            /* Another new separator. */
-            separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
-            /* The last 3 arguments to pack_start are:
-             * expand, fill, padding. */
-            box1.pack_start(separator, false, true, 5);
-            separator.show();
-            break;
-          case 2:
-            /* Create a new label, remember box1 is a vbox as created
-             * near the beginning of the constructor. */
-            var label = new Gtk.Label("Gtk.Box(HORIZONTAL, 10)");
-            label.set_alignment( 0, 0);
-            box1.pack_start(label, false, false, 0);
-            label.show();
-
-            var label2 = new Gtk.Label("box.set_homogeneous(false)");
-            label2.set_alignment( 0, 0);
-            box1.pack_start(label2, false, false, 0);
-            label2.show();
-
-            /* Args are: homogeneous, spacing, expand, fill, padding. */
-            var box2 = make_box(false, 10, true, false, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
-
-            /* Args are: homogeneous, spacing, expand, fill, padding */
-            box2 = make_box(false, 10, true, true, 0);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
-
-            var separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
-            /* The last 3 arguments to pack_start are:
-             * expand, fill, padding. */
-            box1.pack_start(separator, false, true, 5);
-            separator.show();
-
-            label = new Gtk.Label("Gtk.Box(HORIZONTAL, 0)");
-            label.set_alignment(0, 0);
-            box1.pack_start(label, false, false, 0);
-            label.show();
-
-            label2 = new Gtk.Label("box.set_homogeneous(false)");
-            label2.set_alignment( 0, 0);
-            box1.pack_start(label2, false, false, 0);
-            label2.show();
-
-            /* Args are: homogeneous, spacing, expand, fill, padding. */
-            box2 = make_box(false, 0, true, false, 10);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
-
-            /* Args are: homogeneous, spacing, expand, fill, padding. */
-            box2 = make_box(false, 0, true, true, 10);
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
-
-            separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
-            /* The last 3 arguments to pack_start are:
-             * expand, fill, padding. */
-            box1.pack_start(separator, false, true, 5);
-            separator.show();
-          break;
-          case 3:
-            /* This demonstrates the ability to use pack_end() to
-             * right justify widgets. First, we create a new box as before. */
-            var box2 = make_box(false, 0, false, false, 0);
-
-            /* Create the label that will be put at the end. */
-            var label = new Gtk.Label("end");
-            /* Pack it using pack_end(), so it is put on the right
-             * side of the hbox created in the make_box() call. */
-            box2.pack_end(label, false, false, 0);
-            /* Show the label. */
-            label.show();
-
-            /* Pack box2 into box1 */
-            box1.pack_start(box2, false, false, 0);
-            box2.show();
-
-            /* A separator for the bottom. */
-            var separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
-
-            /* This explicitly sets the separator to 400 pixels wide by 5
-             * pixels high. This is so the hbox we created will also be 400
-             * pixels wide, and the "end" label will be separated from the
-             * other labels in the hbox. Otherwise, all the widgets in the
-             * hbox would be packed as close together as possible.
-             * separator.set_size_request(400, 5)
-             * pack the separator into the vbox (box1) created near the
-             * start of the constructor. */
-            box1.pack_start(separator, false, true, 5);
-            separator.show();
-          break;
-        }
-
-        /* Create another new hbox. Remember we can use as many as we need! */
-        var quitbox = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
-        quitbox.set_homogeneous(false);
-
-        /* Our quit button. */
-        var button = new Gtk.Button.with_label("Quit");
-
-        /* Setup the signal to terminate the program when the button is
-         * clicked */
-        button.clicked.connect( () => { Gtk.main_quit(); } );
-        /* Pack the button into the quitbox.
-         * The last 3 arguments to pack_start are:
+        /* Another new separator. */
+        separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
+        /* The last 3 arguments to pack_start are:
          * expand, fill, padding. */
-        quitbox.pack_start(button, true, false, 0);
-        /* pack the quitbox into the vbox (box1) */
-        box1.pack_start(quitbox, false, false, 0);
+        box1.pack_start(separator, false, true, 5);
+        separator.show();
+        break;
+      case 2:
+        /* Create a new label, remember box1 is a vbox as created
+         * near the beginning of the constructor. */
+        var label = new Gtk.Label("Gtk.Box(HORIZONTAL, 10)");
+        label.set_alignment( 0, 0);
+        box1.pack_start(label, false, false, 0);
+        label.show();
 
-        /* Pack the vbox (box1) which now contains all our widgets, into the
-         * main window. */
-        this.add(box1);
+        var label2 = new Gtk.Label("box.set_homogeneous(false)");
+        label2.set_alignment( 0, 0);
+        box1.pack_start(label2, false, false, 0);
+        label2.show();
 
-        /* And show everything left */
-        button.show();
-        quitbox.show();
-        box1.show();
+        /* Args are: homogeneous, spacing, expand, fill, padding. */
+        var box2 = make_box(false, 10, true, false, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-        /* Showing the window last so everything pops up at once. */
-        this.show();
-      }
+        /* Args are: homogeneous, spacing, expand, fill, padding */
+        box2 = make_box(false, 10, true, true, 0);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-      public static int main (string[] args) {
+        var separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
+        /* The last 3 arguments to pack_start are:
+         * expand, fill, padding. */
+        box1.pack_start(separator, false, true, 5);
+        separator.show();
 
-        if (args.length == 2) {
+        label = new Gtk.Label("Gtk.Box(HORIZONTAL, 0)");
+        label.set_alignment(0, 0);
+        box1.pack_start(label, false, false, 0);
+        label.show();
 
-          Gtk.init(ref args);
+        label2 = new Gtk.Label("box.set_homogeneous(false)");
+        label2.set_alignment( 0, 0);
+        box1.pack_start(label2, false, false, 0);
+        label2.show();
 
-          var window = new PackBox(int.parse(args[1]));
-          window.show();
+        /* Args are: homogeneous, spacing, expand, fill, padding. */
+        box2 = make_box(false, 0, true, false, 10);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-          /* And of course, our mainloop. */
-          Gtk.main();
+        /* Args are: homogeneous, spacing, expand, fill, padding. */
+        box2 = make_box(false, 0, true, true, 10);
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
 
-          /* Control returns here when Gtk.main_quit() is called. */
-          return 0;
+        separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
+        /* The last 3 arguments to pack_start are:
+         * expand, fill, padding. */
+        box1.pack_start(separator, false, true, 5);
+        separator.show();
+      break;
+      case 3:
+        /* This demonstrates the ability to use pack_end() to
+         * right justify widgets. First, we create a new box as before. */
+        var box2 = make_box(false, 0, false, false, 0);
 
-        } else {
-          stderr.printf("usage: packbox num, where num is 1, 2, or 3.\n");
-          /* This just does cleanup in GTK and exits with an exit status
-           * of 1. */
-          Process.exit (1);
-        }
+        /* Create the label that will be put at the end. */
+        var label = new Gtk.Label("end");
+        /* Pack it using pack_end(), so it is put on the right
+         * side of the hbox created in the make_box() call. */
+        box2.pack_end(label, false, false, 0);
+        /* Show the label. */
+        label.show();
 
-      }
+        /* Pack box2 into box1 */
+        box1.pack_start(box2, false, false, 0);
+        box2.show();
+
+        /* A separator for the bottom. */
+        var separator = new Gtk.Separator(Gtk.Orientation.HORIZONTAL);
+
+        /* This explicitly sets the separator to 400 pixels wide by 5
+         * pixels high. This is so the hbox we created will also be 400
+         * pixels wide, and the "end" label will be separated from the
+         * other labels in the hbox. Otherwise, all the widgets in the
+         * hbox would be packed as close together as possible.
+         * separator.set_size_request(400, 5)
+         * pack the separator into the vbox (box1) created near the
+         * start of the constructor. */
+        box1.pack_start(separator, false, true, 5);
+        separator.show();
+      break;
     }
+
+    /* Create another new hbox. Remember we can use as many as we need! */
+    var quitbox = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+    quitbox.set_homogeneous(false);
+
+    /* Our quit button. */
+    var button = new Gtk.Button.with_label("Quit");
+
+    /* Setup the signal to terminate the program when the button is
+     * clicked */
+    button.clicked.connect( () => { Gtk.main_quit(); } );
+    /* Pack the button into the quitbox.
+     * The last 3 arguments to pack_start are:
+     * expand, fill, padding. */
+    quitbox.pack_start(button, true, false, 0);
+    /* pack the quitbox into the vbox (box1) */
+    box1.pack_start(quitbox, false, false, 0);
+
+    /* Pack the vbox (box1) which now contains all our widgets, into the
+     * main window. */
+    this.add(box1);
+
+    /* And show everything left */
+    button.show();
+    quitbox.show();
+    box1.show();
+
+    /* Showing the window last so everything pops up at once. */
+    this.show();
+  }
+
+  public static int main (string[] args) {
+
+    if (args.length == 2) {
+
+      Gtk.init(ref args);
+
+      var window = new PackBox(int.parse(args[1]));
+      window.show();
+
+      /* And of course, our mainloop. */
+      Gtk.main();
+
+      /* Control returns here when Gtk.main_quit() is called. */
+      return 0;
+
+    } else {
+      stderr.printf("usage: packbox num, where num is 1, 2, or 3.\n");
+      /* This just does cleanup in GTK and exits with an exit status
+       * of 1. */
+      Process.exit (1);
+    }
+
+  }
+}
+</code></pre>
 
 A brief tour of the `01_packingboxes.vala` code starts with lines 10-60 which
 define a helper function `make_box()` that creates a horizontal box and
@@ -501,7 +503,7 @@ container which arranges its child widgets in rows and columns.
 
 The first thing to look at, of course, is the `Gtk.Grid()` constructor:
 
-    var grid = Gtk.Grid();
+<pre><code class="vala">var grid = Gtk.Grid();</code></pre>
 
 which creates a new instance of `Gtk.Grid` and returns a reference to it.
 
@@ -518,7 +520,7 @@ columns as we specify.
 
 To place a widget into a grid, we use the following method:
 
-    public void attach(Gtk.Widget child, int left, int top, int width, int height);
+<pre><code class="vala">public void attach(Gtk.Widget child, int left, int top, int width, int height);</code></pre>
 
 The first parameter (`child`) is the widget you wish to place in the table. The
 `left` and `top` arguments specify where to place the widget (counting from 0
@@ -536,7 +538,7 @@ rows, you'd use `left = 0`, `top = 0`, `width = 2`, and `height=1`.
 We can also use the `Gtk.Grid.attach_next_to` method to add new widgets next to
 sibling elements already in the grid.
 
-    public void attach_next_to (Widget child, Widget? sibling, PositionType side, int width, int height)
+<pre><code class="vala">public void attach_next_to (Widget child, Widget? sibling, PositionType side, int width, int height)</code></pre>
 
 adds the widget `child` next to the widget `sibling`, on the side defined by
 `side`, which is an instance of `Gtk.PositionType`, which an enumeration that \
@@ -547,9 +549,10 @@ of `sibling`), `Gtk.PositionType.RIGHT`, `Gtk.PositionType.TOP`, and
 We can set spacing between the rows and columns of the grid (in pixels) using
 the following methods:
 
-    grid.set_row_spacing (int spacing)
+<pre><code class="vala">grid.set_row_spacing (int spacing)
 
-    grid.set_col_spacing (uint spacing)
+grid.set_col_spacing (uint spacing)
+</code></pre>
 
 Note that for columns, the space goes to the right of the column, and for rows,
 the space goes below the row.
@@ -559,113 +562,114 @@ the space goes below the row.
 In the example below, we will make a window with seven buttons in a grid, showing
 the various ways you can position child elements in a grid.
 
-    class GridExample : Gtk.Window {
+<pre><code class="vala">class GridExample : Gtk.Window {
 
-      /* Our callback.
-       * The data passed to this method is printed to stdout */
-      void callback(string data) {
-        stdout.printf("Hello again - %s was pressed\n", data);
-      }
+  /* Our callback.
+   * The data passed to this method is printed to stdout */
+  void callback(string data) {
+    stdout.printf("Hello again - %s was pressed\n", data);
+  }
 
-      /* This callback quits the program. */
-      public bool on_delete_event() {
-        Gtk.main_quit();
-        return false;
-      }
+  /* This callback quits the program. */
+  public bool on_delete_event() {
+    Gtk.main_quit();
+    return false;
+  }
 
-      public GridExample () {
+  public GridExample () {
 
-        /* Set the window title. */
-        this.set_title("Grid Packing Example");
+    /* Set the window title. */
+    this.set_title("Grid Packing Example");
 
-        /* Set a handler for delete_event that immediately
-         *exits Gtk. */
-        this.delete_event.connect(this.on_delete_event);
+    /* Set a handler for delete_event that immediately
+     *exits Gtk. */
+    this.delete_event.connect(this.on_delete_event);
 
-        /* Sets the border width of the window. */
-        this.set_border_width(20);
+    /* Sets the border width of the window. */
+    this.set_border_width(20);
 
-        /* Create a 2x2 table. */
-        var grid = new Gtk.Grid();
+    /* Create a 2x2 table. */
+    var grid = new Gtk.Grid();
 
-        /* Put the table in the main window. */
-        this.add(grid);
+    /* Put the table in the main window. */
+    this.add(grid);
 
-        /* Create first button. */
-        var button = new Gtk.Button.with_label("button 1");
-        /* When the button is clicked, we call the "callback" method. */
-      button.clicked.connect( ()=>{ this.callback("button 1"); });
-      grid.attach (button, 0, 0, 1, 1);
-      button.show();
+    /* Create first button. */
+    var button = new Gtk.Button.with_label("button 1");
+    /* When the button is clicked, we call the "callback" method. */
+  button.clicked.connect( ()=>{ this.callback("button 1"); });
+  grid.attach (button, 0, 0, 1, 1);
+  button.show();
 
-      /* Create second button. */
-        button = new Gtk.Button.with_label("button 2");
-        /* When the button is clicked, we call the "callback" method, this
-         * time with a different button name. */
-        button.clicked.connect( () => { this.callback("button 2"); } );
-        /* Insert button 2 into the second column of the first row. */
-        grid.attach(button, 1, 0, 1, 1);
-        button.show();
+  /* Create second button. */
+    button = new Gtk.Button.with_label("button 2");
+    /* When the button is clicked, we call the "callback" method, this
+     * time with a different button name. */
+    button.clicked.connect( () => { this.callback("button 2"); } );
+    /* Insert button 2 into the second column of the first row. */
+    grid.attach(button, 1, 0, 1, 1);
+    button.show();
 
-        /* Create Third button. */
-        button = new Gtk.Button.with_label("button 3");
-        button.clicked.connect( () => { this.callback("button 3"); } );
-        /* Insert button 3 to the right of button 2. */
-        grid.attach_next_to(button, grid.get_child_at(0, 1), Gtk.PositionType.RIGHT, 1, 1);
-        button.show();
+    /* Create Third button. */
+    button = new Gtk.Button.with_label("button 3");
+    button.clicked.connect( () => { this.callback("button 3"); } );
+    /* Insert button 3 to the right of button 2. */
+    grid.attach_next_to(button, grid.get_child_at(0, 1), Gtk.PositionType.RIGHT, 1, 1);
+    button.show();
 
-        /* Create Fourth button. */
-        button = new Gtk.Button.with_label("button 4");
-        button.clicked.connect( () => { this.callback("button 4"); } );
-        /* Insert button 4 into the 2nd row of the grid (below button 1). */
-        grid.attach_next_to(button, grid.get_child_at(0, 0), Gtk.PositionType.BOTTOM, 1, 2);
-        button.show();
+    /* Create Fourth button. */
+    button = new Gtk.Button.with_label("button 4");
+    button.clicked.connect( () => { this.callback("button 4"); } );
+    /* Insert button 4 into the 2nd row of the grid (below button 1). */
+    grid.attach_next_to(button, grid.get_child_at(0, 0), Gtk.PositionType.BOTTOM, 1, 2);
+    button.show();
 
-        button = new Gtk.Button.with_label("button 5");
-        button.clicked.connect( () => { this.callback("button 5"); } );
-        /* Insert button 5 into the second row of the grid, to occupy 2
-         * columns. */
-        grid.attach(button, 1, 1, 2, 1);
-        button.show();
+    button = new Gtk.Button.with_label("button 5");
+    button.clicked.connect( () => { this.callback("button 5"); } );
+    /* Insert button 5 into the second row of the grid, to occupy 2
+     * columns. */
+    grid.attach(button, 1, 1, 2, 1);
+    button.show();
 
-        button = new Gtk.Button.with_label("button 6");
-        button.clicked.connect( () => { this.callback("button 6"); } );
-        /* Insert button 6 into the third row of the grid. */
-        grid.attach(button, 1, 2, 1, 1);
-        button.show();
+    button = new Gtk.Button.with_label("button 6");
+    button.clicked.connect( () => { this.callback("button 6"); } );
+    /* Insert button 6 into the third row of the grid. */
+    grid.attach(button, 1, 2, 1, 1);
+    button.show();
 
-        button = new Gtk.Button.with_label("button 7");
-        button.clicked.connect( () => { this.callback("button 7"); } );
-        /* Insert button 7 into the third row of the grid. */
-        grid.attach(button, 2, 2, 1, 1);
-        button.show();
+    button = new Gtk.Button.with_label("button 7");
+    button.clicked.connect( () => { this.callback("button 7"); } );
+    /* Insert button 7 into the third row of the grid. */
+    grid.attach(button, 2, 2, 1, 1);
+    button.show();
 
-        /* Create "Quit" button */
-        button = new Gtk.Button.with_label("Quit");
-        /* When the button is clicked, we call the main_quit function
-         * and the program exits. */
-        button.clicked.connect( ()=> { Gtk.main_quit(); });
-        /* Insert the quit button into the fourth row of the grid. */
-        grid.attach(button, 0, 3, 3, 1);
-        button.show();
+    /* Create "Quit" button */
+    button = new Gtk.Button.with_label("Quit");
+    /* When the button is clicked, we call the main_quit function
+     * and the program exits. */
+    button.clicked.connect( ()=> { Gtk.main_quit(); });
+    /* Insert the quit button into the fourth row of the grid. */
+    grid.attach(button, 0, 3, 3, 1);
+    button.show();
 
-        grid.show();
+    grid.show();
 
-      }
+  }
 
-      public static int main(string[] args) {
+  public static int main(string[] args) {
 
-        Gtk.init(ref args);
+    Gtk.init(ref args);
 
-        var gridexample = new GridExample();
+    var gridexample = new GridExample();
 
-        gridexample.show();
+    gridexample.show();
 
-        Gtk.main();
+    Gtk.main();
 
-        return 0;
-      }
-    }
+    return 0;
+  }
+}
+</code></pre>
 
 When compiled and run, it looks something like this:
 
@@ -695,54 +699,54 @@ The window below
 
 is obtained when you compile and run the code:
 
-    class StackExample : Gtk.Window {
+<pre><code class="vala">class StackExample : Gtk.Window {
 
-      public StackExample () {    
-        
-        this.set_title("Stack and StackSwitcher Demo");
-        this.window_position = Gtk.WindowPosition.CENTER;
-        this.set_default_size(350, 70);
-        this.set_border_width(10);
-        this.destroy.connect(Gtk.main_quit);
+  public StackExample () {    
+    
+    this.set_title("Stack and StackSwitcher Demo");
+    this.window_position = Gtk.WindowPosition.CENTER;
+    this.set_default_size(350, 70);
+    this.set_border_width(10);
+    this.destroy.connect(Gtk.main_quit);
 
-        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
-        this.add(box);
+    var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 5);
+    this.add(box);
 
-        var stack = new Gtk.Stack();
-        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
-        stack.set_transition_duration(1000);
-        
-        var label1 = new Gtk.Label("Page 1 Content.");
-        stack.add_titled(label1, "page-1", "Page 1");
-        
-        var label2 = new Gtk.Label("Page 2 Content.");
-        stack.add_titled(label2, "page-2", "Page 2");
+    var stack = new Gtk.Stack();
+    stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
+    stack.set_transition_duration(1000);
+    
+    var label1 = new Gtk.Label("Page 1 Content.");
+    stack.add_titled(label1, "page-1", "Page 1");
+    
+    var label2 = new Gtk.Label("Page 2 Content.");
+    stack.add_titled(label2, "page-2", "Page 2");
 
-        var label3 = new Gtk.Label("Page 3 Content.");
-        stack.add_titled(label3, "page-3", "Page 3");
+    var label3 = new Gtk.Label("Page 3 Content.");
+    stack.add_titled(label3, "page-3", "Page 3");
 
 
-        var switcher = new Gtk.StackSwitcher();
-        switcher.set_stack(stack);
-        box.pack_start(switcher, true, true, 0);
-        box.pack_start(stack, true, true, 0);
-     
-      }
+    var switcher = new Gtk.StackSwitcher();
+    switcher.set_stack(stack);
+    box.pack_start(switcher, true, true, 0);
+    box.pack_start(stack, true, true, 0);
+ 
+  }
 
-      public static int main (string[] args) {
-        
-        Gtk.init(ref args);
-        
-        var win = new StackExample();
-        win.show_all();
+  public static int main (string[] args) {
+    
+    Gtk.init(ref args);
+    
+    var win = new StackExample();
+    win.show_all();
 
-        Gtk.main();
-        
-        return 0;
-      }
+    Gtk.main();
+    
+    return 0;
+  }
 
-    }
-
+}
+</code></pre>
 
 
 ## References and Further Reading

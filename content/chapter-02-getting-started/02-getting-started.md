@@ -25,12 +25,11 @@ all its dependecies (the header files for **GLib**,
 
 On Debian and its derivatives, the command to do this would be:
 
-    # apt-get install libgtk-3-dev
+<pre><code class="bash"># apt-get install libgtk-3-dev</code></pre>
 
 On Fedora, it would be:
 
-
-    # yum install libgtk-3-dev
+<pre><code class="bash"># yum install libgtk-3-dev</code></pre>
 
 You may also use your distribution's graphical software management
 tools like the Ubuntu Software Centre, Synaptic, or PackageKit.
@@ -47,12 +46,11 @@ in the source folder.
 Alternatively, you may install vala from your distribution's repositories.
 
 On Debian and its derivatives, you would run:
-
-    # apt-get install valac
+<pre><code class="bash"># apt-get install valac</code></pre>
 
 And on Fedora, one would run:
 
-    # yum install valac
+<pre><code class="bash"># yum install valac</code></pre>
 
 You may also use your distribution's graphical software management
 tools like the Ubuntu Software Centre or Synaptic.

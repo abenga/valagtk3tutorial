@@ -26,111 +26,111 @@ and a label in it. I've broken up the code to create a box from the rest so you
 can use it in your programs. There are further examples of using images later
 in the tutorial.
 
+<pre><code class="vala">
+/* Create a new box with an image and a label packed into it
+ * and return the box. */
+static Gtk.Box xpm_label_box(string xpm_filename, string label_text ) {
+  Gtk.Box box;
+  Gtk.Label label;
+  Gtk.Image image;
 
-    /* Create a new box with an image and a label packed into it
-     * and return the box. */
-    static Gtk.Box xpm_label_box(string xpm_filename, string label_text ) {
-      Gtk.Box box;
-      Gtk.Label label;
-      Gtk.Image image;
+  /* Create box for image and label */
+  box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+  box.set_border_width(2);
 
-      /* Create box for image and label */
-      box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
-      box.set_border_width(2);
+  /* Now on to the image stuff */
+  image = new Gtk.Image.from_file(xpm_filename);
 
-      /* Now on to the image stuff */
-      image = new Gtk.Image.from_file(xpm_filename);
+  /* Create a label for the button */
+  label = new Gtk.Label(label_text);
 
-      /* Create a label for the button */
-      label = new Gtk.Label(label_text);
+  /* Pack the image and label into the box */
+  box.pack_start(image, false, false, 3);
+  box.pack_start(label, false, false, 3);
 
-      /* Pack the image and label into the box */
-      box.pack_start(image, false, false, 3);
-      box.pack_start(label, false, false, 3);
+  image.show();
+  label.show();
 
-      image.show();
-      label.show();
+  return box;
+}
 
-      return box;
-    }
+class ButtonWindow : Gtk.Window {
+  
+  Gtk.Button button;
+  Gtk.Box box;
 
-    class ButtonWindow : Gtk.Window {
-      
-      Gtk.Button button;
-      Gtk.Box box;
+  /* Our usual callback function */
+  void callback (string data) {
+    stdout.printf("Hello again - %s was pressed\n", data);
+  }
 
-      /* Our usual callback function */
-      void callback (string data) {
-        stdout.printf("Hello again - %s was pressed\n", data);
-      }
+  public ButtonWindow () {
 
-      public ButtonWindow () {
+    this.set_title("Pixmap'd Buttons!");
 
-        this.set_title("Pixmap'd Buttons!");
+    /* It's a good idea to do this for all windows. */
+    this.destroy.connect( ()=> { Gtk.main_quit(); } );
 
-        /* It's a good idea to do this for all windows. */
-        this.destroy.connect( ()=> { Gtk.main_quit(); } );
+    this.delete_event.connect( ()=> { return false; } );
 
-        this.delete_event.connect( ()=> { return false; } );
+    /* Sets the border width of the window. */
+    this.set_border_width(10);
 
-        /* Sets the border width of the window. */
-        this.set_border_width(10);
+    /* Create a new button. */
+    this.button = new Gtk.Button();
 
-        /* Create a new button. */
-        this.button = new Gtk.Button();
+    /* Connect the "clicked" signal of the button to our callback. */
+    this.button.clicked.connect( ()=> { this.callback("cool button"); });
 
-        /* Connect the "clicked" signal of the button to our callback. */
-        this.button.clicked.connect( ()=> { this.callback("cool button"); });
+    /* This calls our box creating function. */
+    this.box = xpm_label_box("img.png", "cool button");
 
-        /* This calls our box creating function. */
-        this.box = xpm_label_box("img.png", "cool button");
+    /* Pack and show all our widgets. */
+    this.box.show();
 
-        /* Pack and show all our widgets. */
-        this.box.show();
+    this.button.add(box);
 
-        this.button.add(box);
+    this.button.show();
 
-        this.button.show();
+    this.add(button);
 
-        this.add(button);
+  }
+  
+  public static int main (string[] args) {
+    
+    Gtk.init(ref args);
 
-      }
-      
-      public static int main (string[] args) {
-        
-        Gtk.init(ref args);
+    var buttonwindow = new ButtonWindow();
+    buttonwindow.show();
+    
+    Gtk.main();
+    
+    return 0;
+  }
 
-        var buttonwindow = new ButtonWindow();
-        buttonwindow.show();
-        
-        Gtk.main();
-        
-        return 0;
-      }
-
-    }
-
+}
+</code></pre>
 
 The `xpm_label_box()` function could be used to pack images and labels into any 
 widget that can be a container.
 
 The signals that we are usually interested in when programming buttons are:
 
-* *`button_press_event`* - emitted when a button (typically from a mouse) is 
+* `button_press_event` - emitted when a button (typically from a mouse) is 
   pressed. This is not `Gtk.Button`-specific signal, it may be emitted by any 
   `Gtk.Widget`.
 
-* *`button_release_event`* - emitted when a button (typically from a mouse) is 
+* `button_release_event` - emitted when a button (typically from a mouse) is 
   released. This is not `Gtk.Button`-specific signal, it may be emitted by any 
   `Gtk.Widget`.
 
-* *`clicked`* - emitted when the `Button` has been activated (pressed and released).
+* `clicked` - emitted when the `Button` has been activated (pressed and released).
 
-* *`enter_notify_event`* - emitted when pointer enters the `Button`. This is not
+* `enter_notify_event` - emitted when pointer enters the `Button`. This is not
   `Button`-specific, it is a signal that may be emitted when the pointer enters 
   any `Gtk.Widget`.
 
-* *`leave_notify_event`* - emitted when pointer leaves the `Button`. This is not
+* `leave_notify_event` - emitted when pointer leaves the `Button`. This is not
   `Button`-specific, it is a signal that may be emitted when the pointer enters 
   any `Gtk.Widget`.
 
@@ -147,12 +147,14 @@ of the calls used for toggle buttons are inherited by radio and check buttons.
 I will point these out when we come to them.
 
 We use the following constructors to instantiate a `Gtk.ToggleButton`
-    
-    new Gtk.ToggleButton();
 
-    new ToggleButton.with_label(string label)
+<pre><code class="vala">    
+new Gtk.ToggleButton();
 
-    new ToggleButton.with_mnemonic(string label)
+new ToggleButton.with_label(string label)
+
+new ToggleButton.with_mnemonic(string label)
+</code></pre>
 
 As you can imagine, these work identically to the normal button widget calls.
 The first creates a blank toggle button, and the last two, a button with a label
@@ -169,47 +171,47 @@ and access the structure to determine its state.
 
 The following example shows how to create and use toggle buttons:
 
+<pre><code class="vala">
+public class Application : Gtk.Window {
 
-    public class Application : Gtk.Window {
+  private void toggled (Gtk.ToggleButton button) {
+    stdout.printf("%s: %s\n", button.label, button.active ? "true" : "false");
+  }
 
-      private void toggled (Gtk.ToggleButton button) {
-        stdout.printf("%s: %s\n", button.label, button.active ? "true" : "false");
-      }
+  public Application () {
+    
+    // Set Window Attributes
+    this.title = "Toggle Buttons";
+    this.window_position = Gtk.WindowPosition.CENTER;
+    this.destroy.connect(Gtk.main_quit);
+    this.set_default_size(350, 70);
+    this.set_border_width(10);
 
-      public Application () {
-        
-        // Set Window Attributes
-        this.title = "Toggle Buttons";
-        this.window_position = Gtk.WindowPosition.CENTER;
-        this.destroy.connect(Gtk.main_quit);
-        this.set_default_size(350, 70);
-        this.set_border_width(10);
+    // Create a VBox to pack the radio buttons in.
+    Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+    this.add (box);
 
-        // Create a VBox to pack the radio buttons in.
-        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        this.add (box);
+    // The buttons:
+    Gtk.ToggleButton button1 = new Gtk.ToggleButton.with_label("Button 1");
+    box.pack_start (button1, false, false, 0);
+    button1.toggled.connect(toggled);
 
-        // The buttons:
-        Gtk.ToggleButton button1 = new Gtk.ToggleButton.with_label("Button 1");
-        box.pack_start (button1, false, false, 0);
-        button1.toggled.connect(toggled);
+    Gtk.ToggleButton button2 = new Gtk.ToggleButton.with_label("Button 2");
+    box.pack_start (button2, false, false, 0);
+    button2.toggled.connect(toggled);
 
-        Gtk.ToggleButton button2 = new Gtk.ToggleButton.with_label("Button 2");
-        box.pack_start (button2, false, false, 0);
-        button2.toggled.connect(toggled);
+  }
 
-      }
+  public static int main (string[] args) {
+    Gtk.init(ref args);
 
-      public static int main (string[] args) {
-        Gtk.init(ref args);
-
-        Application app = new Application();
-        app.show_all();
-        Gtk.main();
-        return 0;
-      }
-
-    }
+    Application app = new Application();
+    app.show_all();
+    Gtk.main();
+    return 0;
+  }
+}
+</code></pre>
 
 Whe compiled, we get a window similar to the following:
 
@@ -234,11 +236,13 @@ them, they place a discrete `Gtk.ToggleButton` next to a widget, (usually a
 
 The `Gtk.CheckButton` constructors are similar to those for the `Gtk.ToggleButton`:
 
-    Gtk.CheckButton()
+<pre><code class="vala">
+Gtk.CheckButton()
 
-    Gtk.CheckButton.with_label(string label);
+Gtk.CheckButton.with_label(string label);
 
-    Gtk.CheckButton.with_mnemonic(string label);
+Gtk.CheckButton.with_mnemonic(string label);
+</code></pre>
 
 The `Gtk.CheckButton.with_label(string label)` constructor creates a check 
 button with a label beside it.
@@ -262,26 +266,28 @@ buttons in the same group are deselected.
 
 Creating a new radio button is done with one of these constructors:
 
-    // Create a new radio button, and add it to group ().
-    Gtk.RadioButton(GLib.SList<Gtk.RadioButton>? group);
+<pre><code class="vala">
+// Create a new radio button, and add it to group ().
+Gtk.RadioButton(GLib.SList<Gtk.RadioButton>? group);
 
-    // Create a new radio button, adding it to the same group 
-    // as radio_group_member
-    Gtk.RadioButton.from_widget(RadioButton? radio_group_member);
+// Create a new radio button, adding it to the same group 
+// as radio_group_member
+Gtk.RadioButton.from_widget(RadioButton? radio_group_member);
 
-    // Create a new RadioButton with a text label and add it to group.
-    Gtk.RadioButton.with_label(GLib.SList<Gtk.RadioButton>? group, string label);
+// Create a new RadioButton with a text label and add it to group.
+Gtk.RadioButton.with_label(GLib.SList<Gtk.RadioButton>? group, string label);
 
-    // Create a new RadioButton with a text label, adding it to the same group
-    // as radio_group_member.
-    Gtk.RadioButton.with_label_from_widget(RadioButton? radio_group_member, string label);
+// Create a new RadioButton with a text label, adding it to the same group
+// as radio_group_member.
+Gtk.RadioButton.with_label_from_widget(RadioButton? radio_group_member, string label);
 
-    // Create a new RadioButton containing a label, adding it to the same group 
-    // as group.
-    Gtk.RadioButton.with_mnemonic (GLib.SList<Gtk.RadioButton>? group, string label)
-    
-    // Create a new RadioButton containing a label.
-    public RadioButton.with_mnemonic_from_widget (RadioButton? radio_group_member, string label)
+// Create a new RadioButton containing a label, adding it to the same group 
+// as group.
+Gtk.RadioButton.with_mnemonic (GLib.SList<Gtk.RadioButton>? group, string label)
+
+// Create a new RadioButton containing a label.
+public RadioButton.with_mnemonic_from_widget (RadioButton? radio_group_member, string label)
+</code></pre>
 
 You'll notice the extra argument to these calls. `Gtk.RadioButton`s require a 
 group to perform their duty properly. The call to create the first `Gtk.RadioButton` 
@@ -303,51 +309,51 @@ report becoming active).
 
 The following example creates a radio button group with three buttons.
 
-    public class Application : Gtk.Window {
+<pre><code class="vala">
+public class Application : Gtk.Window {
 
-      private void toggled (Gtk.ToggleButton button) {
-        stdout.printf("%s\n", button.label);
-      }
+  private void toggled (Gtk.ToggleButton button) {
+    stdout.printf("%s\n", button.label);
+  }
 
-      public Application () {
-        
-        // Set Window Attributes
-        this.title = "Radio Buttons";
-        this.window_position = Gtk.WindowPosition.CENTER;
-        this.destroy.connect(Gtk.main_quit);
-        this.set_default_size(350, 70);
+  public Application () {
+    
+    // Set Window Attributes
+    this.title = "Radio Buttons";
+    this.window_position = Gtk.WindowPosition.CENTER;
+    this.destroy.connect(Gtk.main_quit);
+    this.set_default_size(350, 70);
 
-        // Create a VBox to pack the radio buttons in.
-        Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        this.add (box);
+    // Create a VBox to pack the radio buttons in.
+    Gtk.Box box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+    this.add (box);
 
-        // The buttons:
-        Gtk.RadioButton button1 = new Gtk.RadioButton.with_label_from_widget (null, "Button 1");
-        box.pack_start (button1, false, false, 0);
-        button1.toggled.connect(toggled);
+    // The buttons:
+    Gtk.RadioButton button1 = new Gtk.RadioButton.with_label_from_widget (null, "Button 1");
+    box.pack_start (button1, false, false, 0);
+    button1.toggled.connect(toggled);
 
-        Gtk.RadioButton button = new Gtk.RadioButton.with_label_from_widget (button1, "Button 2");
-        box.pack_start (button, false, false, 0);
-        button.toggled.connect (toggled);
+    Gtk.RadioButton button = new Gtk.RadioButton.with_label_from_widget (button1, "Button 2");
+    box.pack_start (button, false, false, 0);
+    button.toggled.connect (toggled);
 
-        button = new Gtk.RadioButton.with_label_from_widget (button1, "Button 3");
-        box.pack_start(button, false, false, 0);
-        button.toggled.connect(toggled);
-        button.set_active (true);
+    button = new Gtk.RadioButton.with_label_from_widget (button1, "Button 3");
+    box.pack_start(button, false, false, 0);
+    button.toggled.connect(toggled);
+    button.set_active (true);
 
-      }
+  }
 
-      public static int main (string[] args) {
-        Gtk.init(ref args);
+  public static int main (string[] args) {
+    Gtk.init(ref args);
 
-        Application app = new Application();
-        app.show_all();
-        Gtk.main();
-        return 0;
-      }
-
-    }
-
+    Application app = new Application();
+    app.show_all();
+    Gtk.main();
+    return 0;
+  }
+}
+</code></pre>
 ## Link Button
 
 A `Gtk.LinkButton` is a `Gtk.Button` with a hyperlink, similar to the one used 
@@ -356,11 +362,15 @@ quick links to resources.
 
 A link button is created by calling either 
 
-    Gtk.LinkButton(string uri)
+<pre><code class="vala">
+Gtk.LinkButton(string uri)
+</code></pre>
 
 or  
 
-    Gtk.LinkButton.with_label(string uri, string label)
+<pre><code class="vala">
+Gtk.LinkButton.with_label(string uri, string label)
+</code></pre>
 
 If using the former, the URI you pass to the constructor is used as a label for 
 the widget.
@@ -374,30 +384,31 @@ stop the propagation of the signal by returning `true` from the handler.
 
 The following example creates a single link button:
 
-    public class Application : Gtk.Window {
-      
-      public Application () {
-        // Prepare Gtk.Window:
-        this.title = "My Gtk.LinkButton";
-        this.window_position = Gtk.WindowPosition.CENTER;
-        this.destroy.connect (Gtk.main_quit);
-        this.set_default_size (350, 70);
+<pre><code class="vala">
+public class Application : Gtk.Window {
+  
+  public Application () {
+    // Prepare Gtk.Window:
+    this.title = "My Gtk.LinkButton";
+    this.window_position = Gtk.WindowPosition.CENTER;
+    this.destroy.connect (Gtk.main_quit);
+    this.set_default_size (350, 70);
 
-        // The button:
-        Gtk.LinkButton button = new Gtk.LinkButton.with_label ("https://developer.gnome.org/gtk3/stable/index.html", "GTK+ 3 Reference Manual");
-        this.add (button);
-      }
+    // The button:
+    Gtk.LinkButton button = new Gtk.LinkButton.with_label ("https://developer.gnome.org/gtk3/stable/index.html", "GTK+ 3 Reference Manual");
+    this.add (button);
+  }
 
-      public static int main (string[] args) {
-        Gtk.init (ref args);
+  public static int main (string[] args) {
+    Gtk.init (ref args);
 
-        Application app = new Application ();
-        app.show_all ();
-        Gtk.main ();
-        return 0;
-      }
-      
-    }
+    Application app = new Application ();
+    app.show_all ();
+    Gtk.main ();
+    return 0;
+  }
+}
+</code></pre>
 
 When compiled an run, it should create a window similar to the following:
 
